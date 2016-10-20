@@ -1,25 +1,24 @@
 <?php
-include("head.php");
-include("twitter.php");
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$thisurl = 'http';
-if(isset($_SERVER['HTTPS'])) $thisurl .= 's';
-$thisurl .= '://';
-$thisurl .= $_SERVER['HTTP_HOST'];
-$thisurl .= $_SERVER['REQUEST_URI'];
+include("head.php");
+include("prefs.php");
+include("twitter.php");
+
+$prefs = new PrefsManager();
 
 function exit_redirect() {
+	global $thisurl;
 	#print("<pre>");
 	#print_r($_POST);
 	#print('<a href="'.$thisurl.'">'.$thisurl.'</a>');
-	//header('Location: '.$thisurl);
-	header("Refresh:0");
+	header('Location: '.$thisurl);
+	//header("Refresh:0");
 	exit();
 }
+
 function is_image($file) {
 	if(!file_exists($file)) { return false; }
 	$mime = mime_content_type($file);
@@ -27,14 +26,40 @@ function is_image($file) {
 	return false;
 }
 
+function screenFile($screenNum) {
+	global $prefs;
+	if(isset($prefs->screens[$screenNum])) {
+		if($prefs->screens[$screenNum] != "") {
+			return "images/".$prefs->screens[$screenNum];
+		}
+	}
+	return "";
+}
+
 function effacer_screen($screen) {
-	global $image_exts,$image_format;
-	foreach($image_exts as $ext) {
-		$file = sprintf($image_format,$screen,$ext);
+	global $prefs;
+	$file = screenFile($screen);
+	if($file != "") {
+		$prefs->screens[$screen] = "";
+		$prefs->save();
 		if(file_exists($file)) {
 			unlink($file);
 		}
 	}
+}
+
+$poll_embed = "";
+$poll_page = $prefs->get("strawpoll","");
+if(preg_match('`(\d\d+)`',$poll_page,$m)) {
+	$numpoll = $m[1];
+	$poll_embed = "http://www.strawpoll.me/embed_1/$numpoll/r";
+}
+
+if(isset($_POST["strawpoll_lien"])) {
+	$poll = $_POST["strawpoll_lien"];
+	$prefs->set("strawpoll",$poll);
+	$prefs->save();
+	exit_redirect();
 }
 
 if(isset($_POST["effacer_screen"])) {
@@ -45,14 +70,16 @@ if(isset($_POST["effacer_screen"])) {
 
 if(isset($_POST["twitter_screen"])) {
 	$screen = intval($_POST["twitter_screen"]);
-	foreach($image_exts as $ext) {
-		$file = sprintf($image_format,$screen,$ext);
-		if(file_exists($file)) {
-			$urlImage = dirname($thisurl).$file;
-			$urlImage = "http://realmyop.fr/ecrans/".$file;
+	$file = screenFile($screen);
+	if($file && file_exists($file)) {
+		$urlImage = dirname($thisurl).$file;
+		$urlImage = "http://realmyop.fr/ecrans/".$file; ###################
+		if(in_array($urlImage,$prefs->tweets)) {
 			twitterImage($urlImage);
-			break;
+			$prefs->tweets[] = $urlImage;
+			$prefs->save();
 		}
+		break;
 	}
 	exit_redirect();
 }
@@ -112,9 +139,11 @@ if(isset($_POST['assign_source'])) {
 		$source = "sources/".$source;
 		if(file_exists($source)) {
 			$ext = pathinfo($source,PATHINFO_EXTENSION);
-			$screen_cible = sprintf($image_format,$screen,$ext);
+			$screen_cible = sprintf($image_format,md5($source),$ext);
 			effacer_screen($screen);
 			copy($source,$screen_cible);
+			$prefs->screens[$screen] = basename($screen_cible);
+			$prefs->save();
 		}
 	}
 	exit_redirect();
@@ -128,13 +157,15 @@ if(!empty($_POST) || !empty($_FILES)) {
 <html lang="fr">
 <head>
 	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="favirm.png" />
 	<meta name="viewport" content="width=412">
 	<title>Les écrans de realmyop</title>
 	<style type="text/css" title="text/css">
 	body { padding: 0px; margin:0px; }
 	p { padding: 2px; margin:0px; }
 	.screen,
-	.source {
+	.source,
+	#strawpoll {
 		position: relative;
 		float:left;
 		padding: 8px;
@@ -151,6 +182,10 @@ if(!empty($_POST) || !empty($_FILES)) {
 	.source {
 		border-color:#008;
 		height: 214px;
+	}
+	#strawpoll {
+		border-color:#080;
+		height: 240px;
 	}
 	#upload {
 		position: relative;
@@ -177,6 +212,16 @@ if(!empty($_POST) || !empty($_FILES)) {
 	}
 	.upload_url {
 		width: 280px;
+	}
+	.strawpoll_lien {
+		width: 360px;
+	}
+	.stropaul_frame {
+		width:752px;/*376px;*/
+		height:400px;
+		border:0;
+		transform: scale(0.5,0.5);
+		transform-origin: top left;
 	}
 	#upload .upload_btn {
 		font-size: 100%;
@@ -234,12 +279,10 @@ if(!empty($_POST) || !empty($_FILES)) {
 $screenImages = array();
 for($screen=1; $screen<=$Nscreens; $screen++) {
 	$screenImages[$screen] = false;
-	foreach($image_exts as $ext) {
-		$file = sprintf($image_format,$screen,$ext);
-		if(file_exists($file)) {
-			$screenImages[$screen] = $file;
-			break;
-		}
+	$file = screenFile($screen);
+	if($file && file_exists($file)) {
+		$screenImages[$screen] = $file;
+		break;
 	}
 }
 foreach($screenImages as $index => $im) {
@@ -262,6 +305,15 @@ foreach($screenImages as $index => $im) {
 ?>
 	</div>
 <!--
+	affichage d'un strawpoll
+-->
+	<div id="strawpoll">
+	<form action="<?=$thisurl?>" name="strawpoll" method="POST" enctype="multipart/form-data">
+		Strawpoll: <input type="text" name="strawpoll_lien" class="strawpoll_lien" value="<?=$poll_page?>"/><br/>
+		<iframe class="stropaul_frame" src="<?=$poll_embed?>">Loading poll...</iframe>
+	</form>
+	</div>
+<!--
 	interface de comptage de points
 	- ajouter un participant
 	- liste avec un bouton + ou -
@@ -271,7 +323,7 @@ foreach($screenImages as $index => $im) {
 -->
 	<div id="scoreboard">
 	<?php 
-	print(time());
+	//print(time());
 	?>
 	</div>
 <!--
