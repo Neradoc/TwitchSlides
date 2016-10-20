@@ -6,9 +6,6 @@
 $Nscreens = 1;
 
 $image_format = "images/screen_%s.%s";
-$image_glob = "images/screen_*.*";
-$image_exts = ["png","jpg"];
-
 $sources_glob = "sources/image_*";
 
 $thisurl = 'http';
