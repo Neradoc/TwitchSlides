@@ -1,9 +1,9 @@
 <?php
 // créer les dossiers
-mkdir("images");
-mkdir("sources");
+@mkdir("images");
+@mkdir("sources");
 
-$Nscreens = 2;
+$Nscreens = 1;
 
 $image_format = "images/screen_%02d.%s";
 $image_glob = "images/screen_*.*";

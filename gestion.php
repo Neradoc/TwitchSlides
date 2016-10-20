@@ -5,11 +5,18 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+$thisurl = 'http';
+if(isset($_SERVER['HTTPS'])) $thisurl .= 's';
+$thisurl .= '://';
+$thisurl .= $_SERVER['HTTP_HOST'];
+$thisurl .= $_SERVER['REQUEST_URI'];
+
 function exit_redirect() {
 	#print("<pre>");
 	#print_r($_POST);
-	#print('<a href="'.$_SERVER['SCRIPT_URI'].'"'.$_SERVER['SCRIPT_URI'].'</a>');
-	header('Location: '.$_SERVER['SCRIPT_URI']);
+	#print('<a href="'.$thisurl.'">'.$thisurl.'</a>');
+	//header('Location: '.$thisurl);
+	header("Refresh:0");
 	exit();
 }
 function is_image($file) {
@@ -54,7 +61,7 @@ if(isset($_FILES["upload_fichier"])||isset($_POST["upload_url"])) {
 			move_uploaded_file($file['tmp_name'],$filename);
 		}
 	}
-	if(isset($_POST["upload_url"])) {
+	if(isset($_POST["upload_url"]) && $_POST["upload_url"] != "") {
 		$tmp_file = tempnam("/tmp", "twitch_slides");
 		if($tmp_file) {
 			$data = file_get_contents($_POST["upload_url"]);
@@ -193,14 +200,15 @@ if(!empty($_POST) || !empty($_FILES)) {
 </head>
 <body>
 <div id="contenu">
-	<div id="ecrans">
-<?php /*
+<!--
 	liste des écrans (images qu'on peut inclure dans son stream)
 	- affiche l'image actuelle
 	- permet de l'enlever (une tite croix)
 	- permet de choisir une nouvelle image et prévisualiser
 	- permet de valider la nouvelle image
-*/
+-->
+	<div id="ecrans">
+<?php 
 $screenImages = array();
 for($screen=1; $screen<=$Nscreens; $screen++) {
 	$screenImages[$screen] = false;
@@ -213,13 +221,13 @@ for($screen=1; $screen<=$Nscreens; $screen++) {
 	}
 }
 foreach($screenImages as $index => $im) {
-	$base_lien = dirname($_SERVER['SCRIPT_URI']);
+	$base_lien = dirname($thisurl);
 	$lien = $base_lien."/?screen=".$index."&width=0&height=0&align=left";
 	$imageurl = $im;
 	if($imageurl != "") $imageurl = $im."?yo=".time()."x".$index;
 	?>
-	<div class='screen'>
-		<form action="<?=$_SERVER['SCRIPT_URI']?>" name="screens" method="POST">
+	<div class='screen screen<?=$index?>'>
+		<form action="<?=$thisurl?>" name="screens" method="POST">
 		<p>Écran <?=$index?> <input type="text" class="lien" name="lien" value="<?=$lien?>"/></p>
 		<p class="pimage"><img class="image" src="<?=$imageurl?>"/></p>
 		<div class="btns">
@@ -231,14 +239,27 @@ foreach($screenImages as $index => $im) {
 }
 ?>
 	</div>
-	<div id="upload">
-<?php /*
+<!--
+	interface de comptage de points
+	- ajouter un participant
+	- liste avec un bouton + ou -
+	- corriger un nom / enlever un participant
+	- filtre dynamique par les noms
+	- historique des points (pour le travail collaboratif)
+-->
+	<div id="scoreboard">
+	<?php 
+	print(time());
+	?>
+	</div>
+<!--
 	interface pour ajouter une image
 	- depuis un fichier local
 	- depuis le lien d'une image
 	- depuis une page imgur ? (et compagnie)
-*/ ?>
-	<form action="<?=$_SERVER['SCRIPT_URI']?>" name="upload" method="POST" enctype="multipart/form-data">
+-->
+	<div id="upload">
+	<form action="<?=$thisurl?>" name="upload" method="POST" enctype="multipart/form-data">
 		<b>Ajouter une image</b><br/>
 		Locale&nbsp;: <input type="file" name="upload_fichier" class="upload_fichier"><br/>
 		Par une URL&nbsp;: <input type="text" name="upload_url" class="upload_url"><br/>
@@ -267,13 +288,13 @@ foreach($sources as $info) {
 	$source = $info['file'];
 	$name = basename($source);
 	?><div class='source'>
-		<form action="<?=$_SERVER['SCRIPT_URI']?>" name="sources" method="POST">
+		<form action="<?=$thisurl?>" name="sources" method="POST">
 		<input type="hidden" name="source_file" value="<?=$name?>"/>
 		<p class="pimage"><img class="image" src="<?=$source?>"/></p>
 		<div class="btns">
 			<button class="effacer" name="effacer_source" value="<?=$name?>">Effacer</button>
 			<select class="assign" name="assign_source">
-				<option value="0">Envoyer sur un écran</option>
+				<option value="0">Afficher sur le stream</option>
 				<?php
 				for($screen=1; $screen<=$Nscreens; $screen++) {
 					?><option value="<?=$screen?>">Écran <?=$screen?></option><?
