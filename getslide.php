@@ -9,7 +9,8 @@ if($screen !== false) {
 	foreach($image_exts as $ext) {
 		$file = sprintf($image_format,$screen,$ext);
 		if(file_exists($file)) {
-			print($file);
+			$token = md5($file);
+			print($file."?t=".$token);
 			break;
 		}
 	}

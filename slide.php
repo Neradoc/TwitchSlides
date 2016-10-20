@@ -64,10 +64,9 @@ if(isset($_REQUEST['align'])) {
 						//$("#screen img").hide();
 					}
 					if(data != current_image) {
-						console.log(data);
 						current_image = data;
-						var blop = (new Date()).getTime();
-						data = data + "?blop=" + blop;
+						//var blop = (new Date()).getTime();
+						//data = data + "?blop=" + blop;
 						$("#screen img").attr("src",data);
 					}
 					$("#screen img").show();
