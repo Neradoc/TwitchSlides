@@ -50,7 +50,7 @@ if(isset($_REQUEST['align'])) {
 	</style>
 	<script type="text/javascript" src="jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
-		/* votre code ici */
+		var current_image = "";
 		function update_image() {
 			$.ajax({
 				url:'getslide.php',
@@ -63,9 +63,13 @@ if(isset($_REQUEST['align'])) {
 						data = "vide.png";
 						//$("#screen img").hide();
 					}
-					var blop = (new Date()).getTime();
-					data = data + "?blop=" + blop;
-					$("#screen img").attr("src",data);
+					if(data != current_image) {
+						console.log(data);
+						current_image = data;
+						var blop = (new Date()).getTime();
+						data = data + "?blop=" + blop;
+						$("#screen img").attr("src",data);
+					}
 					$("#screen img").show();
 				}
 			});
