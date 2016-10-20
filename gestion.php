@@ -1,5 +1,6 @@
 <?php
 include("head.php");
+include("twitter.php");
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -37,8 +38,22 @@ function effacer_screen($screen) {
 }
 
 if(isset($_POST["effacer_screen"])) {
-	$screen = $_POST["effacer_screen"];
+	$screen = intval($_POST["effacer_screen"]);
 	effacer_screen($screen);
+	exit_redirect();
+}
+
+if(isset($_POST["twitter_screen"])) {
+	$screen = intval($_POST["twitter_screen"]);
+	foreach($image_exts as $ext) {
+		$file = sprintf($image_format,$screen,$ext);
+		if(file_exists($file)) {
+			$urlImage = dirname($thisurl).$file;
+			$urlImage = "http://realmyop.fr/ecrans/".$file;
+			twitterImage($urlImage);
+			break;
+		}
+	}
 	exit_redirect();
 }
 
@@ -179,11 +194,18 @@ if(!empty($_POST) || !empty($_FILES)) {
 		cursor:pointer;
 	}
 	.btns button:hover {
-		background:#800;
+		background:#000;
 		color:white;
+	}
+	.btns .twitter {
+		border-color: green;
 	}
 	.btns .effacer {
 		border-color: red;
+	}
+	.btns button.effacer:hover {
+		background:#800;
+		color:white;
 	}
 	</style>
 	<script type="text/javascript" src="jquery2.js"></script>
@@ -232,7 +254,7 @@ foreach($screenImages as $index => $im) {
 		<p class="pimage"><img class="image" src="<?=$imageurl?>"/></p>
 		<div class="btns">
 			<button class="effacer" name="effacer_screen" value="<?=$index?>">Effacer</button>
-			<!-- <button class="activer" names="activer_screen" value="<?=$index?>">Activer (tweet)</button> -->
+			<button class="twitter" name="twitter_screen" value="<?=$index?>">Twitter le rébus</button>
 		</div>
 		</form>
 	</div><?
