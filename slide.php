@@ -33,11 +33,17 @@ if(isset($_REQUEST['align'])) {
 	<title></title>
 	<style type="text/css" title="text/css">
 	#screen {
+		position:relative;
 		<?php if($align) print("text-align: ".$align.";\n") ?>
-		<?php if($width>0) print("max-width: ".$width."px;\n") ?>
-		<?php if($height>0) print("max-height: ".$height."px;\n") ?>
+		<?php if($width>0) print("width: ".$width."px;\n") ?>
+		<?php if($height>0) print("height: ".$height."px;\n") ?>
 	}
 	#screen img {
+		<?php if($width>0 || $height>0):?>
+		position:absolute;
+		bottom:0px;
+		left:0px;
+		<?php endif; ?>
 		<?php if($width>0) print("max-width: ".$width."px;\n") ?>
 		<?php if($height>0) print("max-height: ".$height."px;\n") ?>
 	}

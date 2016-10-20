@@ -8,9 +8,15 @@ error_reporting(E_ALL);
 function exit_redirect() {
 	#print("<pre>");
 	#print_r($_POST);
-	#print('<a href="'.$_SERVER['SCRIPT_URI'].'">'.$_SERVER['SCRIPT_URI'].'</a>');
+	#print('<a href="'.$_SERVER['SCRIPT_URI'].'"'.$_SERVER['SCRIPT_URI'].'</a>');
 	header('Location: '.$_SERVER['SCRIPT_URI']);
 	exit();
+}
+function is_image($file) {
+	if(!file_exists($file)) { return false; }
+	$mime = mime_content_type($file);
+	if(preg_match('`image/(jpeg|png)`i',$mime)) return true;
+	return false;
 }
 
 function effacer_screen($screen) {
@@ -42,14 +48,36 @@ if(isset($_POST["effacer_source"])) {
 if(isset($_FILES["upload_fichier"])||isset($_POST["upload_url"])) {
 	if(isset($_FILES["upload_fichier"])) {
 		$file = $_FILES["upload_fichier"];
-		if(preg_match('`image/(jpeg|png)$`i',$file['type'])) {
+		if(is_image($file['tmp_name'])) {
 			$ext = pathinfo($file['name'],PATHINFO_EXTENSION);
 			$filename = "sources/image_".uniqid().".".$ext;
 			move_uploaded_file($file['tmp_name'],$filename);
 		}
 	}
 	if(isset($_POST["upload_url"])) {
-		// TOUDOU
+		$tmp_file = tempnam("/tmp", "twitch_slides");
+		if($tmp_file) {
+			$data = file_get_contents($_POST["upload_url"]);
+			file_put_contents($tmp_file,$data);
+			switch(mime_content_type($tmp_file)) {
+			case "image/jpeg":
+				$ext = "jpg";
+				break;
+			case "image/png":
+				$ext = "png";
+				break;
+			default:
+				$ext = "";
+			}
+			if($ext) {
+				mime_content_type($tmp_file);
+				$filename = "sources/image_".uniqid().".".$ext;
+				rename($tmp_file,$filename);
+				chmod($filename,0777);
+			} else {
+				unlink($tmp_file);
+			}
+		}
 	}
 	exit_redirect();
 }
@@ -78,8 +106,10 @@ if(!empty($_POST) || !empty($_FILES)) {
 <html lang="fr">
 <head>
 	<meta charset="utf-8" />
-	<title></title>
+	<meta name="viewport" content="width=412">
+	<title>Les écrans de realmyop</title>
 	<style type="text/css" title="text/css">
+	body { padding: 0px; margin:0px; }
 	p { padding: 2px; margin:0px; }
 	.screen,
 	.source {
@@ -87,34 +117,48 @@ if(!empty($_POST) || !empty($_FILES)) {
 		float:left;
 		padding: 8px;
 		margin: 8px;
-		border: 2px solid #088;
+		border-width: 2px;
+		border-style: solid;
 		border-radius: 8px;
-		width: 400px;
+		width: 376px;
 	}
 	.screen {
-		border-color:#088;
+		border-color:#080;
 		height: 240px;
 	}
 	.source {
-		border-color:#880;
+		border-color:#008;
 		height: 214px;
 	}
-	.screen .image,
-	.source .image {
-		max-width: 380px;
-		max-height: 160px;
+	#upload {
+		position: relative;
+		padding: 8px;
+		margin: 8px;
+		clear:both;
+		border-width: 2px 0px 2px;
+		border-style: solid;
+		border-color:#FF0;
 	}
 	.pimage {
-		vertical-align: middle;
 		text-align: center;
 		height: 160px;
 		padding: 8px;
 		background-image: url("damier.png");
 	}
+	.screen .image,
+	.source .image {
+		max-width: 360px;
+		max-height: 160px;
+	}
 	.upload_fichier {
+		font-size: 100%;
 	}
 	.upload_url {
-		width: 300px;
+		width: 280px;
+	}
+	#upload .upload_btn {
+		font-size: 100%;
+		margin-left:310px;
 	}
 	.source .assign option:first-child {
 		color: #888;
@@ -128,10 +172,12 @@ if(!empty($_POST) || !empty($_FILES)) {
 		cursor:pointer;
 	}
 	.btns button:hover {
-		background:black;
+		background:#800;
 		color:white;
 	}
-	hr { clear:both; }
+	.btns .effacer {
+		border-color: red;
+	}
 	</style>
 	<script type="text/javascript" src="jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
@@ -185,7 +231,6 @@ foreach($screenImages as $index => $im) {
 }
 ?>
 	</div>
-	<hr/>
 	<div id="upload">
 <?php /*
 	interface pour ajouter une image
@@ -195,12 +240,11 @@ foreach($screenImages as $index => $im) {
 */ ?>
 	<form action="<?=$_SERVER['SCRIPT_URI']?>" name="upload" method="POST" enctype="multipart/form-data">
 		<b>Ajouter une image</b><br/>
-		Locale: <input type="file" name="upload_fichier" class="upload_fichier">
-		<!-- Par une URL: <input type="text" name="upload_url" class="upload_url"> -->
-		<button>Envoyer</button>
+		Locale&nbsp;: <input type="file" name="upload_fichier" class="upload_fichier"><br/>
+		Par une URL&nbsp;: <input type="text" name="upload_url" class="upload_url"><br/>
+		<button class="upload_btn">Envoyer</button>
 	</form>
 	</div>
-	<hr/>
 	<div id="sources">
 <?php
 /*
