@@ -1,4 +1,7 @@
 <?php
+include("head.php");
+include("prefs.php");
+
 $screen = 1;
 $width = 0;
 $height = 0;
@@ -24,6 +27,30 @@ if(isset($_REQUEST['align'])) {
 		$align = "center";
 		break;
 	}
+}
+if(isset($_REQUEST['get'])) {
+	$prefs = new PrefsManager();
+	function screenFile($screenNum) {
+		global $prefs;
+		if(isset($prefs->screens[$screenNum])) {
+			if($prefs->screens[$screenNum] != "") {
+				return "images/".$prefs->screens[$screenNum];
+			}
+		}
+		return "";
+	}
+
+	$screen = false;
+	if(isset($_REQUEST['screen'])) {
+		$screen = @intval($_REQUEST['screen']);
+	}
+	if($screen !== false) {
+		$file = screenFile($screen);
+		if($file && file_exists($file)) {
+			print($file);
+		}
+	}
+	exit();
 }
 ?>
 <!DOCTYPE html>
@@ -53,10 +80,11 @@ if(isset($_REQUEST['align'])) {
 		var current_image = "";
 		function update_image() {
 			$.ajax({
-				url:'getslide.php',
+				url:'slide.php',
 				type:'POST',
 				data: {
-					screen: "<?=$screen?>"
+					get:1,
+					screen: "<?=$screen?>",
 				},
 				success: function(data,status){
 					if(data == "") {
