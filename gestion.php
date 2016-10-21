@@ -48,11 +48,13 @@ function effacer_screen($screen) {
 	}
 }
 
-$poll_embed = "";
 $poll_page = $prefs->get("strawpoll","");
-if(preg_match('`(\d\d+)`',$poll_page,$m)) {
-	$numpoll = $m[1];
-	$poll_embed = "http://www.strawpoll.me/embed_1/$numpoll/r";
+$poll_embed = $prefs->poll_embed();
+
+if(isset($_POST["effacer_poll"])) {
+	$prefs->set("strawpoll","");
+	$prefs->save();
+	exit_redirect();
 }
 
 if(isset($_POST["strawpoll_lien"])) {
@@ -73,7 +75,6 @@ if(isset($_POST["twitter_screen"])) {
 	$file = screenFile($screen);
 	if($file && file_exists($file)) {
 		$urlImage = dirname($thisurl).$file;
-		$urlImage = "http://realmyop.fr/ecrans/".$file; ###################
 		if(in_array($urlImage,$prefs->tweets)) {
 			twitterImage($urlImage);
 			$prefs->tweets[] = $urlImage;
@@ -309,8 +310,13 @@ foreach($screenImages as $index => $im) {
 -->
 	<div id="strawpoll">
 	<form action="<?=$thisurl?>" name="strawpoll" method="POST" enctype="multipart/form-data">
-		Strawpoll: <input type="text" name="strawpoll_lien" class="strawpoll_lien" value="<?=$poll_page?>"/><br/>
-		<iframe class="stropaul_frame" src="<?=$poll_embed?>">Loading poll...</iframe>
+		<a href="<?=dirname($thisurl)?>/strawpoll.php" target="_BLANK">Strawpoll</a> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/10987342")'>Test 1</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/3888622")'>Test 2</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/4796816")'>Test 3</button>
+		<br/>
+		<input type="text" name="strawpoll_lien" class="strawpoll_lien" value="<?=$poll_page?>"/><br/>
+		<iframe class="strawpoll_frame" src="<?=$poll_embed?>">Loading poll...</iframe>
+		<div class="btns">
+			<button class="effacer" name="effacer_poll" value="">Effacer</button>
+		</div>
 	</form>
 	</div>
 <!--

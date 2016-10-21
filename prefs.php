@@ -40,4 +40,12 @@ class PrefsManager {
 	function set($key,$value) {
 		$this->prefs[$key] = $value;
 	}
+	function poll_embed() {
+		$strawpoll_page = $this->get("strawpoll","");
+		if(preg_match('`(\d\d+)`',$strawpoll_page,$m)) {
+			$numpoll = $m[1];
+			return "http://www.strawpoll.me/embed_1/$numpoll/r";
+		}
+		return "";
+	}
 }

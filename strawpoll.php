@@ -1,0 +1,61 @@
+<?php
+include("prefs.php");
+$prefs = new PrefsManager();
+$poll_page = $prefs->get("strawpoll","");
+$poll_embed = $prefs->poll_embed();
+// http://www.strawpoll.me/10987342
+// http://www.strawpoll.me/4796816
+if(isset($_POST['strawpoll'])) {
+	print(json_encode(array(
+		'page' => $poll_page,
+		'embed' => $poll_embed
+	)));
+	exit();
+}
+?><!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style type="text/css" title="text/css">
+	#poll_page {
+		display: none;
+	}
+	</style>
+	<script type="text/javascript" src="jquery2.js"></script>
+	<script type="text/javascript" language="javascript" charset="utf-8">
+		var current_poll = "<?=$poll_page?>";
+		function update_poll() {
+			$.ajax({
+				url:'strawpoll.php',
+				type:'POST',
+				data: { strawpoll: 1 },
+				dataType: "json",
+				success: function(data,status){
+					if(data == "") {
+						$("#poll_frame").hide();
+					} else {
+						if(data.page != current_poll) {
+							current_poll = data.page;
+						$("#poll_page").html(data.page);
+							$("#poll_frame").attr("src",data.embed);
+						}
+						$("#poll_frame").show();
+					}
+				}
+			});
+		}
+		$(function() {
+			setInterval(update_poll,1000);
+		});
+	</script>
+</head>
+<body>
+<div id="contenu">
+<div id="poll_frame_div">
+	<div id="poll_page"><?=$poll_page?></div>
+	<iframe  id="poll_frame" src="<?=$poll_embed?>" style="width:680px;height:1200px;border:0;">Loading poll...</iframe>
+</div>
+</div>
+</body>
+</html>
