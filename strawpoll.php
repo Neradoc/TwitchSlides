@@ -18,6 +18,9 @@ if(isset($_POST['strawpoll'])) {
 	<meta charset="utf-8" />
 	<title></title>
 	<style type="text/css" title="text/css">
+	body {
+		overflow: hidden;
+	}
 	#poll_page {
 		display: none;
 	}
@@ -37,8 +40,14 @@ if(isset($_POST['strawpoll'])) {
 					} else {
 						if(data.page != current_poll) {
 							current_poll = data.page;
-						$("#poll_page").html(data.page);
+							$("#poll_page").html(data.page);
 							$("#poll_frame").attr("src",data.embed);
+							var width = $(window).width();
+							var height= $(window).height();
+							$("#poll_frame").css({
+								width: Math.floor(width)+"px",
+								height: Math.floor(height)+"px",
+							});
 						}
 						$("#poll_frame").show();
 					}
@@ -46,6 +55,12 @@ if(isset($_POST['strawpoll'])) {
 			});
 		}
 		$(function() {
+			var width = $(window).width();
+			var height= $(window).height();
+			$("#poll_frame").css({
+				width: Math.floor(width)+"px",
+				height: Math.floor(height)+"px",
+			});
 			setInterval(update_poll,1000);
 		});
 	</script>
@@ -54,7 +69,7 @@ if(isset($_POST['strawpoll'])) {
 <div id="contenu">
 <div id="poll_frame_div">
 	<div id="poll_page"><?=$poll_page?></div>
-	<iframe  id="poll_frame" src="<?=$poll_embed?>" style="width:680px;height:1200px;border:0;">Loading poll...</iframe>
+	<iframe  id="poll_frame" src="<?=$poll_embed?>" style="border:0;">Loading poll...</iframe>
 </div>
 </div>
 </body>
