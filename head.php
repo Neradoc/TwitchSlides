@@ -3,7 +3,15 @@
 @mkdir("images");
 @mkdir("sources");
 
+// changer ces paramètres dans config_user.php
+// miniature du stream sur twitch.
+// Exemple: https://static-cdn.jtvnw.net/previews-ttv/live_user_realmyop2-320x180.jpg
+$url_miniature_stream = "";
 $Nscreens = 1;
+
+if(file_exists("config.php")) {
+	include("config.php");
+}
 
 $image_format = "images/screen_%s.%s";
 $sources_glob = "sources/image_*";
