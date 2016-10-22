@@ -3,17 +3,9 @@ include("head.php");
 include("prefs.php");
 
 $screen = 1;
-$width = 0;
-$height = 0;
 $align = "";
 if(isset($_REQUEST['screen'])) {
 	$screen = intval($_REQUEST['screen']);
-}
-if(isset($_REQUEST['width'])) {
-	$width = intval($_REQUEST['width']);
-}
-if(isset($_REQUEST['height'])) {
-	$height = intval($_REQUEST['height']);
 }
 if(isset($_REQUEST['align'])) {
 	switch($_REQUEST['align']) {
@@ -30,26 +22,20 @@ if(isset($_REQUEST['align'])) {
 }
 if(isset($_REQUEST['get'])) {
 	$prefs = new PrefsManager();
-	function screenFile($screenNum) {
-		global $prefs;
-		if(isset($prefs->screens[$screenNum])) {
-			if($prefs->screens[$screenNum] != "") {
-				return "images/".$prefs->screens[$screenNum];
-			}
-		}
-		return "";
-	}
-
 	$screen = false;
 	if(isset($_REQUEST['screen'])) {
 		$screen = @intval($_REQUEST['screen']);
 	}
 	if($screen !== false) {
-		$file = screenFile($screen);
+		$file = $prefs->screenFile($screen);
 		if($file && file_exists($file)) {
-			print($file);
+			print(json_encode(array(
+				'image' => $file,
+			)));
+			exit();
 		}
 	}
+	print(json_encode(false));
 	exit();
 }
 ?>
@@ -59,20 +45,18 @@ if(isset($_REQUEST['get'])) {
 	<meta charset="utf-8" />
 	<title></title>
 	<style type="text/css" title="text/css">
+	body {
+		padding:0px;
+		margin:0px;
+	}
 	#screen {
 		position:relative;
 		<?php if($align) print("text-align: ".$align.";\n") ?>
-		<?php if($width>0) print("width: ".$width."px;\n") ?>
-		<?php if($height>0) print("height: ".$height."px;\n") ?>
 	}
 	#screen img {
-		<?php if($width>0 || $height>0):?>
 		position:absolute;
 		bottom:0px;
 		left:0px;
-		<?php endif; ?>
-		<?php if($width>0) print("max-width: ".$width."px;\n") ?>
-		<?php if($height>0) print("max-height: ".$height."px;\n") ?>
 	}
 	</style>
 	<script type="text/javascript" src="jquery2.js"></script>
@@ -86,19 +70,29 @@ if(isset($_REQUEST['get'])) {
 					get:1,
 					screen: "<?=$screen?>",
 				},
+				dataType: "json",
 				success: function(data,status){
-					if(data == "") {
-						data = "vide.png";
-						//$("#screen img").hide();
+					if(data == false) {
+						$("#image").hide();
+						return;
+					} 
+					if(data['image'] != current_image) {
+						current_image = data['image'];
+						$("#image").attr("src",current_image);
 					}
-					if(data != current_image) {
-						current_image = data;
-						//var blop = (new Date()).getTime();
-						//data = data + "?blop=" + blop;
-						$("#screen img").attr("src",data);
-					}
-					$("#screen img").show();
-				}
+					//
+					var width = $(window).width();
+					var height= $(window).height();
+					$("#screen").css({
+						width: Math.floor(width)+"px",
+						height: Math.floor(height)+"px",
+					});
+					$("#image").css({
+						maxWidth: Math.floor(width)+"px",
+						maxHeight: Math.floor(height)+"px",
+					});
+					$("#image").show();
+				},
 			});
 		}
 		$(function() {
@@ -107,6 +101,9 @@ if(isset($_REQUEST['get'])) {
 	</script>
 </head>
 <body>
-<div id="screen"><img src="vide.png" /></div>
+<div id="screen">
+	<img id="image" src="vide.png" />
+	<!-- <div id="scores"></div> -->
+</div>
 </body>
 </html>
