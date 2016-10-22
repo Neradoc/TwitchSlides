@@ -48,4 +48,12 @@ class PrefsManager {
 		}
 		return "";
 	}
+	function screenFile($screenNum) {
+		if(isset($this->screens[$screenNum])) {
+			if($this->screens[$screenNum] != "") {
+				return "images/".$this->screens[$screenNum];
+			}
+		}
+		return "";
+	}
 }

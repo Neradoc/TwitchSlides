@@ -26,19 +26,9 @@ function is_image($file) {
 	return false;
 }
 
-function screenFile($screenNum) {
-	global $prefs;
-	if(isset($prefs->screens[$screenNum])) {
-		if($prefs->screens[$screenNum] != "") {
-			return "images/".$prefs->screens[$screenNum];
-		}
-	}
-	return "";
-}
-
 function effacer_screen($screen) {
 	global $prefs;
-	$file = screenFile($screen);
+	$file = $prefs->screenFile($screen);
 	if($file != "") {
 		$prefs->screens[$screen] = "";
 		$prefs->save();
@@ -72,7 +62,7 @@ if(isset($_POST["effacer_screen"])) {
 
 if(isset($_POST["twitter_screen"])) {
 	$screen = intval($_POST["twitter_screen"]);
-	$file = screenFile($screen);
+	$file = $prefs->screenFile($screen);
 	if($file && file_exists($file)) {
 		$urlImage = dirname($thisurl).$file;
 		if(in_array($urlImage,$prefs->tweets)) {
@@ -280,7 +270,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 $screenImages = array();
 for($screen=1; $screen<=$Nscreens; $screen++) {
 	$screenImages[$screen] = false;
-	$file = screenFile($screen);
+	$file = $prefs->screenFile($screen);
 	if($file && file_exists($file)) {
 		$screenImages[$screen] = $file;
 		break;
