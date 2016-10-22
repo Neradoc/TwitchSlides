@@ -3,9 +3,8 @@
 @mkdir("images");
 @mkdir("sources");
 
+// valeurs par défaut
 // changer ces paramètres dans config_user.php
-// miniature du stream sur twitch.
-// Exemple: https://static-cdn.jtvnw.net/previews-ttv/live_user_realmyop2-320x180.jpg
 $url_miniature_stream = "";
 $Nscreens = 1;
 
