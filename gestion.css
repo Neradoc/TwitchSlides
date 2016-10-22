@@ -48,6 +48,14 @@ p { padding: 2px; margin:0px; }
 	margin: 0px;
 	background-image: url("damier.png");
 }
+.pimage .back_screen {
+	position:absolute;
+	width: 1920px;
+	height: 1080px;
+	top: 0px;
+	left: 0px;
+	opacity: 0.5;
+}
 
 /* boutons de positions */
 .pos_btn {

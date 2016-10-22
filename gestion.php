@@ -154,8 +154,6 @@ if(!empty($_POST) || !empty($_FILES)) {
 			screen.find('input[name="image_top"]').val(Math.floor(4.8*top));
 			screen.find('input[name="image_left"]').val(Math.floor(4.8*left));
 			//screen.find('input[name="image_zoom"]').val(0);
-			console.log(Math.floor(4.8*top));
-			console.log(Math.floor(4.8*left));
 		});
 		$(".lien").click(function() {
 			$(this).select();
@@ -171,7 +169,6 @@ if(!empty($_POST) || !empty($_FILES)) {
 				var iw = img.data("width");
 				var ih = img.data("height");
 				var zoom = img.data("zoom");
-				console.log(zoom);
 				var h,w;
 				if(iw>fw || ih>fh) {
 					if(iw/ih>16/9) {
@@ -307,8 +304,6 @@ if(!empty($_POST) || !empty($_FILES)) {
 		$(".pimage .image").mousedown(function(evt) {
 			movingImage = $(this);
 			movingStart = [evt.pageX,evt.pageY];
-			console.log(movingStart);
-			console.log(movingImage.offset());
 			return false;
 		});
 		$(".pimage .image, .pimage").mousemove(function(evt) {
@@ -342,7 +337,6 @@ if(!empty($_POST) || !empty($_FILES)) {
 			}
 		});
 		function exitMove(evt) {
-			console.log(evt);
 			if(movingImage) {
 				movingImage.closest(".screen").addClass("modified");
 			}
@@ -382,7 +376,11 @@ for($index=1; $index<=$Nscreens; $index++) {
 	<div class='screen screen<?=$index?>'>
 		<form action="<?=$thisurl?>" name="screens" method="POST">
 		<p><a href="<?=$lien?>" target="_BLANK">Écran <?=$index?></a> <input type="text" class="lien" name="lien" value="<?=$lien?>" readonly/></p>
-		<div class="pimage"><img class="image" data-width="<?=$w?>" data-height="<?=$h?>" data-top="<?=$imgPos[1]?>" data-left="<?=$imgPos[0]?>" data-zoom="<?=$imgPos[2]?>" src="<?=$imageurl?>"/>
+		<div class="pimage">
+			<?php if($url_miniature_stream): ?>
+			<img class="back_screen" src="<?=$url_miniature_stream?>" />
+			<?php endif; ?>
+			<img class="image" data-width="<?=$w?>" data-height="<?=$h?>" data-top="<?=$imgPos[1]?>" data-left="<?=$imgPos[0]?>" data-zoom="<?=$imgPos[2]?>" src="<?=$imageurl?>"/>
 			<input type="hidden" name="image_num" value="<?=$index?>"/>
 			<input type="hidden" name="image_top" value="0"/>
 			<input type="hidden" name="image_left" value="0"/>
@@ -461,7 +459,11 @@ foreach(array_slice($sources,0,12) as $info) {
 	}
 	?><div class='source'>
 		<form action="<?=$thisurl?>" name="sources" method="POST">
-		<div class="pimage"><img class="image" data-width="<?=$w?>" data-height="<?=$h?>" src="<?=$imageurl?>"/>
+		<div class="pimage">
+			<?php if($url_miniature_stream): ?>
+			<img class="back_screen" src="<?=$url_miniature_stream?>" />
+			<?php endif; ?>
+			<img class="image" data-width="<?=$w?>" data-height="<?=$h?>" src="<?=$imageurl?>"/>
 			<input type="hidden" name="image_file" value="<?=$name?>"/>
 			<input type="hidden" name="image_top" value="0"/>
 			<input type="hidden" name="image_left" value="0"/>
