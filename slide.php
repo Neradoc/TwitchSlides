@@ -28,9 +28,15 @@ if(isset($_REQUEST['get'])) {
 	}
 	if($screen !== false) {
 		$file = $prefs->screenFile($screen);
+		$pos = $prefs->screenPos($screen);
 		if($file && file_exists($file)) {
+			$sizes = getimagesize($file);
+			$width  = $sizes[0];
+			$height = $sizes[1];
 			print(json_encode(array(
 				'image' => $file,
+				'pos' => $pos,
+				'size' => array($width,$height),
 			)));
 			exit();
 		}
@@ -48,6 +54,7 @@ if(isset($_REQUEST['get'])) {
 	body {
 		padding:0px;
 		margin:0px;
+		overflow:hidden;
 	}
 	#screen {
 		position:relative;
@@ -87,10 +94,29 @@ if(isset($_REQUEST['get'])) {
 						width: Math.floor(width)+"px",
 						height: Math.floor(height)+"px",
 					});
+					//
+					var left = Math.floor(data['pos'][0]/1920*width);
+					var top = Math.floor(data['pos'][1]/1080*height);
 					$("#image").css({
-						maxWidth: Math.floor(width)+"px",
-						maxHeight: Math.floor(height)+"px",
+						left: left+"px",
+						top: top+"px",
 					});
+					//
+					var zoom = data['pos'][2];
+					if(zoom>0) {
+						var iw = data['size'][0];
+						var ih = data['size'][1];
+						$("#image").css({
+							width: Math.floor(iw*zoom)+"px",
+							height: Math.floor(ih*zoom)+"px",
+						});
+					} else {
+						$("#image").css({
+							maxWidth: Math.floor(width)+"px",
+							maxHeight: Math.floor(height)+"px",
+						});
+					}
+					//
 					$("#image").show();
 				},
 			});

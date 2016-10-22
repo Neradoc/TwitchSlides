@@ -50,10 +50,32 @@ class PrefsManager {
 	}
 	function screenFile($screenNum) {
 		if(isset($this->screens[$screenNum])) {
-			if($this->screens[$screenNum] != "") {
-				return "images/".$this->screens[$screenNum];
+			if(isset($this->screens[$screenNum]['file'])) {
+				if($this->screens[$screenNum]['file'] != "") {
+					return "images/".$this->screens[$screenNum]['file'];
+				}
 			}
 		}
 		return "";
+	}
+	// setScreenFile()
+	function screenPos($screenNum) {
+		$pos = [0,0,0];
+		if(isset($this->screens[$screenNum])) {
+			if(isset($this->screens[$screenNum]['file'])) {
+				if($this->screens[$screenNum]['file'] != "") {
+					if(isset($this->screens[$screenNum]['top'])) {
+						$pos[1] = $this->screens[$screenNum]['top'];
+					}
+					if(isset($this->screens[$screenNum]['left'])) {
+						$pos[0] = $this->screens[$screenNum]['left'];
+					}
+					if(isset($this->screens[$screenNum]['zoom'])) {
+						$pos[2] = $this->screens[$screenNum]['zoom'];
+					}
+				}
+			}
+		}
+		return $pos;
 	}
 }
