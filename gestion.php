@@ -1,4 +1,6 @@
 <?php
+define("DEBUG",false);
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -8,20 +10,6 @@ include_once("prefs.php");
 include_once("twitter.php");
 
 $prefs = new PrefsManager();
-define("DEBUG",false);
-
-function exit_redirect() {
-	global $thisurl;
-	if(DEBUG) {
-		print("<pre>");
-		print_r($_POST);
-		print('<a href="'.$thisurl.'">'.$thisurl.'</a>');
-	} else {
-		header('Location: '.$thisurl);
-		//header("Refresh:0");
-	}
-	exit();
-}
 
 function is_image($file) {
 	if(!file_exists($file)) { return false; }
@@ -46,21 +34,9 @@ function effacer_screen($screen) {
 	}
 }
 
-$poll_page = $prefs->get("strawpoll","");
-$poll_embed = $prefs->poll_embed();
-
-if(isset($_POST["effacer_poll"])) {
-	$prefs->set("strawpoll","");
-	$prefs->save();
-	exit_redirect();
-}
-
-if(isset($_POST["strawpoll_lien"])) {
-	$poll = $_POST["strawpoll_lien"];
-	$prefs->set("strawpoll",$poll);
-	$prefs->save();
-	exit_redirect();
-}
+include_once("module_strawpoll.php");
+include_once("module_upload.php");
+include_once("module_scoreboard.php");
 
 if(isset($_POST["effacer_screen"])) {
 	$screen = intval($_POST["effacer_screen"]);
@@ -89,43 +65,6 @@ if(isset($_POST["effacer_source"])) {
 	$file = "sources/".$file;
 	if(file_exists($file)) {
 		unlink($file);
-	}
-	exit_redirect();
-}
-
-if(isset($_FILES["upload_fichier"])||isset($_POST["upload_url"])) {
-	if(isset($_FILES["upload_fichier"])) {
-		$file = $_FILES["upload_fichier"];
-		if(is_image($file['tmp_name'])) {
-			$ext = pathinfo($file['name'],PATHINFO_EXTENSION);
-			$filename = "sources/image_".uniqid().".".$ext;
-			move_uploaded_file($file['tmp_name'],$filename);
-		}
-	}
-	if(isset($_POST["upload_url"]) && $_POST["upload_url"] != "") {
-		$tmp_file = tempnam("/tmp", "twitch_slides");
-		if($tmp_file) {
-			$data = file_get_contents($_POST["upload_url"]);
-			file_put_contents($tmp_file,$data);
-			switch(mime_content_type($tmp_file)) {
-			case "image/jpeg":
-				$ext = "jpg";
-				break;
-			case "image/png":
-				$ext = "png";
-				break;
-			default:
-				$ext = "";
-			}
-			if($ext) {
-				mime_content_type($tmp_file);
-				$filename = "sources/image_".uniqid().".".$ext;
-				rename($tmp_file,$filename);
-				chmod($filename,0777);
-			} else {
-				unlink($tmp_file);
-			}
-		}
 	}
 	exit_redirect();
 }
@@ -183,188 +122,8 @@ if(!empty($_POST) || !empty($_FILES)) {
 	<link rel="shortcut icon" href="favicon.png" />
 	<meta name="viewport" content="width=412">
 	<title>Les écrans de realmyop</title>
-	<style type="text/css" title="text/css">
-	body { padding: 0px; margin:0px; }
-	p { padding: 2px; margin:0px; }
-	.screen,
-	.source,
-	#strawpoll {
-		position: relative;
-		float:left;
-		padding: 8px;
-		margin: 8px;
-		border-width: 2px;
-		border-style: solid;
-		border-radius: 8px;
-		width: 400px;
-	}
-	.screen {
-		border-color:#080;
-		height: 290px;
-	}
-	.source {
-		border-color:#008;
-		height: 262px;
-	}
-	#strawpoll {
-		border-color:#080;
-		height: 290px;
-	}
-	#upload {
-		position: relative;
-		padding: 8px;
-		margin: 8px;
-		clear:both;
-		border-width: 2px 0px 2px;
-		border-style: solid;
-		border-color:#FF0;
-	}
-	
-	.pimage {
-		position: relative;
-		overflow:hidden;
-		/* 16/9 */
-		/*width: 400px;*/
-		/*height: 225px;*/
-		width: 1920px;
-		height: 1080px;
-		transform: scale(0.208);
-		transform-origin: top left;
-		padding: 0px;
-		margin: 0px;
-		background-image: url("damier.png");
-	}
-
-	/* boutons de positions */
-	.pos_btn {
-		/* display: none; */
-		position: absolute;
-		padding: 0px;
-		font-size: 300%;
-	}
-	.pimage:hover .pos_btn {
-		display:block;
-	}
-	.pos_btn.topleft {
-		top: 0px;
-		left: 0px;
-	}
-	.pos_btn.topright {
-		top: 0px;
-		right: 0px;
-	}
-	.pos_btn.bottomleft {
-		bottom: 0px;
-		left: 0px;
-	}
-	.pos_btn.bottomright {
-		bottom: 0px;
-		right: 0px;
-	}
-	.pos_btn.centerleft {
-		/*top: 105px;*/
-		top: 520px;
-		left: 0px;
-	}
-	.pos_btn.centerright {
-		/*top: 105px;*/
-		top: 520px;
-		right: 0px;
-	}
-	.pos_btn.centertop {
-		top: 0px;
-		/*left: 190px;*/
-		left: 940px;
-	}
-	.pos_btn.centerbottom {
-		bottom: 0px;
-		/*left: 190px;*/
-		left: 940px;
-	}
-	.pos_btn.centercenter {
-		/*top: 105px;*/
-		top: 520px;
-		/*left: 190px;*/
-		left: 940px;
-	}
-	.pos_btn.zoomin {
-		bottom: 0px;
-		left: 1020px;
-	}
-	.pos_btn.zoomout {
-		bottom: 0px;
-		left: 880px;
-	}
-	
-	/* position changée mais pas validée */
-	.screen.modified {
-		background-color: #FFFFB0;
-	}
-	.screen.modified .changer {
-		color: white;
-		background: #444488;
-	}
-
-	/* images */
-	.screen .image,
-	.source .image {
-		/*max-width: 400px;*/
-		/*max-height: 225px;*/
-		/* max-width: 1920px; */
-		/* max-height: 1080px; */
-	}
-
-	/* boutons / inputs */
-	.upload_fichier {
-		font-size: 100%;
-	}
-	.upload_url {
-		width: 280px;
-	}
-	.strawpoll_lien {
-		width: 360px;
-	}
-	.strawpoll_frame {
-		width:800px;
-		height:416px;
-		border:0;
-		transform: scale(0.5,0.5);
-		transform-origin: top left;
-	}
-	#upload .upload_btn {
-		font-size: 100%;
-		margin-left:310px;
-	}
-	.source .assign option:first-child {
-		color: #888;
-	}
-	.btns {
-		position:absolute;
-		bottom:8px;
-	}
-	.btns button,
-	.btns select {
-		font-size: 120%;
-		border-radius: 10px;
-		background: white;
-		border-color: #88F;
-		cursor:pointer;
-	}
-	.btns button:hover {
-		background:#000!important;
-		color:white!important;
-	}
-	.btns .twitter {
-		border-color: green;
-	}
-	.btns .effacer {
-		border-color: red;
-	}
-	.btns button.effacer:hover {
-		background:#800!important;
-		color:white!important;
-	}
-	</style>
+	<link rel='stylesheet' href='gestion.css' type='text/css' />
+	<style type="text/css" title="text/css"></style>
 	<script type="text/javascript" src="jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
 	// dimensions du cadre simulant l'écran
@@ -592,6 +351,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 		$("body").on("mouseup",exitMove);
 	});
 	</script>
+	<script type="text/javascript" src="module_scoreboard.js"></script>
 </head>
 <body>
 <div id="contenu">
@@ -652,17 +412,7 @@ for($index=1; $index<=$Nscreens; $index++) {
 <!--
 	affichage d'un strawpoll
 -->
-	<div id="strawpoll">
-	<form action="<?=$thisurl?>" name="strawpoll" method="POST" enctype="multipart/form-data">
-		<a href="<?=dirname($thisurl)?>/strawpoll.php" target="_BLANK">Strawpoll</a> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/10987342")'>Test 1</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/3888622")'>Test 2</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/4796816")'>Test 3</button>
-		<br/>
-		<input type="text" name="strawpoll_lien" class="strawpoll_lien" value="<?=$poll_page?>"/><br/>
-		<iframe class="strawpoll_frame" src="<?=$poll_embed?>">Loading poll...</iframe>
-		<div class="btns">
-			<button class="effacer" name="effacer_poll" value="">Effacer</button>
-		</div>
-	</form>
-	</div>
+<?php disp_strawpoll($thisurl); ?>
 <!--
 	interface de comptage de points
 	- ajouter un participant
@@ -671,31 +421,20 @@ for($index=1; $index<=$Nscreens; $index++) {
 	- filtre dynamique par les noms
 	- historique des points (pour le travail collaboratif)
 -->
-	<div id="scoreboard">
-	<?php 
-	//print(time());
-	?>
-	</div>
+<?php disp_scoreboard($thisurl); ?>
 <!--
 	interface pour ajouter une image
 	- depuis un fichier local
 	- depuis le lien d'une image
 	- depuis une page imgur ? (et compagnie)
 -->
-	<div id="upload">
-	<form action="<?=$thisurl?>" name="upload" method="POST" enctype="multipart/form-data">
-		<b>Ajouter une image</b><br/>
-		Locale&nbsp;: <input type="file" name="upload_fichier" class="upload_fichier"><br/>
-		Par une URL&nbsp;: <input type="text" name="upload_url" class="upload_url"><br/>
-		<button class="upload_btn">Envoyer</button>
-	</form>
-	</div>
-	<div id="sources">
-<?php
-/*
+<?php disp_upload($thisurl); ?>
+<!--
 	liste des images disponibles avec un bouton pour les effacer (en cas d'erreur)
 	bouton pour effacer toutes les images (pas celles en cours) à la fin du stream
-*/
+-->
+	<div id="sources">
+<?php
 $sources = array();
 foreach(glob($sources_glob) as $source) {
 	if(file_exists($source)) {
@@ -708,7 +447,7 @@ foreach(glob($sources_glob) as $source) {
 usort($sources,function($a,$b) {
 	return $b['date'] - $a['date'];
 });
-foreach($sources as $info) {
+foreach(array_slice($sources,0,12) as $info) {
 	$imageurl = $info['file'];
 	$iu = $imageurl;
 	$name = basename($imageurl);

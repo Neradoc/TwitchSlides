@@ -1,0 +1,180 @@
+body { padding: 0px; margin:0px; }
+p { padding: 2px; margin:0px; }
+.screen,
+.source,
+#strawpoll {
+	position: relative;
+	float:left;
+	padding: 8px;
+	margin: 8px;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 8px;
+	width: 400px;
+}
+.screen {
+	border-color:#080;
+	height: 290px;
+}
+.source {
+	border-color:#008;
+	height: 262px;
+}
+#strawpoll {
+	border-color:#080;
+	height: 290px;
+}
+#upload {
+	position: relative;
+	padding: 8px;
+	margin: 8px;
+	clear:both;
+	border-width: 2px 0px 2px;
+	border-style: solid;
+	border-color:#FF0;
+}
+
+.pimage {
+	position: relative;
+	overflow:hidden;
+	/* 16/9 */
+	/*width: 400px;*/
+	/*height: 225px;*/
+	width: 1920px;
+	height: 1080px;
+	transform: scale(0.208);
+	transform-origin: top left;
+	padding: 0px;
+	margin: 0px;
+	background-image: url("damier.png");
+}
+
+/* boutons de positions */
+.pos_btn {
+	display: none;
+	position: absolute;
+	padding: 0px;
+	font-size: 300%;
+}
+.pimage:hover .pos_btn {
+	display:block;
+}
+.pos_btn.topleft {
+	top: 0px;
+	left: 0px;
+}
+.pos_btn.topright {
+	top: 0px;
+	right: 0px;
+}
+.pos_btn.bottomleft {
+	bottom: 0px;
+	left: 0px;
+}
+.pos_btn.bottomright {
+	bottom: 0px;
+	right: 0px;
+}
+.pos_btn.centerleft {
+	/*top: 105px;*/
+	top: 520px;
+	left: 0px;
+}
+.pos_btn.centerright {
+	/*top: 105px;*/
+	top: 520px;
+	right: 0px;
+}
+.pos_btn.centertop {
+	top: 0px;
+	/*left: 190px;*/
+	left: 940px;
+}
+.pos_btn.centerbottom {
+	bottom: 0px;
+	/*left: 190px;*/
+	left: 940px;
+}
+.pos_btn.centercenter {
+	/*top: 105px;*/
+	top: 520px;
+	/*left: 190px;*/
+	left: 940px;
+}
+.pos_btn.zoomin {
+	bottom: 0px;
+	left: 1020px;
+}
+.pos_btn.zoomout {
+	bottom: 0px;
+	left: 880px;
+}
+
+/* position changée mais pas validée */
+.screen.modified {
+	background-color: #FFFFB0;
+}
+.screen.modified .changer {
+	color: white;
+	background: #444488;
+}
+
+/* images */
+.screen .image,
+.source .image {
+	/*max-width: 400px;*/
+	/*max-height: 225px;*/
+	/* max-width: 1920px; */
+	/* max-height: 1080px; */
+}
+
+/* boutons / inputs */
+.upload_fichier {
+	font-size: 100%;
+}
+.upload_url {
+	width: 280px;
+}
+.strawpoll_lien {
+	width: 360px;
+}
+.strawpoll_frame {
+	width:800px;
+	height:416px;
+	border:0;
+	transform: scale(0.5,0.5);
+	transform-origin: top left;
+}
+#upload .upload_btn {
+	font-size: 100%;
+	margin-left:310px;
+}
+.source .assign option:first-child {
+	color: #888;
+}
+.btns {
+	position:absolute;
+	bottom:8px;
+}
+.btns button,
+.btns select {
+	font-size: 120%;
+	border-radius: 10px;
+	background: white;
+	border-color: #88F;
+	cursor:pointer;
+}
+.btns button:hover {
+	background:#000!important;
+	color:white!important;
+}
+.btns .twitter {
+	border-color: green;
+}
+.btns .effacer {
+	border-color: red;
+}
+.btns button.effacer:hover {
+	background:#800!important;
+	color:white!important;
+}
