@@ -1,5 +1,4 @@
 <?php
-include("twitter-config.php");
 function twitterImage($urlImage) {
 	global $iftMakerKey,$iftRebusChannel;
 	$iftUrl = "https://maker.ifttt.com/trigger/$iftRebusChannel/with/key/$iftMakerKey";
