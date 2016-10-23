@@ -49,12 +49,11 @@ if(isset($_POST["twitter_screen"])) {
 	$file = $prefs->screenFile($screen);
 	if($file && file_exists($file)) {
 		$urlImage = dirname($thisurl).$file;
-		if(in_array($urlImage,$prefs->tweets)) {
-			twitterImage($urlImage);
+		if(!in_array($urlImage,$prefs->tweets)) {
 			$prefs->tweets[] = $urlImage;
 			$prefs->save();
+			twitterImage($urlImage);
 		}
-		break;
 	}
 	exit_redirect();
 }
@@ -109,6 +108,7 @@ if(isset($_POST['changer_screen'])) {
 			$prefs->screens[$screen]['zoom'] = floatval($_POST['image_zoom']);
 		$prefs->save();
 	}
+	exit_redirect();
 }
 
 if(!empty($_POST) || !empty($_FILES)) {
@@ -182,11 +182,12 @@ if(!empty($_POST) || !empty($_FILES)) {
 					w = iw;
 					h = ih;
 				}
-				if(zoom>0) {
-					w = Math.floor(w*zoom);
-					h = Math.floor(h*zoom);
-					$(that).find('input[name="image_zoom"]').val(zoom);
+				if(!(zoom>0)) {
+					zoom = img.data("width")/img.width();
 				}
+				w = Math.floor(w*zoom);
+				h = Math.floor(h*zoom);
+				$(that).find('input[name="image_zoom"]').val(zoom);
 				img.css({
 					position:"absolute",
 					left: (ileft?ileft:0)+"px",
