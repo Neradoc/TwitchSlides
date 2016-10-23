@@ -1,13 +1,10 @@
 <?php
-define("DEBUG",false);
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include_once("head.php");
 include_once("prefs.php");
-include_once("twitter.php");
 
 $prefs = new PrefsManager();
 
@@ -37,26 +34,7 @@ function effacer_screen($screen) {
 include_once("module_strawpoll.php");
 include_once("module_upload.php");
 include_once("module_scoreboard.php");
-
-if(isset($_POST["effacer_screen"])) {
-	$screen = intval($_POST["effacer_screen"]);
-	effacer_screen($screen);
-	exit_redirect();
-}
-
-if(isset($_POST["twitter_screen"])) {
-	$screen = intval($_POST["twitter_screen"]);
-	$file = $prefs->screenFile($screen);
-	if($file && file_exists($file)) {
-		$urlImage = dirname($thisurl).$file;
-		if(!in_array($urlImage,$prefs->tweets)) {
-			$prefs->tweets[] = $urlImage;
-			$prefs->save();
-			twitterImage($urlImage);
-		}
-	}
-	exit_redirect();
-}
+include_once("module_twitter.php");
 
 if(isset($_POST["effacer_source"])) {
 	$file = $_POST["effacer_source"];
@@ -108,6 +86,12 @@ if(isset($_POST['changer_screen'])) {
 			$prefs->screens[$screen]['zoom'] = floatval($_POST['image_zoom']);
 		$prefs->save();
 	}
+	exit_redirect();
+}
+
+if(isset($_POST["effacer_screen"])) {
+	$screen = intval($_POST["effacer_screen"]);
+	effacer_screen($screen);
 	exit_redirect();
 }
 
@@ -368,7 +352,6 @@ for($index=1; $index<=$Nscreens; $index++) {
 		$sizes = getimagesize($imageurl);
 		$w = $sizes[0];
 		$h = $sizes[1];
-		$imageurl = $imageurl."?yo=".time()."x".$index;
 	} else {
 		$w = 0;
 		$h = 0;

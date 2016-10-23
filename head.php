@@ -24,9 +24,9 @@ $thisurl .= $_SERVER['REQUEST_URI'];
 if(!defined("DEBUG")) {
 	define("DEBUG",false);
 }
-function exit_redirect() {
+function exit_redirect($debug = DEBUG) {
 	global $thisurl;
-	if(DEBUG) {
+	if($debug) {
 		print("<pre>");
 		print_r($_POST);
 		print('<a href="'.$thisurl.'">'.$thisurl.'</a>');

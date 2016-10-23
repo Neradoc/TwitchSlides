@@ -1,5 +1,4 @@
 <?php
-include_once("config.php");
 function twitterImage($urlImage) {
 	global $iftMakerKey,$iftRebusChannel;
 	$iftUrl = "https://maker.ifttt.com/trigger/$iftRebusChannel/with/key/$iftMakerKey";
@@ -18,4 +17,18 @@ function twitterImage($urlImage) {
 
 	$response = curl_exec($ch);
 	curl_close($ch);
+}
+
+if(isset($_POST["twitter_screen"])) {
+	$screen = intval($_POST["twitter_screen"]);
+	$file = $prefs->screenFile($screen);
+	if($file && file_exists($file)) {
+		$urlImage = dirname($thisurl).$file;
+		if(true || !in_array($urlImage,$prefs->tweets)) {
+			$prefs->tweets[] = $urlImage;
+			$prefs->save();
+			twitterImage($urlImage);
+		}
+	}
+	exit_redirect(true);
 }
