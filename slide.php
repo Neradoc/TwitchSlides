@@ -58,7 +58,6 @@ if(isset($_REQUEST['get'])) {
 	}
 	#screen {
 		position:relative;
-		<?php if($align) print("text-align: ".$align.";\n") ?>
 	}
 	#screen img {
 		position:absolute;
@@ -102,20 +101,16 @@ if(isset($_REQUEST['get'])) {
 						top: top+"px",
 					});
 					//
+					var iw = data['size'][0];
+					var ih = data['size'][1];
 					var zoom = data['pos'][2];
-					if(zoom>0) {
-						var iw = data['size'][0];
-						var ih = data['size'][1];
-						$("#image").css({
-							width: Math.floor(iw*zoom)+"px",
-							height: Math.floor(ih*zoom)+"px",
-						});
-					} else {
-						$("#image").css({
-							maxWidth: Math.floor(width)+"px",
-							maxHeight: Math.floor(height)+"px",
-						});
-					}
+					if(!(zoom>0)) { zoom = 1; }
+					$("#image").css({
+						width: Math.floor(iw*zoom)+"px",
+						height: Math.floor(ih*zoom)+"px",
+						maxWidth: "auto",
+						maxHeight: "auto",
+					});
 					//
 					$("#image").show();
 				},
