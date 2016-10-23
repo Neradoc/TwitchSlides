@@ -1,11 +1,12 @@
 <?php
+include_once("config.php");
 function twitterImage($urlImage) {
 	global $iftMakerKey,$iftRebusChannel;
 	$iftUrl = "https://maker.ifttt.com/trigger/$iftRebusChannel/with/key/$iftMakerKey";
 
-	$data = ["value1" => $urlImage, "value2" => ""];
+	$data = array("value1" => $urlImage, "value2" => "");
 	$data_string = json_encode($data);                                                                                   
-
+	
 	$ch = curl_init($iftUrl);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
