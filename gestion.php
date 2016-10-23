@@ -140,8 +140,8 @@ if(!empty($_POST) || !empty($_FILES)) {
 			var image = parent.find(".image");
 			var top = image.offset().top-parent.offset().top;
 			var left = image.offset().left-parent.offset().left;
-			source.find('input[name="image_top"]').val(Math.floor(4.8*top));
-			source.find('input[name="image_left"]').val(Math.floor(4.8*left));
+			source.find('input[name="image_top"]').val(Math.round(4.8*top));
+			source.find('input[name="image_left"]').val(Math.round(4.8*left));
 			//source.find('input[name="image_zoom"]').val(0);
 			$(this).closest("form").submit();
 		});
@@ -151,8 +151,8 @@ if(!empty($_POST) || !empty($_FILES)) {
 			var image = parent.find(".image");
 			var top = image.offset().top-parent.offset().top;
 			var left = image.offset().left-parent.offset().left;
-			screen.find('input[name="image_top"]').val(Math.floor(4.8*top));
-			screen.find('input[name="image_left"]').val(Math.floor(4.8*left));
+			screen.find('input[name="image_top"]').val(Math.round(4.8*top));
+			screen.find('input[name="image_left"]').val(Math.round(4.8*left));
 			//screen.find('input[name="image_zoom"]').val(0);
 		});
 		$(".lien").click(function() {
@@ -185,8 +185,8 @@ if(!empty($_POST) || !empty($_FILES)) {
 				if(!(zoom>0)) {
 					zoom = img.data("width")/img.width();
 				}
-				w = Math.floor(w*zoom);
-				h = Math.floor(h*zoom);
+				w = Math.round(w*zoom);
+				h = Math.round(h*zoom);
 				$(that).find('input[name="image_zoom"]').val(zoom);
 				img.css({
 					position:"absolute",
@@ -317,14 +317,14 @@ if(!empty($_POST) || !empty($_FILES)) {
 				};
 				var deltaX = curPos[0]-movingStart[0];
 				var deltaY = curPos[1]-movingStart[1];
-				var newPosX = Math.floor(imgPos.left*4.8+deltaX*4.8);
-				var newPosY = Math.floor(imgPos.top*4.8+deltaY*4.8);
+				var newPosX = Math.round(imgPos.left*4.8+deltaX*4.8);
+				var newPosY = Math.round(imgPos.top*4.8+deltaY*4.8);
 				// empêcher de sortir à gauche
 				newPosX = Math.max(0, newPosX);
 				newPosY = Math.max(0, newPosY);
 				// empêcher de sortir à droite
-				var fmw = Math.floor(fw-movingImage.width());
-				var fmh = Math.floor(fh-movingImage.height());
+				var fmw = Math.round(fw-movingImage.width());
+				var fmh = Math.round(fh-movingImage.height());
 				newPosX = Math.min(fmw, newPosX);
 				newPosY = Math.min(fmh, newPosY);
 				movingImage.css({
