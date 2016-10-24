@@ -4,11 +4,11 @@ class PrefsManager {
 	public $file = "";
 	public $tweets = array();
 	public $screens = array();
-	function __construct($file = "prefs.txt") {
+	function __construct($file = "prefs.json") {
 		if(!file_exists($file)) {
 			$this->prefs = array();
 		} else {
-			$tmp = @unserialize(file_get_contents($file));
+			$tmp = @json_decode(file_get_contents($file),true);
 			if(!is_array($tmp)) {
 				$this->prefs = array();
 			} else {
@@ -28,7 +28,7 @@ class PrefsManager {
 		// ne garder que les 10 derniers tweets
 		$this->prefs['tweets'] = array_slice($this->tweets,-10,10);
 		$this->prefs['screens'] = $this->screens;
-		file_put_contents($this->file,serialize($this->prefs));
+		file_put_contents($this->file,json_encode($this->prefs));
 	}
 	function get($key,$defaut=null) {
 		if(isset($this->prefs[$key])) {
