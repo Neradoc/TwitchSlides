@@ -17,8 +17,8 @@ if(file_exists("config.php")) {
 	include("config.php");
 }
 
-$image_format = "screen_%s.%s";
-$sources_glob = SOURCES_DIR."image_*";
+define("IMAGE_FORMAT","screen_%s.%s");
+define("SOURCES_GLOB",SOURCES_DIR."image_*");
 
 $thisurl = 'http';
 if(isset($_SERVER['HTTPS'])) $thisurl .= 's';
