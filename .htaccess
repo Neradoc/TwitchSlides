@@ -5,4 +5,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 # if app/main_<le fichier> existe
 #RewriteCond app/main_%{REQUEST_FILENAME} -f
 # redirige en interne app/main_<le fichier>
-RewriteRule ^(.*) index.php [E=rewrite:$1,L]
+RewriteRule ^(.*) index.php?rewrite=$1 [QSA,L]
