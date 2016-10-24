@@ -35,7 +35,7 @@ p { padding: 2px; margin:0px; }
 }
 
 .pimage {
-	position: relative;
+	position: absolute;
 	overflow:hidden;
 	/* 16/9 */
 	/*width: 400px;*/
@@ -156,6 +156,7 @@ p { padding: 2px; margin:0px; }
 	width: 360px;
 }
 .strawpoll_frame {
+	position: absolute;
 	width:800px;
 	height:416px;
 	border:0;
