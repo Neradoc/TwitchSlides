@@ -67,7 +67,7 @@ if(isset($_POST['assign_source'])) {
 			if(isset($_POST['image_left']))
 				$prefs->screens[$screen]['left'] = intval($_POST['image_left']);
 			if(isset($_POST['image_zoom']))
-				$prefs->screens[$screen]['zoom'] = floatval($_POST['image_zoom']);
+				$prefs->screens[$screen]['zoom'] = round(floatval($_POST['image_zoom']),4);
 			$prefs->save();
 		}
 	}
@@ -83,7 +83,7 @@ if(isset($_POST['changer_screen'])) {
 		if(isset($_POST['image_left']))
 			$prefs->screens[$screen]['left'] = intval($_POST['image_left']);
 		if(isset($_POST['image_zoom']))
-			$prefs->screens[$screen]['zoom'] = floatval($_POST['image_zoom']);
+			$prefs->screens[$screen]['zoom'] = round(floatval($_POST['image_zoom']),4);
 		$prefs->save();
 	}
 	exit_redirect();
@@ -117,6 +117,45 @@ if(!empty($_POST) || !empty($_FILES)) {
 	var fh = 1080;
 	var movingImage = false;
 	var movingStart = [0,0];
+	function base_size(img) {
+		var iw = img.data("width");
+		var ih = img.data("height");
+		var zoom = img.data("zoom");
+		// calculer la taille d'affichage
+		var h,w;
+		w = iw;
+		h = ih;
+		// zoom est défini pour screen, sinon on fait un fit
+		// zoom n'est pas défini pour source au début -> fit
+		if(!(zoom>0)) {
+			// faire tenir dans l'écran en gardant les proportions (fit)
+			if(iw>fw || ih>fh) {
+				if(iw/ih>16/9) {
+					w = fw;
+					h = ih * fw/iw;
+				} else {
+					w = iw * fh/ih;
+					h = fh;
+				}
+			} else {
+				w = iw;
+				h = ih;
+			}
+			// définir le zoom par rapport à la taille originale
+			zoom = w / iw;
+		} else {
+			// zoom défini -> ben l'utiliser quoi
+			w = Math.round(w*zoom);
+			h = Math.round(h*zoom);
+		}
+		// initiliaser le champ zoom (vide au début)
+		img.siblings('input[name="image_zoom"]').val(zoom);
+		// dimensionner
+		img.css({
+			width: w+"px",
+			height: h+"px",
+		});
+	}
 	$(function() {
 		$(".assign").change(function() {
 			var source = $(this).closest(".source");
@@ -143,42 +182,18 @@ if(!empty($_POST) || !empty($_FILES)) {
 			$(this).select();
 		});
 		$(".screen,.source").each(function() {
-			var that = this;
 			var img = $(this).find(".pimage .image");
 			img.on("load",function() {
 				var itop = img.data("top");
 				var ileft = img.data("left");
 				if(!itop) itop = 0;
 				if(!ileft) ileft = 0;
-				var iw = img.data("width");
-				var ih = img.data("height");
-				var zoom = img.data("zoom");
-				var h,w;
-				if(iw>fw || ih>fh) {
-					if(iw/ih>16/9) {
-						w = fw;
-						h = ih * fw/iw;
-					} else {
-						w = iw * fh/ih;
-						h = fh;
-					}
-				} else {
-					w = iw;
-					h = ih;
-				}
-				if(!(zoom>0)) {
-					zoom = img.data("width")/img.width();
-				}
-				w = Math.round(w*zoom);
-				h = Math.round(h*zoom);
-				$(that).find('input[name="image_zoom"]').val(zoom);
 				img.css({
 					position:"absolute",
 					left: (ileft?ileft:0)+"px",
 					top: (itop?itop:0)+"px",
-					width: w+"px",
-					height: h+"px",
 				});
+				base_size(img);
 			});
 		});
 		//
@@ -216,7 +231,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 		});
 		//
 		$(".pos_btn.centerleft").click(function() {
-			img = $(this).siblings(".image");
+			var img = $(this).siblings(".image");
 			var h=img.height(),w=img.width();
 			img.css({
 				top:Math.floor(fh/2-h/2)+"px", bottom:"auto",
@@ -226,7 +241,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 			return false;
 		});
 		$(".pos_btn.centerright").click(function() {
-			img = $(this).siblings(".image");
+			var img = $(this).siblings(".image");
 			var h=img.height(),w=img.width();
 			img.css({
 				top:Math.floor(fh/2-h/2)+"px", bottom:"auto",
@@ -236,7 +251,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 			return false;
 		});
 		$(".pos_btn.centertop").click(function() {
-			img = $(this).siblings(".image");
+			var img = $(this).siblings(".image");
 			var h=img.height(),w=img.width();
 			img.css({
 				top:"0px", bottom:"auto",
@@ -246,7 +261,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 			return false;
 		});
 		$(".pos_btn.centerbottom").click(function() {
-			img = $(this).siblings(".image");
+			var img = $(this).siblings(".image");
 			var h=img.height(),w=img.width();
 			img.css({
 				top:"auto", bottom:"0px",
@@ -256,7 +271,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 			return false;
 		});
 		$(".pos_btn.centercenter").click(function() {
-			img = $(this).siblings(".image");
+			var img = $(this).siblings(".image");
 			var h=img.height(),w=img.width();
 			img.css({
 				top:Math.floor(fh/2-h/2)+"px", bottom:"auto",
@@ -266,20 +281,30 @@ if(!empty($_POST) || !empty($_FILES)) {
 			return false;
 		});
 		$(".pos_btn.zoomin").click(function() {
-			img = $(this).siblings(".image");
+			var img = $(this).siblings(".image");
 			zoom = $(this).siblings(".zoom");
 			if(zoom.val() == 0) zoom.val(img.data("width")/img.width());
-			zoom.val(zoom.val()*1.1)
+			zoom.val(zoom.val()*1.1);
 			img.height(img.data("height")*zoom.val());
 			img.width(img.data("width")*zoom.val());
 			$(this).closest(".screen").addClass("modified");
 			return false;
 		});
 		$(".pos_btn.zoomout").click(function() {
-			img = $(this).siblings(".image");
+			var img = $(this).siblings(".image");
 			zoom = $(this).siblings(".zoom");
 			if(zoom.val() == 0) zoom.val(img.width()/img.data("width"));
-			zoom.val(zoom.val()*0.9)
+			zoom.val(zoom.val()*0.9);
+			img.height(img.data("height")*zoom.val());
+			img.width(img.data("width")*zoom.val());
+			$(this).closest(".screen").addClass("modified");
+			return false;
+		});
+		$(".pos_btn.zoomzero").click(function() {
+			var img = $(this).siblings(".image");
+			zoom = $(this).siblings(".zoom");
+			img.data("zoom",0);
+			base_size(img);
 			img.height(img.data("height")*zoom.val());
 			img.width(img.data("width")*zoom.val());
 			$(this).closest(".screen").addClass("modified");
@@ -380,6 +405,7 @@ for($index=1; $index<=$Nscreens; $index++) {
 			<button class="pos_btn centercenter">@</button>
 			<button class="pos_btn zoomin">+</button>
 			<button class="pos_btn zoomout">-</button>
+			<button class="pos_btn zoomzero">=</button>
 		</div>
 		<div class="btns">
 			<button class="changer" name="changer_screen" value="<?=$index?>">Changer</button>
@@ -463,6 +489,7 @@ foreach(array_slice($sources,0,12) as $info) {
 			<button class="pos_btn centercenter">@</button>
 			<button class="pos_btn zoomin">+</button>
 			<button class="pos_btn zoomout">-</button>
+			<button class="pos_btn zoomzero">=</button>
 		</div>
 		<div class="btns">
 			<button class="effacer" name="effacer_source" value="<?=$name?>">Effacer</button>

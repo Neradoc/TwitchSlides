@@ -59,13 +59,11 @@ p { padding: 2px; margin:0px; }
 
 /* boutons de positions */
 .pos_btn {
-	display: none;
 	position: absolute;
 	padding: 0px;
 	font-size: 300%;
-}
-.pimage:hover .pos_btn {
-	display:block;
+	width: 70px;
+	height: 70px;
 }
 .pos_btn.topleft {
 	top: 0px;
@@ -109,14 +107,25 @@ p { padding: 2px; margin:0px; }
 	/*left: 190px;*/
 	left: 940px;
 }
-.pos_btn.zoomin {
+.pos_btn.zoomout {
 	bottom: 0px;
 	left: 1020px;
 }
-.pos_btn.zoomout {
+.pos_btn.zoomzero {
 	bottom: 0px;
-	left: 880px;
+	left: 1100px;
 }
+.pos_btn.zoomin {
+	bottom: 0px;
+	left: 1180px;
+}
+.source .pos_btn {
+	display: none;
+}
+.pimage:hover .pos_btn {
+	display:block;
+}
+
 
 /* position changée mais pas validée */
 .screen.modified {
