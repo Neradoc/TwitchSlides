@@ -1,3 +1,13 @@
+<?php
+header("Content-type: text/css");
+$screen_width = 480;
+$screen_height = 270;
+$scale = 0.25;
+$screen_width = 384;
+$screen_height = 216;
+$scale = 0.20;
+?>
+
 body { padding: 0px; margin:0px; }
 p { padding: 2px; margin:0px; }
 .screen,
@@ -10,19 +20,19 @@ p { padding: 2px; margin:0px; }
 	border-width: 2px;
 	border-style: solid;
 	border-radius: 8px;
-	width: 400px;
+	width: <?=$screen_width?>px;
 }
 .screen {
 	border-color:#080;
-	height: 290px;
+	height: <?=$screen_height + 65?>px;
 }
 .source {
 	border-color:#008;
-	height: 262px;
+	height: <?=$screen_height + 37?>px;
 }
 #strawpoll {
 	border-color:#080;
-	height: 290px;
+	height: <?=$screen_height + 65?>px;
 }
 #upload {
 	position: relative;
@@ -38,11 +48,9 @@ p { padding: 2px; margin:0px; }
 	position: absolute;
 	overflow:hidden;
 	/* 16/9 */
-	/*width: 400px;*/
-	/*height: 225px;*/
 	width: 1920px;
 	height: 1080px;
-	transform: scale(0.208);
+	transform: scale(<?=$scale?>);
 	transform-origin: top left;
 	padding: 0px;
 	margin: 0px;

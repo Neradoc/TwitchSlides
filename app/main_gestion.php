@@ -108,7 +108,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 	<link rel="shortcut icon" href="cjs/favicon.png" />
 	<meta name="viewport" content="width=412">
 	<title>Les écrans de realmyop</title>
-	<link rel='stylesheet' href='cjs/gestion.css' type='text/css' />
+	<link rel='stylesheet' href='cjs/gestion.css.php' type='text/css' />
 	<style type="text/css" title="text/css"></style>
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
@@ -117,6 +117,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 	//var fh = 225;
 	var fw = 1920;
 	var fh = 1080;
+	var scale = 5;
 	var movingImage = false;
 	var movingStart = [0,0];
 	function base_size(img) {
@@ -165,8 +166,8 @@ if(!empty($_POST) || !empty($_FILES)) {
 			var image = parent.find(".image");
 			var top = image.offset().top-parent.offset().top;
 			var left = image.offset().left-parent.offset().left;
-			source.find('input[name="image_top"]').val(Math.round(4.8*top));
-			source.find('input[name="image_left"]').val(Math.round(4.8*left));
+			source.find('input[name="image_top"]').val(Math.round(scale*top));
+			source.find('input[name="image_left"]').val(Math.round(scale*left));
 			//source.find('input[name="image_zoom"]').val(0);
 			$(this).closest("form").submit();
 		});
@@ -176,8 +177,8 @@ if(!empty($_POST) || !empty($_FILES)) {
 			var image = parent.find(".image");
 			var top = image.offset().top-parent.offset().top;
 			var left = image.offset().left-parent.offset().left;
-			screen.find('input[name="image_top"]').val(Math.round(4.8*top));
-			screen.find('input[name="image_left"]').val(Math.round(4.8*left));
+			screen.find('input[name="image_top"]').val(Math.round(scale*top));
+			screen.find('input[name="image_left"]').val(Math.round(scale*left));
 			//screen.find('input[name="image_zoom"]').val(0);
 		});
 		$(".lien").click(function() {
@@ -312,30 +313,25 @@ if(!empty($_POST) || !empty($_FILES)) {
 			$(this).closest(".screen").addClass("modified");
 			return false;
 		});
-		//
-		$(".pimage .image").mousedown(function(evt) {
-			movingImage = $(this);
-			movingStart = [evt.pageX,evt.pageY];
-			return false;
-		});
-		$(".pimage .image, .pimage").mousemove(function(evt) {
+		// déplacement manuel des images
+		function movingImageMouseMove(evt) {
 			if(movingImage != false) {
 				var parent = movingImage.parent();
 				var curPos = [evt.pageX,evt.pageY];
 				var imgPos = {
-					top: movingImage.offset().top-parent.offset().top,
-					left:movingImage.offset().left-parent.offset().left,
+					top: movingImage.offset().top  - parent.offset().top,
+					left:movingImage.offset().left - parent.offset().left,
 				};
 				var deltaX = curPos[0]-movingStart[0];
 				var deltaY = curPos[1]-movingStart[1];
-				var newPosX = Math.round(imgPos.left*4.8+deltaX*4.8);
-				var newPosY = Math.round(imgPos.top*4.8+deltaY*4.8);
+				var newPosX = Math.round(imgPos.left*scale+deltaX*scale);
+				var newPosY = Math.round(imgPos.top *scale+deltaY*scale);
 				// empêcher de sortir à gauche
 				newPosX = Math.max(0, newPosX);
 				newPosY = Math.max(0, newPosY);
 				// empêcher de sortir à droite
-				var fmw = Math.round(fw-movingImage.width());
-				var fmh = Math.round(fh-movingImage.height());
+				var fmw = Math.floor(fw-movingImage.width());
+				var fmh = Math.floor(fh-movingImage.height());
 				newPosX = Math.min(fmw, newPosX);
 				newPosY = Math.min(fmh, newPosY);
 				movingImage.css({
@@ -347,13 +343,20 @@ if(!empty($_POST) || !empty($_FILES)) {
 				movingStart = curPos;
 				return false;
 			}
-		});
+		}
 		function exitMove(evt) {
 			if(movingImage) {
+				movingImageMouseMove(evt);
 				movingImage.closest(".screen").addClass("modified");
 			}
 			movingImage = false;
 		}
+		$(".pimage .image").mousedown(function(evt) {
+			movingImage = $(this);
+			movingStart = [evt.pageX,evt.pageY];
+			return false;
+		});
+		$(".pimage .image, .pimage").mousemove(movingImageMouseMove);
 		$("body").on("mouseup",exitMove);
 	});
 	</script>
