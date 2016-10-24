@@ -39,7 +39,7 @@ include_once("module_twitter.php");
 if(isset($_POST["effacer_source"])) {
 	$file = $_POST["effacer_source"];
 	$file = basename($file);
-	$file = "sources/".$file;
+	$file = SOURCES_DIR."/".$file;
 	if(file_exists($file)) {
 		unlink($file);
 	}
@@ -51,7 +51,7 @@ if(isset($_POST['assign_source'])) {
 	if($screen>0) {
 		$source = $_POST['image_file'];
 		$source = basename($source);
-		$source = "sources/".$source;
+		$source = SOURCES_DIR."/".$source;
 		if(file_exists($source)) {
 			$ext = pathinfo($source,PATHINFO_EXTENSION);
 			$screen_cible = sprintf($image_format,md5($source),$ext);

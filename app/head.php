@@ -1,7 +1,12 @@
 <?php
 // créer les dossiers
-@mkdir("images");
-@mkdir("sources");
+define("IMAGES_DIR" ,"../images");
+define("IMAGES_URL","images");
+define("SOURCES_DIR","../sources");
+define("SOURCES_URL","sources");
+
+@mkdir(IMAGE_DIR);
+@mkdir(SOURCES_DIR);
 
 // valeurs par défaut
 // changer ces paramètres dans config_user.php
@@ -12,8 +17,8 @@ if(file_exists("config.php")) {
 	include("config.php");
 }
 
-$image_format = "images/screen_%s.%s";
-$sources_glob = "sources/image_*";
+$image_format = IMAGES_DIR."/screen_%s.%s";
+$sources_glob = "../".SOURCES_DIR."/image_*";
 
 $thisurl = 'http';
 if(isset($_SERVER['HTTPS'])) $thisurl .= 's';
