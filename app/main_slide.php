@@ -29,12 +29,12 @@ if(isset($_REQUEST['get'])) {
 	if($screen !== false) {
 		$file = $prefs->screenFile($screen);
 		$pos = $prefs->screenPos($screen);
-		if($file && file_exists($file)) {
-			$sizes = getimagesize($file);
+		if($file && file_exists(SCREENS_DIR.$file)) {
+			$sizes = getimagesize(SCREENS_DIR.$file);
 			$width  = $sizes[0];
 			$height = $sizes[1];
 			print(json_encode(array(
-				'image' => $file,
+				'image' => SCREENS_URL.$file,
 				'pos' => $pos,
 				'size' => array($width,$height),
 			)));
@@ -65,7 +65,7 @@ if(isset($_REQUEST['get'])) {
 		left:0px;
 	}
 	</style>
-	<script type="text/javascript" src="jquery2.js"></script>
+	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
 		var current_image = "";
 		function update_image() {
@@ -123,7 +123,7 @@ if(isset($_REQUEST['get'])) {
 </head>
 <body>
 <div id="screen">
-	<img id="image" src="vide.png" />
+	<img id="image" src="cjs/vide.png" />
 	<!-- <div id="scores"></div> -->
 </div>
 </body>

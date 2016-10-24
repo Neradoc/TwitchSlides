@@ -52,7 +52,7 @@ class PrefsManager {
 		if(isset($this->screens[$screenNum])) {
 			if(isset($this->screens[$screenNum]['file'])) {
 				if($this->screens[$screenNum]['file'] != "") {
-					return "images/".$this->screens[$screenNum]['file'];
+					return $this->screens[$screenNum]['file'];
 				}
 			}
 		}

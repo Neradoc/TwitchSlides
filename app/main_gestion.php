@@ -9,7 +9,7 @@ include_once("prefs.php");
 $prefs = new PrefsManager();
 
 function is_image($file) {
-	if(!file_exists($file)) { return false; }
+	if(!file_exists($file)) return false;
 	$mime = mime_content_type($file);
 	if(preg_match('`image/(jpeg|png)`i',$mime)) return true;
 	return false;
@@ -23,6 +23,7 @@ function effacer_screen($screen) {
 			'file' => "",
 			'top' => 0,
 			'left' => 0,
+			'zoom' => 0,
 		);
 		$prefs->save();
 		if(file_exists($file)) {
@@ -39,7 +40,7 @@ include_once("module_twitter.php");
 if(isset($_POST["effacer_source"])) {
 	$file = $_POST["effacer_source"];
 	$file = basename($file);
-	$file = SOURCES_DIR."/".$file;
+	$file = SOURCES_DIR.$file;
 	if(file_exists($file)) {
 		unlink($file);
 	}
@@ -51,23 +52,24 @@ if(isset($_POST['assign_source'])) {
 	if($screen>0) {
 		$source = $_POST['image_file'];
 		$source = basename($source);
-		$source = SOURCES_DIR."/".$source;
+		$source = SOURCES_DIR.$source;
 		if(file_exists($source)) {
 			$ext = pathinfo($source,PATHINFO_EXTENSION);
 			$screen_cible = sprintf($image_format,md5($source),$ext);
 			effacer_screen($screen);
-			copy($source,$screen_cible);
+			copy($source,SCREENS_DIR.$screen_cible);
 			$prefs->screens[$screen] = array(
 				"file" => basename($screen_cible),
 				"top" => 0,
 				"left" => 0,
+				"zoom" => 0,
 			);
 			if(isset($_POST['image_top']))
 				$prefs->screens[$screen]['top'] = intval($_POST['image_top']);
 			if(isset($_POST['image_left']))
 				$prefs->screens[$screen]['left'] = intval($_POST['image_left']);
 			if(isset($_POST['image_zoom']))
-				$prefs->screens[$screen]['zoom'] = round(floatval($_POST['image_zoom']),4);
+				$prefs->screens[$screen]['zoom'] = floatval($_POST['image_zoom']);
 			$prefs->save();
 		}
 	}
@@ -83,7 +85,7 @@ if(isset($_POST['changer_screen'])) {
 		if(isset($_POST['image_left']))
 			$prefs->screens[$screen]['left'] = intval($_POST['image_left']);
 		if(isset($_POST['image_zoom']))
-			$prefs->screens[$screen]['zoom'] = round(floatval($_POST['image_zoom']),4);
+			$prefs->screens[$screen]['zoom'] = floatval($_POST['image_zoom']);
 		$prefs->save();
 	}
 	exit_redirect();
@@ -103,12 +105,12 @@ if(!empty($_POST) || !empty($_FILES)) {
 <html lang="fr">
 <head>
 	<meta charset="utf-8" />
-	<link rel="shortcut icon" href="favicon.png" />
+	<link rel="shortcut icon" href="cjs/favicon.png" />
 	<meta name="viewport" content="width=412">
 	<title>Les écrans de realmyop</title>
-	<link rel='stylesheet' href='gestion.css' type='text/css' />
+	<link rel='stylesheet' href='cjs/gestion.css' type='text/css' />
 	<style type="text/css" title="text/css"></style>
-	<script type="text/javascript" src="jquery2.js"></script>
+	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
 	// dimensions du cadre simulant l'écran
 	//var fw = 400;
@@ -355,7 +357,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 		$("body").on("mouseup",exitMove);
 	});
 	</script>
-	<script type="text/javascript" src="module_scoreboard.js"></script>
+	<script type="text/javascript" src="cjs/module_scoreboard.js"></script>
 </head>
 <body>
 <div id="contenu">
@@ -372,9 +374,10 @@ for($index=1; $index<=$Nscreens; $index++) {
 	$imageurl = $prefs->screenFile($index);
 	$imgPos = $prefs->screenPos($index);
 	$base_lien = dirname($thisurl);
-	$lien = $base_lien ."/?screen=".$index;
-	if($imageurl != "" && file_exists($imageurl)) {
-		$sizes = getimagesize($imageurl);
+	$lien = $base_lien ."/slide.php?screen=".$index;
+	if($imageurl != "" && file_exists(SCREENS_DIR.$imageurl)) {
+		$sizes = getimagesize(SCREENS_DIR.$imageurl);
+		$imageurl = SCREENS_URL.$imageurl;
 		$w = $sizes[0];
 		$h = $sizes[1];
 	} else {

@@ -17,17 +17,20 @@ function twitterImage($urlImage) {
 
 	$response = curl_exec($ch);
 	curl_close($ch);
+	return preg_match('/^Congratulations!/',$response);
 }
 
 if(isset($_POST["twitter_screen"])) {
 	$screen = intval($_POST["twitter_screen"]);
 	$file = $prefs->screenFile($screen);
-	if($file && file_exists($file)) {
-		$urlImage = dirname($thisurl).$file;
-		if(true || !in_array($urlImage,$prefs->tweets)) {
-			$prefs->tweets[] = $urlImage;
-			$prefs->save();
-			twitterImage($urlImage);
+	if($file && file_exists(SCREENS_DIR.$file)) {
+		$urlImage = dirname($thisurl).SCREENS_URL.$file;
+		if(!in_array($urlImage,$prefs->tweets)) {
+			$res = twitterImage($urlImage);
+			if($res) {
+				$prefs->tweets[] = $urlImage;
+				$prefs->save();
+			}
 		}
 	}
 	exit_redirect(true);

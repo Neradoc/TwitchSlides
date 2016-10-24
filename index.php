@@ -1,4 +1,4 @@
-<pre><?
+<?
 if(isset($_SERVER['REDIRECT_rewrite'])) {
 	$file = $_SERVER['REDIRECT_rewrite'];
 	$file = preg_replace('/\.php$/','',$file);

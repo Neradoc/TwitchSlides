@@ -6,7 +6,7 @@ if(isset($_FILES["upload_fichier"])||isset($_POST["upload_url"])) {
 		$file = $_FILES["upload_fichier"];
 		if(is_image($file['tmp_name'])) {
 			$ext = pathinfo($file['name'],PATHINFO_EXTENSION);
-			$filename = "sources/image_".uniqid().".".$ext;
+			$filename = SOURCES_DIR."image_".uniqid().".".$ext;
 			move_uploaded_file($file['tmp_name'],$filename);
 		}
 	}
@@ -27,7 +27,7 @@ if(isset($_FILES["upload_fichier"])||isset($_POST["upload_url"])) {
 			}
 			if($ext) {
 				mime_content_type($tmp_file);
-				$filename = "sources/image_".uniqid().".".$ext;
+				$filename = SOURCES_DIR."image_".uniqid().".".$ext;
 				rename($tmp_file,$filename);
 				chmod($filename,0777);
 			} else {

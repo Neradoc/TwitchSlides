@@ -25,7 +25,7 @@ if(isset($_POST['strawpoll'])) {
 		display: none;
 	}
 	</style>
-	<script type="text/javascript" src="jquery2.js"></script>
+	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
 		var current_poll = "<?=$poll_page?>";
 		function update_poll() {
