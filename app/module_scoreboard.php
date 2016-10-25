@@ -64,6 +64,29 @@ function disp_scoreboard($thisurl) {
 	?>
 	<div id="scoreboard">
 	<h3>Scores</h3>
+	<div class="scoreboard_list">
+	<?
+	$i = 0;
+	foreach($scores as $card) {
+		$i += 1;
+		if($i%2) { $parite = "pair"; } else { $parite = "impair"; }
+		?>
+		<div class="scorecard_line <?=$parite?>">
+		<form action="<?=$thisurl?>" name="scorecard" method="POST">
+			<input type="submit" style="display:none" name="scorecard_ok" value="ok"/>
+			<input type="hidden" name="scorecard_nom" value="<?=$card['nom']?>"/>
+			<button class="rond down_score" name="down_score" value="<?=$card['score']-1?>" title="-1"><img src="cjs/bouton_moins.png"/></button>
+			<button class="rond up_score" name="up_score" value="<?=$card['score']+1?>" title="+1"><img src="cjs/bouton_plus.png"/></button>
+			<input class="score" type="text" name="changer_score" value="<?=$card['score']?>" title="Valeur de score, appuyer sur entrée pour modifier"/> <input class="ajout_score" type="text" name="ajout_score" value="" placeholder="+0" title="Entrer une valeur pour l'ajouter au score"/>
+			<!-- <button class="rond valider_score" name="valider_score" value=""><img src="cjs/bouton_check.png"/></button> -->
+			<span class="nom"><?=$card['nom']?></span>
+			<button class="rond effacer_score" name="effacer_score" value="<?=$card['nom']?>"><img src="cjs/bouton_croix.png" title="Retirer des scores"/></button>
+		</form>
+		</div>
+		<?
+	}
+	?>
+	</div>
 	<form action="<?=$thisurl?>" name="scorecard" method="POST">
 	Ajouter&nbsp;: <input class="new_scorecard" name="new_scorecard" value="" title="Entrer un nouveau nom et valider avec entrée"/>
 	</form>
@@ -76,29 +99,6 @@ function disp_scoreboard($thisurl) {
 	}
 	?>
 	</form>
-	<div class="scoreboard_list">
-	<?
-	$i = 0;
-	foreach($scores as $card) {
-		$i += 1;
-		if($i%2) { $parite = "pair"; } else { $parite = "impair"; }
-		?>
-		<form action="<?=$thisurl?>" name="scorecard" method="POST">
-		<p class="scorecard_line <?=$parite?>">
-			<input type="submit" style="display:none" name="scorecard_ok" value="ok"/>
-			<input type="hidden" name="scorecard_nom" value="<?=$card['nom']?>"/>
-			<button class="rond down_score" name="down_score" value="<?=$card['score']-1?>" title="-1"><img src="cjs/bouton_moins.png"/></button>
-			<button class="rond up_score" name="up_score" value="<?=$card['score']+1?>" title="+1"><img src="cjs/bouton_plus.png"/></button>
-			<input class="score" type="text" name="changer_score" value="<?=$card['score']?>" title="Valeur de score, appuyer sur entrée pour modifier"/> <input class="ajout_score" type="text" name="ajout_score" value="" placeholder="+0" title="Entrer une valeur pour l'ajouter au score"/>
-			<!-- <button class="rond valider_score" name="valider_score" value=""><img src="cjs/bouton_check.png"/></button> -->
-			<span class="nom"><?=ucfirst($card['nom'])?></span>
-			<button class="rond effacer_score" name="effacer_score" value="<?=$card['nom']?>"><img src="cjs/bouton_croix.png" title="Retirer des scores"/></button>
-		</p>
-		</form>
-		<?
-	}
-	?>
-	</div>
 	</div>
 	<?
 }

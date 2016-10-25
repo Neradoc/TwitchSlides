@@ -216,13 +216,15 @@ h3 {
 	color:white!important;
 }
 
-form { display: inline; }
+form {
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+	background: transparent;
+}
 
 #scoreboard {
 	font-size: 90%;
-}
-#scoreboard .scorecard_line {
-	clear: both;
 }
 #scoreboard .new_scorecard {
 	width: 230px;
@@ -251,11 +253,14 @@ form { display: inline; }
 	overflow-y: scroll;
 	height: 220px;
 }
+#scoreboard .scorecard_line {
+	clear: both;
+	padding: 2px;
+}
 #scoreboard button.rond {
 	width:21px;
 	height:21px;
 	padding: 0px;
-	margin-bottom: 2px;
 	vertical-align:bottom;
 	background:transparent;
 	border-radius: 10px;
