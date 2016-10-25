@@ -105,7 +105,7 @@ function disp_screens($thisurl) {
 		?>
 		<div class='screen screen<?=$index?>'>
 			<form action="<?=$thisurl?>" name="screens" method="POST">
-			<p><a href="<?=$lien?>" target="_BLANK">Écran <?=$index?></a> <input type="text" class="lien" name="lien" value="<?=$lien?>" readonly/></p>
+			<h3><a href="<?=$lien?>" target="_BLANK">Écran <?=$index?></a><!-- <input type="text" class="lien" name="lien" value="<?=$lien?>" readonly/> --></h3>
 			<div class="pimage">
 				<?php if($url_miniature_stream): ?>
 				<img class="back_screen" src="<?=$url_miniature_stream?>" />

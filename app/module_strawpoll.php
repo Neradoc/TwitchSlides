@@ -22,9 +22,12 @@ function disp_strawpoll($thisurl) {
 	?>
 	<div id="strawpoll">
 	<form action="<?=$thisurl?>" name="strawpoll" method="POST" enctype="multipart/form-data">
-		<a href="<?=dirname($thisurl)?>/strawpoll.php" target="_BLANK">Strawpoll</a> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/10987342")'>Test 1</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/3888622")'>Test 2</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/4796816")'>Test 3</button>
-		<br/>
-		<input type="text" name="strawpoll_lien" class="strawpoll_lien" value="<?=$poll_page?>"/><br/>
+		<h3><a href="<?=dirname($thisurl)?>/strawpoll.php" target="_BLANK">Strawpoll</a></h3>
+		<!-- <div>
+		<button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/10987342")'>Test 1</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/3888622")'>Test 2</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/4796816")'>Test 3</button>
+		</div> -->
+		<input type="text" name="strawpoll_lien" class="strawpoll_lien" value="<?=$poll_page?>"/>
+		<button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/10987342")'>Test 1</button><br/>
 		<iframe class="strawpoll_frame" src="<?=$poll_embed?>">Loading poll...</iframe>
 		<div class="btns">
 			<button class="effacer" name="effacer_poll" value="">Effacer</button>
