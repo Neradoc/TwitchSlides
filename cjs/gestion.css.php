@@ -225,19 +225,37 @@ form { display: inline; }
 	clear: both;
 }
 #scoreboard .new_scorecard {
-	width: 250px;
+	width: 200px;
 }
+#scoreboard .scoreboard_switch {
+	padding:0px;
+	margin:0px;
+	border-radius: 10px;
+	width: 5em;
+	padding: 2px 4px;
+	margin: 2px;
+}
+#scoreboard .scoreboard_switch_on {
+	color:white;
+	background: #080;
+	text-align: left;
+}
+#scoreboard .scoreboard_switch_off {
+	color:white;
+	background: #800;
+	text-align: right;
+}
+
 #scoreboard .scoreboard_list {
 	overflow-x: auto;
 	overflow-y: scroll;
 	height: 220px;
 }
-#scoreboard button {
+#scoreboard button.rond {
 	width:21px;
 	height:21px;
 	padding: 0px;
 	vertical-align:bottom;
-	border:none;
 	background:transparent;
 	border-radius: 10px;
 	border: 2px solid transparent;

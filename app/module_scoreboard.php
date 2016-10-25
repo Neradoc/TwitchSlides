@@ -13,6 +13,12 @@ if(isset($_POST['effacer_score'])) {
 	exit_redirect();
 }
 
+if(isset($_POST['scoreboard_switch'])) {
+	$prefs->set("scoreboard_on",$_POST['scoreboard_switch']?true:false);
+	$prefs->save();
+	exit_redirect();
+}
+
 foreach(["down_score","up_score","changer_score"] as $bouton) {
 	if(isset($_POST[$bouton]) && $_POST[$bouton]!="") {
 		$card = formate_card($_POST['scorecard_nom']);
@@ -53,6 +59,13 @@ function disp_scoreboard($thisurl) {
 	<form action="<?=$thisurl?>" name="scorecard" method="POST">
 	<h3>Scores</h3>
 	Ajouter&nbsp;: <input class="new_scorecard" name="new_scorecard" value=""/>
+	<?php
+	if($prefs->get("scoreboard_on",false)) {
+		?><button class="scoreboard_switch scoreboard_switch_on" name="scoreboard_switch" value="0">ON</button><?
+	} else {
+		?><button class="scoreboard_switch scoreboard_switch_off" name="scoreboard_switch" value="1">OFF</button><?
+	}
+	?>
 	</form>
 	<div class="scoreboard_list">
 	<?
@@ -65,12 +78,12 @@ function disp_scoreboard($thisurl) {
 		<p class="scorecard_line <?=$parite?>">
 			<input type="submit" style="display:none" name="scorecard_ok" value="ok"/>
 			<input type="hidden" name="scorecard_nom" value="<?=$card['nom']?>"/>
-			<button name="down_score" value="<?=$card['score']-1?>"><img src="cjs/bouton_moins.png"/></button>
-			<button name="up_score" value="<?=$card['score']+1?>"><img src="cjs/bouton_plus.png"/></button>
+			<button class="rond" name="down_score" value="<?=$card['score']-1?>"><img src="cjs/bouton_moins.png"/></button>
+			<button class="rond" name="up_score" value="<?=$card['score']+1?>"><img src="cjs/bouton_plus.png"/></button>
 			<input class="score" type="number" name="changer_score" value="<?=$card['score']?>"/>
-			<button name="valider_score" value=""><img src="cjs/bouton_check.png"/></button>
+			<button class="rond" name="valider_score" value=""><img src="cjs/bouton_check.png"/></button>
 			<span class="nom"><?=ucfirst($card['nom'])?></span>
-			<button class="effacer_score" name="effacer_score" value="<?=$card['nom']?>"><img src="cjs/bouton_croix.png"/></button>
+			<button class="rond effacer_score" name="effacer_score" value="<?=$card['nom']?>"><img src="cjs/bouton_croix.png"/></button>
 		</p>
 		</form>
 		<?

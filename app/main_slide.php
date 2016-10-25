@@ -30,6 +30,7 @@ if(isset($_REQUEST['get'])) {
 		$file = $prefs->screenFile($screen);
 		$pos = $prefs->screenPos($screen);
 		$scores = array_slice($prefs->sortedScores(),0,5);
+		$scoreboard_on = $prefs->get("scoreboard_on",false);
 		$reload = $prefs->get("reload_slide",false);
 		if($reload) {
 			$prefs->set("reload_slide",false);
@@ -50,6 +51,7 @@ if(isset($_REQUEST['get'])) {
 				'size' => array($width,$height),
 				'liste_scores' => $liste_scores,
 				'reload' => $reload,
+				'scoreboard_on' => $scoreboard_on,
 			)));
 			exit();
 		}
@@ -153,10 +155,15 @@ if(isset($_REQUEST['get'])) {
 					//
 					$("#image").show();
 					//
-					var liste_scores = data['liste_scores'];
-					if(liste_scores != $("#scores").html()) {
-						$("#scores").html(liste_scores);
-						$("#scores span:first-child").prepend('<img src="cjs/crown.png"/>');
+					if(data['scoreboard_on']) {
+						$("#scores").show();
+						var liste_scores = data['liste_scores'];
+						if(liste_scores != $("#scores").html()) {
+							$("#scores").html(liste_scores);
+							$("#scores span:first-child").prepend('<img src="cjs/crown.png"/>');
+						}
+					} else {
+						$("#scores").hide();
 					}
 				},
 			});
@@ -165,14 +172,16 @@ if(isset($_REQUEST['get'])) {
 		var step = 5;
 		var speed = 50;
 		function movescores() {
-			scorepos = scorepos - step;
-			var width = $("#scores").width();
-			if(scorepos < -1*width) {
-				scorepos = $(window).width();
+			if($("#scores").is(":visible")) {
+				scorepos = scorepos - step;
+				var width = $("#scores").width();
+				if(scorepos < -1*width) {
+					scorepos = $(window).width();
+				}
+				$("#scores").css({
+					left: scorepos+"px",
+				});
 			}
-			$("#scores").css({
-				left: scorepos+"px",
-			});
 		}
 		$(function() {
 			setInterval(update_image,1000);
