@@ -277,15 +277,13 @@ form {
 #scoreboard .nom {
 	padding: 2px 4px 2px;
 }
-/*#scoreboard .score,
-#scoreboard .ajout_score */
 #scoreboard .score {
 	text-align: right;
 	font-size: 100%;
 	width: 3.5em;
 	border:none;
 }
-#scoreboard .ajout_score {
+#scoreboard .modif_score {
 	text-align: center;
 	width: 1.5em;
 	padding: 2px 0px;
@@ -295,7 +293,6 @@ form {
 
 #scoreboard .effacer_score {
 	float:right;
-	margin: 2px 8px 0px;
 }
 #scoreboard .pair { background: #DFE; }
 #scoreboard .impair { background: white; }
