@@ -1,7 +1,6 @@
 <?php
-
 function formate_card($post) {
-	return preg_replace('/[^-_a-zA-Z0-9 \']/','', remplace_accents($post));
+	return preg_replace('/[^-_a-zA-Z0-9 \'' .'àáâãäçèéêëìíîï' .'ñòóôõöùúûüýÿ' .'ÀÁÂÃÄÇÈÉÊËÌÍÎÏ' .'ÑÒÓÔÕÖÙÚÛÜÝ]/ui','', $post);
 }
 
 if(isset($_POST['effacer_score'])) {
