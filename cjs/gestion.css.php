@@ -12,7 +12,8 @@ body { padding: 0px; margin:0px; }
 p { padding: 2px; margin:0px; }
 .screen,
 .source,
-#strawpoll {
+#strawpoll,
+#scoreboard {
 	position: relative;
 	float:left;
 	padding: 8px;
@@ -34,6 +35,10 @@ p { padding: 2px; margin:0px; }
 	border-color:#080;
 	height: <?=$screen_height + 65?>px;
 }
+#scoreboard {
+	border-color: #008080;
+	height: <?=$screen_height + 65?>px;
+}
 #upload {
 	position: relative;
 	padding: 8px;
@@ -42,6 +47,12 @@ p { padding: 2px; margin:0px; }
 	border-width: 2px 0px 2px;
 	border-style: solid;
 	border-color:#FF0;
+}
+
+h3 {
+	margin: 5px auto 5px;
+	padding: 0px;
+	text-align: center;
 }
 
 .pimage {
@@ -161,12 +172,12 @@ p { padding: 2px; margin:0px; }
 	width: 280px;
 }
 .strawpoll_lien {
-	width: 360px;
+	width: 300px;
 }
 .strawpoll_frame {
 	position: absolute;
-	width:800px;
-	height:416px;
+	width:<?=$screen_width*2?>px;
+	height:<?=$screen_height*1.8?>px;
 	border:0;
 	transform: scale(0.5,0.5);
 	transform-origin: top left;
@@ -204,3 +215,45 @@ p { padding: 2px; margin:0px; }
 	background:#800!important;
 	color:white!important;
 }
+
+form { display: inline; }
+
+#scoreboard .scorecard_line {
+	clear: both;
+}
+#scoreboard .new_scorecard {
+	width: 250px;
+}
+#scoreboard .scoreboard_list {
+	overflow-x: auto;
+	overflow-y: scroll;
+	height: 220px;
+}
+#scoreboard button {
+	cursor: pointer;
+	width:17px;
+	height:17px;
+	vertical-align:bottom;
+	margin-bottom: 4px;
+	border:none;
+	background:transparent;
+}
+#scoreboard .score,
+#scoreboard .nom {
+	padding: 2px 4px 2px;
+	margin: 0px 4px 0px;
+}
+#scoreboard .score {
+	text-align: right;
+	font-size: 100%;
+	width: 70px;
+	border:none;
+}
+#scoreboard .nom {}
+
+#scoreboard .effacer_score {
+	float:right;
+	margin: 2px 8px 0px;
+}
+#scoreboard .pair { background: #DFE; }
+#scoreboard .impair { background: white; }

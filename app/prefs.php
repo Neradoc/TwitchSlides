@@ -4,6 +4,7 @@ class PrefsManager {
 	public $file = "";
 	public $tweets = array();
 	public $screens = array();
+	public $scores = array();
 	function __construct($file = "prefs.json") {
 		if(!file_exists($file)) {
 			$this->prefs = array();
@@ -23,11 +24,15 @@ class PrefsManager {
 		if(isset($this->prefs['screens']) && is_array($this->prefs['screens'])) {
 			$this->screens = $this->prefs['screens'];
 		}
+		if(isset($this->prefs['scores']) && is_array($this->prefs['scores'])) {
+			$this->scores = $this->prefs['scores'];
+		}
 	}
 	function save() {
 		// ne garder que les 10 derniers tweets
 		$this->prefs['tweets'] = array_slice($this->tweets,-10,10);
 		$this->prefs['screens'] = $this->screens;
+		$this->prefs['scores'] = $this->scores;
 		file_put_contents($this->file,json_encode($this->prefs));
 	}
 	function get($key,$defaut=null) {
