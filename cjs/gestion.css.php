@@ -218,6 +218,9 @@ h3 {
 
 form { display: inline; }
 
+#scoreboard {
+	font-size: 90%;
+}
 #scoreboard .scorecard_line {
 	clear: both;
 }
@@ -230,13 +233,17 @@ form { display: inline; }
 	height: 220px;
 }
 #scoreboard button {
-	cursor: pointer;
-	width:17px;
-	height:17px;
+	width:21px;
+	height:21px;
+	padding: 0px;
 	vertical-align:bottom;
-	margin-bottom: 4px;
 	border:none;
 	background:transparent;
+	border-radius: 10px;
+	border: 2px solid transparent;
+}
+#scoreboard button:hover {
+	border: 2px solid black;
 }
 #scoreboard .score,
 #scoreboard .nom {

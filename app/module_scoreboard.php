@@ -68,6 +68,7 @@ function disp_scoreboard($thisurl) {
 			<button name="down_score" value="<?=$card['score']-1?>"><img src="cjs/bouton_moins.png"/></button>
 			<button name="up_score" value="<?=$card['score']+1?>"><img src="cjs/bouton_plus.png"/></button>
 			<input class="score" type="number" name="changer_score" value="<?=$card['score']?>"/>
+			<button name="valider_score" value=""><img src="cjs/bouton_check.png"/></button>
 			<span class="nom"><?=ucfirst($card['nom'])?></span>
 			<button class="effacer_score" name="effacer_score" value="<?=$card['nom']?>"><img src="cjs/bouton_croix.png"/></button>
 		</p>
