@@ -83,4 +83,13 @@ class PrefsManager {
 		}
 		return $pos;
 	}
+	function sortedScores() {
+		$scores = $this->scores;
+		usort($scores,function($a,$b) {
+			if($b['score'] == $a['score'])
+				return strcmp($a['nom'],$b['nom']);
+			return $b['score'] - $a['score'];
+		});
+		return $scores;
+	}
 }
