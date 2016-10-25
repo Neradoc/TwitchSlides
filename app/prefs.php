@@ -86,9 +86,9 @@ class PrefsManager {
 	function sortedScores() {
 		$scores = $this->scores;
 		usort($scores,function($a,$b) {
-			if($b['score'] == $a['score'])
-				return strcmp($a['nom'],$b['nom']);
-			return $b['score'] - $a['score'];
+			if($b['score'] != $a['score']) return $b['score'] - $a['score'];
+			if($b['stamp'] != $a['stamp']) return $b['stamp'] - $a['stamp'];
+			return strcmp($a['nom'],$b['nom']);
 		});
 		return $scores;
 	}

@@ -48,17 +48,14 @@ if(isset($_POST['new_scorecard']) && $_POST['new_scorecard']!="") {
 
 function disp_scoreboard($thisurl) {
 	global $prefs;
-	$scores = $prefs->scores;
-	usort($scores,function($a,$b) {
-		if($b['score'] == $a['score'])
-			return strcmp($a['nom'],$b['nom']);
-		return $b['score'] - $a['score'];
-	});
+	$scores = $prefs->sortedScores();
 	?>
 	<div id="scoreboard">
-	<form action="<?=$thisurl?>" name="scorecard" method="POST">
 	<h3>Scores</h3>
+	<form action="<?=$thisurl?>" name="scorecard" method="POST">
 	Ajouter&nbsp;: <input class="new_scorecard" name="new_scorecard" value=""/>
+	</form>
+	<form action="<?=$thisurl?>" name="scorecard" method="POST">
 	<?php
 	if($prefs->get("scoreboard_on",false)) {
 		?><button class="scoreboard_switch scoreboard_switch_on" name="scoreboard_switch" value="0">ON</button><?
