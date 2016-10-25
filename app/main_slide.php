@@ -29,7 +29,7 @@ if(isset($_REQUEST['get'])) {
 	if($screen !== false) {
 		$file = $prefs->screenFile($screen);
 		$pos = $prefs->screenPos($screen);
-		$scores = array_slice($prefs->sortedScores(),0,15);
+		$scores = array_slice($prefs->sortedScores(),0,5);
 		$reload = $prefs->get("reload_slide",false);
 		if($reload) {
 			$prefs->set("reload_slide",false);
