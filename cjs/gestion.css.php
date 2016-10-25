@@ -225,7 +225,7 @@ form { display: inline; }
 	clear: both;
 }
 #scoreboard .new_scorecard {
-	width: 200px;
+	width: 230px;
 }
 #scoreboard .scoreboard_switch {
 	padding:0px;
@@ -255,6 +255,7 @@ form { display: inline; }
 	width:21px;
 	height:21px;
 	padding: 0px;
+	margin-bottom: 2px;
 	vertical-align:bottom;
 	background:transparent;
 	border-radius: 10px;
@@ -268,15 +269,21 @@ form { display: inline; }
 #scoreboard .valider_score:hover { border-color: #117E9C; }
 #scoreboard .effacer_score:hover { border-color: #8C0002; }
 
-#scoreboard .score,
 #scoreboard .nom {
 	padding: 2px 4px 2px;
-	margin: 0px 4px 0px;
 }
+/*#scoreboard .score,
+#scoreboard .ajout_score */
 #scoreboard .score {
 	text-align: right;
 	font-size: 100%;
-	width: 70px;
+	width: 3.5em;
+	border:none;
+}
+#scoreboard .ajout_score {
+	text-align: center;
+	width: 1.5em;
+	padding: 2px 0px;
 	border:none;
 }
 #scoreboard .nom {}
