@@ -263,6 +263,11 @@ form { display: inline; }
 #scoreboard button:hover {
 	border: 2px solid black;
 }
+#scoreboard .down_score:hover { border-color: #BB9105; }
+#scoreboard .up_score:hover { border-color: #0C5B0B; }
+#scoreboard .valider_score:hover { border-color: #117E9C; }
+#scoreboard .effacer_score:hover { border-color: #8C0002; }
+
 #scoreboard .score,
 #scoreboard .nom {
 	padding: 2px 4px 2px;

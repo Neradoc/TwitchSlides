@@ -74,10 +74,10 @@ function disp_scoreboard($thisurl) {
 		<p class="scorecard_line <?=$parite?>">
 			<input type="submit" style="display:none" name="scorecard_ok" value="ok"/>
 			<input type="hidden" name="scorecard_nom" value="<?=$card['nom']?>"/>
-			<button class="rond" name="down_score" value="<?=$card['score']-1?>"><img src="cjs/bouton_moins.png"/></button>
-			<button class="rond" name="up_score" value="<?=$card['score']+1?>"><img src="cjs/bouton_plus.png"/></button>
-			<input class="score" type="number" name="changer_score" value="<?=$card['score']?>"/>
-			<button class="rond" name="valider_score" value=""><img src="cjs/bouton_check.png"/></button>
+			<button class="rond down_score" name="down_score" value="<?=$card['score']-1?>"><img src="cjs/bouton_moins.png"/></button>
+			<button class="rond up_score" name="up_score" value="<?=$card['score']+1?>"><img src="cjs/bouton_plus.png"/></button>
+			<input class="score changer_score" type="number" name="changer_score" value="<?=$card['score']?>"/>
+			<button class="rond valider_score" name="valider_score" value=""><img src="cjs/bouton_check.png"/></button>
 			<span class="nom"><?=ucfirst($card['nom'])?></span>
 			<button class="rond effacer_score" name="effacer_score" value="<?=$card['nom']?>"><img src="cjs/bouton_croix.png"/></button>
 		</p>
