@@ -1,6 +1,13 @@
 <?php
 include_once("head.php");
 
+function is_image($file) {
+	if(!file_exists($file)) return false;
+	$mime = mime_content_type($file);
+	if(preg_match('`image/(jpeg|png)`i',$mime)) return true;
+	return false;
+}
+
 if(isset($_FILES["upload_fichier"])||isset($_POST["upload_url"])) {
 	if(isset($_FILES["upload_fichier"])) {
 		$file = $_FILES["upload_fichier"];
