@@ -1,8 +1,31 @@
 <?php
-function twitterImage($urlImage) {
+require_once('twitteroauth/autoload.php');
+use Abraham\TwitterOAuth\TwitterOAuth;
+if(!isset($twitterUtiliserApi)) $twitterUtiliserApi = false;
+
+function twitterImageAPI($imageFile) {
+	global $twitterConsumerKey, $twitterConsumerSecret, $twitterAccessToken, $twitterAccessTokenSecret;
+	$connection = new TwitterOAuth($twitterConsumerKey, $twitterConsumerSecret, $twitterAccessToken, $twitterAccessTokenSecret);
+
+	// message du tweet
+	$tweetMessage = "Venez décrypter le rébus avec nous sur le stream\nhttps://www.twitch.tv/realmyop2";
+	// ajout de l'image
+	$media = $connection->upload('media/upload', ['media' => SCREENS_DIR.$imageFile]);
+	// zou
+	$parameters = [
+		'status' => $tweetMessage,
+		'media_ids' => $media->media_id_string,
+	];
+	$result = $connection->post('statuses/update', $parameters);
+	file_put_contents("log.".time().".".uniqid().".log",json_encode($result));
+	return false; // false pendant les tests
+}
+
+function twitterImageIfttt($imageFile) {
 	global $iftMakerKey,$iftRebusChannel;
 	$iftUrl = "https://maker.ifttt.com/trigger/$iftRebusChannel/with/key/$iftMakerKey";
 
+	$urlImage = dirname($thisurl).SCREENS_URL.$file;
 	$data = array("value1" => $urlImage, "value2" => "");
 	$data_string = json_encode($data);                                                                                   
 	
@@ -20,18 +43,27 @@ function twitterImage($urlImage) {
 	return preg_match('/^Congratulations!/',$response);
 }
 
+function twitterImage($imageFile) {
+	global $twitterUtiliserApi;
+	// TODO: tester la présence et les valeurs des configs ifttt et/ou api
+	if($twitterUtiliserApi) {
+		return twitterImageAPI($imageFile);
+	} else {
+		return twitterImageIfttt($imageFile);
+	}
+}
+
 if(isset($_POST["twitter_screen"])) {
 	$screen = intval($_POST["twitter_screen"]);
-	$file = $prefs->screenFile($screen);
-	if($file && file_exists(SCREENS_DIR.$file)) {
-		$urlImage = dirname($thisurl).SCREENS_URL.$file;
-		if(!in_array($urlImage,$prefs->tweets)) {
-			$res = twitterImage($urlImage);
+	$imageFile = $prefs->screenFile($screen);
+	if($imageFile && file_exists(SCREENS_DIR.$imageFile)) {
+		if(!in_array($imageFile,$prefs->tweets)) {
+			$res = twitterImage($imageFile);
 			if($res) {
-				$prefs->tweets[] = $urlImage;
+				$prefs->tweets[] = $imageFile;
 				$prefs->save();
 			}
 		}
 	}
-	exit_redirect(true);
+	exit_redirect();
 }
