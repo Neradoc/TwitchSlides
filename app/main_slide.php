@@ -2,16 +2,20 @@
 include("head.php");
 include("prefs.php");
 
-$screen = 1;
+// screens
+$screensNumbers = [];
+if(isset($_REQUEST['screen'])) {
+	$screensNumbers = array_filter( array_map( function($x) { return intval($x); }, preg_split('/,/', $_REQUEST['screen'], -1, PREG_SPLIT_NO_EMPTY)));
+} else {
+	for($i=1; $i<=$Nscreens; $i++) {
+		$screensNumbers[] = $i;
+	}
+}
+// ajax
 if(isset($_REQUEST['get'])) {
 	$prefs = new PrefsManager();
 	$data = array("screens" => array());
-	// screens
-	$screens = [];
-	if(isset($_REQUEST['screen'])) {
-		$screens = array_filter( array_map( function($x) { return intval($x); }, preg_split('/,/', $_REQUEST['screen'], -1, PREG_SPLIT_NO_EMPTY)));
-	}
-	foreach($screens as $screen) {
+	foreach($screensNumbers as $screen) {
 		$file = $prefs->screenFile($screen);
 		$pos = $prefs->screenPos($screen);
 		$on = $prefs->screenOn($screen);
@@ -101,7 +105,7 @@ if(isset($_REQUEST['get'])) {
 				type:'POST',
 				data: {
 					get:1,
-					screen: "<?=$_GET['screen']?>",
+					screen: "<?=join($screensNumbers,',')?>",
 				},
 				dataType: "json",
 				error: function(a,b,c) {
