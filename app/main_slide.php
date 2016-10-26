@@ -76,7 +76,7 @@ if(isset($_REQUEST['get'])) {
 	#scores {
 		position:absolute;
 		left:0px;
-		bottom:16px;
+		bottom:8px;
 		font-size: 24px;
 		white-space: pre;
 	}
@@ -121,6 +121,13 @@ if(isset($_REQUEST['get'])) {
 						location.reload();
 					}
 					//
+					var width = $(window).width();
+					var height= $(window).height();
+					$("#screen").css({
+						width: Math.floor(width)+"px",
+						height: Math.floor(height)+"px",
+					});
+					//
 					if(data['scoreboard_on']) {
 						$("#scores").show();
 						var liste_scores = data['liste_scores'];
@@ -132,6 +139,9 @@ if(isset($_REQUEST['get'])) {
 						$("#scores").hide();
 					}
 					//
+					if(data['screens'].length == 0) {
+						$(".image").hide();
+					}
 					for(var num in data['screens']) {
 						var screen = data['screens'][num];
 						var image = $(".image"+screen['num']);
@@ -140,17 +150,10 @@ if(isset($_REQUEST['get'])) {
 							image.attr("src",current_image);
 						}
 						//
-						if(screen['on'] == false) {
+						if("on" in screen && screen['on'] == false) {
 							image.hide();
 							continue;
 						}
-						//
-						var width = $(window).width();
-						var height= $(window).height();
-						$("#screen").css({
-							width: Math.floor(width)+"px",
-							height: Math.floor(height)+"px",
-						});
 						//
 						var left = Math.floor(screen['pos'][0]/1920*width);
 						var top = Math.floor(screen['pos'][1]/1080*height);
@@ -199,7 +202,7 @@ if(isset($_REQUEST['get'])) {
 <body>
 <div id="screen">
 	<?php for($i=0; $i<$Nscreens; $i++) {
-		print('<img class="image image'.($i+1).'" src="cjs/vide.png" />');
+		print('<img class="image image'.($i+1).'" src="cjs/vide.png" />'."\n");
 	}
 	?>
 	<div id="scores">Les scores ne sont pas encore chargés</div>
