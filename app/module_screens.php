@@ -168,7 +168,23 @@ function disp_sources($thisurl) {
 	usort($sources,function($a,$b) {
 		return $b['date'] - $a['date'];
 	});
-	foreach(array_slice($sources,0,12) as $info) {
+	$lesSources = $sources;
+	$numSources = count($sources);
+	$source_start = 0;
+	if($numSources > 12) {
+		if(isset($_REQUEST['source_start'])) {
+			$source_start = intval($_REQUEST['source_start']);
+		}
+		if($source_start<$numSources) {
+			$lesSources = array_slice($sources,$source_start,12);
+		}
+		?><div class="pagination_sources"><?
+		for($sourceN = 0; $sourceN < $numSources; $sourceN += 12) {
+			?><a class="bouton_pagination" href="<?=thisurl(['source_start'=>$sourceN])?>"><?=$sourceN+1?> - <?=min($numSources,$sourceN+12)?></a><?
+		}
+		?></div><?
+	}
+	foreach($lesSources as $info) {
 		$imageurl = $info['file'];
 		$iu = $imageurl;
 		$name = basename($imageurl);

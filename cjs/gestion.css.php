@@ -164,6 +164,17 @@ h3 {
 	/* max-height: 1080px; */
 }
 
+#sources .pagination_sources {
+	padding: 8px;
+	clear:both;
+}
+#sources .bouton_pagination {
+	display: inline-block;
+	padding: 8px;
+	border: 2px solid #888;
+	border-radius: 8px;
+}
+
 /* boutons / inputs */
 .upload_fichier {
 	font-size: 100%;

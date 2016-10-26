@@ -20,11 +20,27 @@ if(file_exists("config.php")) {
 define("IMAGE_FORMAT","screen_%s.%s");
 define("SOURCES_GLOB",SOURCES_DIR."image_*");
 
-$thisurl = 'http';
-if(isset($_SERVER['HTTPS'])) $thisurl .= 's';
-$thisurl .= '://';
-$thisurl .= $_SERVER['HTTP_HOST'];
-$thisurl .= $_SERVER['REQUEST_URI'];
+function thisurl($params = []) {
+	$thisurl = 'http';
+	if(isset($_SERVER['HTTPS'])) $thisurl .= 's';
+	$thisurl .= '://';
+	$thisurl .= $_SERVER['HTTP_HOST'];
+	$thisurl .= $_SERVER['REQUEST_URI'];
+	foreach($params as $park => $parv) {
+		if(preg_match('/([?&])'.$park.'=[^&]+/',$thisurl)) {
+			$thisurl = preg_replace('/([?&])'.$park.'=[^&]+/', '\1'.$park.'='.$parv,$thisurl);
+		} else {
+			if(preg_match('/\?/',$thisurl)) {
+				$thisurl .= "&";
+			} else {
+				$thisurl .= "?";
+			}
+			$thisurl .= $park.'='.$parv;
+		}
+	}
+	return $thisurl;
+}
+$thisurl = thisurl();
 
 if(!defined("DEBUG")) {
 	define("DEBUG",false);
