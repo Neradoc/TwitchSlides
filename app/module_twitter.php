@@ -17,8 +17,8 @@ function twitterImageAPI($imageFile) {
 		'media_ids' => $media->media_id_string,
 	];
 	$result = $connection->post('statuses/update', $parameters);
-	file_put_contents("log.".time().".".uniqid().".log",json_encode($result));
-	return false; // false pendant les tests
+	//file_put_contents("log.".time().".".uniqid().".log",json_encode($result));
+	return true;
 }
 
 function twitterImageIfttt($imageFile) {
