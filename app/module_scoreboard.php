@@ -63,6 +63,15 @@ function disp_scoreboard($thisurl) {
 	?>
 	<div id="scoreboard">
 	<h3>Scores</h3>
+	<form action="<?=$thisurl?>" name="scoreboard_onoff" method="POST">
+	<?php
+	if($prefs->get("scoreboard_on",false)) {
+		?><button class="btn_switch btn_switch_on" name="scoreboard_switch" value="0" title="Activé, cliquer pour désactiver l'affichage des scores">ON</button><?
+	} else {
+		?><button class="btn_switch btn_switch_off" name="scoreboard_switch" value="1" title="Désactivé, cliquer pour activer l'affichage des scores">OFF</button><?
+	}
+	?>
+	</form>
 	<div class="scoreboard_list">
 	<?
 	$i = 0;
@@ -89,15 +98,6 @@ function disp_scoreboard($thisurl) {
 	</div>
 	<form action="<?=$thisurl?>" name="scorecard" method="POST">
 	Ajouter&nbsp;: <input class="new_scorecard" name="new_scorecard" value="" title="Entrer un nouveau nom et valider avec entrée"/>
-	</form>
-	<form action="<?=$thisurl?>" name="scorecard" method="POST">
-	<?php
-	if($prefs->get("scoreboard_on",false)) {
-		?><button class="scoreboard_switch scoreboard_switch_on" name="scoreboard_switch" value="0" title="Activé, cliquer pour désactiver l'affichage des scores">ON</button><?
-	} else {
-		?><button class="scoreboard_switch scoreboard_switch_off" name="scoreboard_switch" value="1" title="Désactivé, cliquer pour activer l'affichage des scores">OFF</button><?
-	}
-	?>
 	</form>
 	</div>
 	<?

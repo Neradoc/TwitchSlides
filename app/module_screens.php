@@ -76,6 +76,16 @@ if(isset($_POST["effacer_screen"])) {
 	exit_redirect();
 }
 
+if(isset($_POST['screen_switch'])) {
+	$screen = intval($_POST["screen_num"]);
+	$value = intval($_POST['screen_switch']);
+	if(isset($prefs->screens[$screen])) {
+		$prefs->screens[$screen]['on'] = $value?true:false;
+		$prefs->save();
+	}
+	exit_redirect();
+}
+
 function disp_screens($thisurl) {
 	global $Nscreens,$prefs,$url_miniature_stream;
 	?>
@@ -84,6 +94,7 @@ function disp_screens($thisurl) {
 	for($index=1; $index<=$Nscreens; $index++) {
 		$imageurl = $prefs->screenFile($index);
 		$imgPos = $prefs->screenPos($index);
+		$isOn = $prefs->screenOn($index);
 		$base_lien = dirname($thisurl);
 		$lien = $base_lien ."/slide.php?screen=".$index;
 		if($imageurl != "" && file_exists(SCREENS_DIR.$imageurl)) {
@@ -99,12 +110,19 @@ function disp_screens($thisurl) {
 		<div class='screen screen<?=$index?>'>
 			<form action="<?=$thisurl?>" name="screens" method="POST">
 			<h3><a href="<?=$lien?>" target="_BLANK">Écran <?=$index?></a><!-- <input type="text" class="lien" name="lien" value="<?=$lien?>" readonly/> --></h3>
+			<?php
+			if($isOn) {
+				?><button class="btn_switch btn_switch_on" name="screen_switch" value="0" title="Activé, cliquer pour désactiver l'affichage des scores">ON</button><?
+			} else {
+				?><button class="btn_switch btn_switch_off" name="screen_switch" value="1" title="Désactivé, cliquer pour activer l'affichage des scores">OFF</button><?
+			}
+			?>
 			<div class="pimage">
 				<?php if($url_miniature_stream): ?>
 				<img class="back_screen" src="<?=$url_miniature_stream?>" />
 				<?php endif; ?>
 				<img class="image" data-width="<?=$w?>" data-height="<?=$h?>" data-top="<?=$imgPos[1]?>" data-left="<?=$imgPos[0]?>" data-zoom="<?=$imgPos[2]?>" src="<?=$imageurl?>"/>
-				<input type="hidden" name="image_num" value="<?=$index?>"/>
+				<input type="hidden" name="screen_num" value="<?=$index?>"/>
 				<input type="hidden" name="image_top" value="0"/>
 				<input type="hidden" name="image_left" value="0"/>
 				<input class="zoom" type="hidden" name="image_zoom" value="0"/>

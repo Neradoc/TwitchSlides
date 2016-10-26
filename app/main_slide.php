@@ -3,60 +3,50 @@ include("head.php");
 include("prefs.php");
 
 $screen = 1;
-$align = "";
-if(isset($_REQUEST['screen'])) {
-	$screen = intval($_REQUEST['screen']);
-}
-if(isset($_REQUEST['align'])) {
-	switch($_REQUEST['align']) {
-	case "left":
-		$align = "left";
-		break;
-	case "right":
-		$align = "right";
-		break;
-	case "center":
-		$align = "center";
-		break;
-	}
-}
 if(isset($_REQUEST['get'])) {
 	$prefs = new PrefsManager();
-	$screen = false;
+	$data = array("screens" => array());
+	// screens
+	$screens = [];
 	if(isset($_REQUEST['screen'])) {
-		$screen = @intval($_REQUEST['screen']);
+		$screens = array_filter( array_map( function($x) { return intval($x); }, preg_split('/,/', $_REQUEST['screen'], -1, PREG_SPLIT_NO_EMPTY)));
 	}
-	if($screen !== false) {
+	foreach($screens as $screen) {
 		$file = $prefs->screenFile($screen);
 		$pos = $prefs->screenPos($screen);
-		$scores = $prefs->sortedScores();
-		$scoreboard_on = $prefs->get("scoreboard_on",false);
-		$reload = $prefs->get("reload_slide",false);
-		if($reload) {
-			$prefs->set("reload_slide",false);
-			$prefs->save();
-		}
-		$liste_scores = "";
-		foreach($scores as $score) {
-			$liste_scores .= "<span>".ucfirst($score['nom'])
-				." : ".$score['score']."</span>";
-		}
+		$on = $prefs->screenOn($screen);
 		if($file && file_exists(SCREENS_DIR.$file)) {
 			$sizes = getimagesize(SCREENS_DIR.$file);
 			$width  = $sizes[0];
 			$height = $sizes[1];
-			print(json_encode(array(
+			$data['screens'][] = array(
+				'num' => $screen,
 				'image' => SCREENS_URL.$file,
 				'pos' => $pos,
 				'size' => array($width,$height),
-				'liste_scores' => $liste_scores,
-				'reload' => $reload,
-				'scoreboard_on' => $scoreboard_on,
-			)));
-			exit();
+				'on' => $on?true:false,
+			);
 		}
 	}
-	print(json_encode(false));
+	// scores
+	$scores = $prefs->sortedScores();
+	$scoreboard_on = $prefs->get("scoreboard_on",false);
+	$data['scoreboard_on'] = $scoreboard_on;
+	//
+	$liste_scores = "";
+	foreach($scores as $score) {
+		$liste_scores .= "<span>".ucfirst($score['nom'])
+			." : ".$score['score']."</span>";
+	}
+	$data['liste_scores'] = $liste_scores;
+	// reload
+	$reload = $prefs->get("reload_slide",false);
+	$data['reload'] = $reload;
+	if($reload) {
+		$prefs->set("reload_slide",false);
+		$prefs->save();
+	}
+	print(json_encode($data));
 	exit();
 }
 ?>
@@ -93,7 +83,7 @@ if(isset($_REQUEST['get'])) {
 		margin-right: 100px;
 		border-radius: 24px;
 		color: white;
-		background: rgba(0,0,0,0.8);
+		background: rgba(0,0,0,1);
 	}
 	#scores span:first-child img {
 		position: absolute;
@@ -111,49 +101,21 @@ if(isset($_REQUEST['get'])) {
 				type:'POST',
 				data: {
 					get:1,
-					screen: "<?=$screen?>",
+					screen: "<?=$_GET['screen']?>",
 				},
 				dataType: "json",
+				error: function(a,b,c) {
+					console.log("ERROR");
+					console.log(a,b,c);
+				},
 				success: function(data,status){
 					if(data == false) {
-						$("#image").hide();
+						$(".image").hide();
 						return;
 					} 
 					if(data['reload']) {
 						location.reload();
 					}
-					//
-					if(data['image'] != current_image) {
-						current_image = data['image'];
-						$("#image").attr("src",current_image);
-					}
-					//
-					var width = $(window).width();
-					var height= $(window).height();
-					$("#screen").css({
-						width: Math.floor(width)+"px",
-						height: Math.floor(height)+"px",
-					});
-					//
-					var left = Math.floor(data['pos'][0]/1920*width);
-					var top = Math.floor(data['pos'][1]/1080*height);
-					$("#image").css({
-						left: left+"px",
-						top: top+"px",
-					});
-					//
-					var iw = data['size'][0];
-					var ih = data['size'][1];
-					var zoom = data['pos'][2];
-					if(!(zoom>0)) { zoom = 1; }
-					$("#image").css({
-						width: Math.floor(iw*zoom)+"px",
-						height: Math.floor(ih*zoom)+"px",
-						maxWidth: "auto",
-						maxHeight: "auto",
-					});
-					//
-					$("#image").show();
 					//
 					if(data['scoreboard_on']) {
 						$("#scores").show();
@@ -164,6 +126,47 @@ if(isset($_REQUEST['get'])) {
 						}
 					} else {
 						$("#scores").hide();
+					}
+					//
+					for(var num in data['screens']) {
+						var screen = data['screens'][num];
+						var image = $(".image"+screen['num']);
+						if(screen['image'] != current_image) {
+							current_image = screen['image'];
+							image.attr("src",current_image);
+						}
+						//
+						if(screen['on'] == false) {
+							image.hide();
+							continue;
+						}
+						//
+						var width = $(window).width();
+						var height= $(window).height();
+						$("#screen").css({
+							width: Math.floor(width)+"px",
+							height: Math.floor(height)+"px",
+						});
+						//
+						var left = Math.floor(screen['pos'][0]/1920*width);
+						var top = Math.floor(screen['pos'][1]/1080*height);
+						image.css({
+							left: left+"px",
+							top: top+"px",
+						});
+						//
+						var iw = screen['size'][0];
+						var ih = screen['size'][1];
+						var zoom = screen['pos'][2];
+						if(!(zoom>0)) { zoom = 1; }
+						image.css({
+							width: Math.floor(iw*zoom)+"px",
+							height: Math.floor(ih*zoom)+"px",
+							maxWidth: "auto",
+							maxHeight: "auto",
+						});
+						//
+						image.show();
 					}
 				},
 			});
@@ -191,7 +194,10 @@ if(isset($_REQUEST['get'])) {
 </head>
 <body>
 <div id="screen">
-	<img id="image" src="cjs/vide.png" />
+	<?php for($i=0; $i<$Nscreens; $i++) {
+		print('<img class="image image'.($i+1).'" src="cjs/vide.png" />');
+	}
+	?>
 	<div id="scores">Les scores ne sont pas encore chargés</div>
 </div>
 </body>

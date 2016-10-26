@@ -216,6 +216,27 @@ h3 {
 	color:white!important;
 }
 
+.btn_switch {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	padding:0px;
+	margin:0px;
+	border-radius: 10px;
+	width: 5em;
+	padding: 2px 4px;
+}
+.btn_switch_on {
+	color:white;
+	background: #080;
+	text-align: left;
+}
+.btn_switch_off {
+	color:white;
+	background: #800;
+	text-align: right;
+}
+
 form {
 	display: inline;
 	padding: 0px;
@@ -229,25 +250,6 @@ form {
 #scoreboard .new_scorecard {
 	width: 230px;
 }
-#scoreboard .scoreboard_switch {
-	padding:0px;
-	margin:0px;
-	border-radius: 10px;
-	width: 5em;
-	padding: 2px 4px;
-	margin: 2px;
-}
-#scoreboard .scoreboard_switch_on {
-	color:white;
-	background: #080;
-	text-align: left;
-}
-#scoreboard .scoreboard_switch_off {
-	color:white;
-	background: #800;
-	text-align: right;
-}
-
 #scoreboard .scoreboard_list {
 	overflow-x: auto;
 	overflow-y: scroll;
