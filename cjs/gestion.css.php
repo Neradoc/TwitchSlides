@@ -183,12 +183,12 @@ h3 {
 	width: 280px;
 }
 .strawpoll_lien {
-	width: 300px;
+	width: <?=$screen_width - 8?>px;
 }
 .strawpoll_frame {
 	position: absolute;
-	width:<?=$screen_width*2?>px;
-	height:<?=$screen_height*1.8?>px;
+	width:<?=$screen_width * 2?>px;
+	height:<?=$screen_height * 1.8?>px;
 	border:0;
 	transform: scale(0.5,0.5);
 	transform-origin: top left;
