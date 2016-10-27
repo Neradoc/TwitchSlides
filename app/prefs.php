@@ -5,7 +5,7 @@ class PrefsManager {
 	public $tweets = array();
 	public $screens = array();
 	public $scores = array();
-	function __construct($file = "prefs.json") {
+	function __construct($file = "data/prefs.json") {
 		if(!file_exists($file)) {
 			$this->prefs = array();
 		} else {

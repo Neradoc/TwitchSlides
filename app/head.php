@@ -13,8 +13,11 @@ define("SOURCES_URL","sources/");
 $url_miniature_stream = "";
 $Nscreens = 1;
 
-if(file_exists("config.php")) {
-	include("config.php");
+if(file_exists("data/config.ini")) {
+	extract(parse_ini_file("data/config.ini"));
+}
+if(file_exists("data/config.php")) {
+	include("data/config.php");
 }
 
 define("IMAGE_FORMAT","screen_%s.%s");
