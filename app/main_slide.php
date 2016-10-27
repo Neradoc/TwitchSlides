@@ -139,9 +139,7 @@ if(isset($_REQUEST['get'])) {
 						$("#scores").hide();
 					}
 					//
-					if(data['screens'].length == 0) {
-						$(".image").hide();
-					}
+					$(".image").hide();
 					for(var num in data['screens']) {
 						var screen = data['screens'][num];
 						var image = $(".image"+screen['num']);
