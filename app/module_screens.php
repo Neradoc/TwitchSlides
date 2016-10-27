@@ -96,7 +96,7 @@ function disp_screens($thisurl) {
 		$imgPos = $prefs->screenPos($index);
 		$isOn = $prefs->screenOn($index);
 		$base_lien = dirname($thisurl);
-		$lien = $base_lien ."/slide.php?screen=".$index;
+		$lien = $base_lien ."/slide";
 		if($imageurl != "" && file_exists(SCREENS_DIR.$imageurl)) {
 			$sizes = getimagesize(SCREENS_DIR.$imageurl);
 			$imageurl = SCREENS_URL.$imageurl;
@@ -109,7 +109,7 @@ function disp_screens($thisurl) {
 		?>
 		<div class='screen screen<?=$index?>'>
 			<form action="<?=$thisurl?>" name="screens" method="POST">
-			<h3><a href="<?=$lien?>" target="_BLANK">Écran <?=$index?></a><!-- <input type="text" class="lien" name="lien" value="<?=$lien?>" readonly/> --></h3>
+			<h3><a href="<?=$lien?>" target="_BLANK">Écran <?=$index?></a></h3>
 			<?php
 			if($isOn) {
 				?><button class="btn_switch btn_switch_on" name="screen_switch" value="0" title="Activé, cliquer pour désactiver l'affichage des scores">ON</button><?
