@@ -24,7 +24,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 <html lang="fr">
 <head>
 	<meta charset="utf-8" />
-	<link rel="shortcut icon" href="cjs/favicon.png" />
+	<link rel="shortcut icon" href="favicon.png" />
 	<meta name="viewport" content="width=412">
 	<title>Les écrans de realmyop</title>
 	<link rel='stylesheet' href='cjs/gestion.css.php' type='text/css' />
