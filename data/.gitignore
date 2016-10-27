@@ -1,2 +1,5 @@
-*.jpg
-*.png
+config.php
+config.ini
+prefs.txt
+prefs.json
+htpasswd
