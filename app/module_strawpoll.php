@@ -3,6 +3,7 @@ include_once("head.php");
 
 $poll_page = $prefs->get("strawpoll","");
 $poll_embed = $prefs->poll_embed();
+$poll_on = $prefs->get("strawpoll_on",true);
 
 if(isset($_POST["effacer_poll"])) {
 	$prefs->set("strawpoll","");
@@ -17,12 +18,27 @@ if(isset($_POST["strawpoll_lien"])) {
 	exit_redirect();
 }
 
+if(isset($_POST['strawpoll_switch'])) {
+	$prefs->set("strawpoll_on",$_POST['strawpoll_switch']?true:false);
+	$prefs->save();
+	exit_redirect();
+}
+
 function disp_strawpoll($thisurl) {
-	global $poll_page,$poll_embed;
+	global $poll_page,$poll_embed,$poll_on;
 	?>
 	<div id="strawpoll">
-	<form action="<?=$thisurl?>" name="strawpoll" method="POST" enctype="multipart/form-data">
-		<h3><a href="<?=dirname($thisurl)?>/strawpoll.php" target="_BLANK">Strawpoll</a></h3>
+		<h3><a href="<?=dirname($thisurl)?>/strawpoll" target="_BLANK">Strawpoll</a></h3>
+		<form action="<?=$thisurl?>" name="strawpoll_onoff" method="POST">
+		<?php
+		if($poll_on) {
+			?><button class="btn_switch btn_switch_on" name="strawpoll_switch" value="0" title="Activé, cliquer pour désactiver l'affichage des scores">ON</button><?
+		} else {
+			?><button class="btn_switch btn_switch_off" name="strawpoll_switch" value="1" title="Désactivé, cliquer pour activer l'affichage des scores">OFF</button><?
+		}
+		?>
+		</form>
+		<form action="<?=$thisurl?>" name="strawpoll" method="POST" enctype="multipart/form-data">
 		<!-- <div>
 		<button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/10987342")'>Test 1</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/3888622")'>Test 2</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/4796816")'>Test 3</button>
 		</div> -->
@@ -31,7 +47,7 @@ function disp_strawpoll($thisurl) {
 		<div class="btns">
 			<button class="effacer" name="effacer_poll" value="">Effacer</button>
 		</div>
-	</form>
+		</form>
 	</div>
 	<?
 }

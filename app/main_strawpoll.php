@@ -1,6 +1,7 @@
 <?php
 include("prefs.php");
 $prefs = new PrefsManager();
+$poll_on = $prefs->get("strawpoll_on",true);
 $poll_page = $prefs->get("strawpoll","");
 $poll_embed = $prefs->poll_embed();
 // http://www.strawpoll.me/10987342
@@ -8,7 +9,8 @@ $poll_embed = $prefs->poll_embed();
 if(isset($_POST['strawpoll'])) {
 	print(json_encode(array(
 		'page' => $poll_page,
-		'embed' => $poll_embed
+		'embed' => $poll_embed,
+		'on' => $poll_on,
 	)));
 	exit();
 }
@@ -30,7 +32,7 @@ if(isset($_POST['strawpoll'])) {
 		var current_poll = "<?=$poll_page?>";
 		function update_poll() {
 			$.ajax({
-				url:'strawpoll.php',
+				url:'strawpoll',
 				type:'POST',
 				data: { strawpoll: 1 },
 				dataType: "json",
@@ -49,7 +51,11 @@ if(isset($_POST['strawpoll'])) {
 								height: Math.floor(height)+"px",
 							});
 						}
-						$("#poll_frame").show();
+						if(data.on) {
+							$("#poll_frame").show();
+						} else {
+							$("#poll_frame").hide();
+						}
 					}
 				}
 			});
