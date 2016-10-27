@@ -12,6 +12,7 @@ define("SOURCES_URL","sources/");
 // changer ces paramètres dans config_user.php
 $url_miniature_stream = "";
 $Nscreens = 1;
+$debug = false;
 
 if(file_exists("data/config.ini")) {
 	extract(parse_ini_file("data/config.ini"));
@@ -20,6 +21,9 @@ if(file_exists("data/config.php")) {
 	include("data/config.php");
 }
 
+if(!defined("DEBUG")) {
+	define("DEBUG",$debug);
+}
 define("IMAGE_FORMAT","screen_%s.%s");
 define("SOURCES_GLOB",SOURCES_DIR."image_*");
 
@@ -45,9 +49,6 @@ function thisurl($params = []) {
 }
 $thisurl = thisurl();
 
-if(!defined("DEBUG")) {
-	define("DEBUG",false);
-}
 function exit_redirect($debug = DEBUG) {
 	global $thisurl;
 	if($debug) {
