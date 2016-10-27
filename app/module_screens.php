@@ -10,8 +10,8 @@ function effacer_screen($screen) {
 			'zoom' => 0,
 		);
 		$prefs->save();
-		if(file_exists($file)) {
-			unlink($file);
+		if(file_exists(SCREENS_DIR.$file)) {
+			unlink(SCREENS_DIR.$file);
 		}
 	}
 }
