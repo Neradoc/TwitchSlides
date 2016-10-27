@@ -36,11 +36,14 @@ if(isset($_REQUEST['get'])) {
 	$scores = $prefs->sortedScores();
 	$scoreboard_on = $prefs->get("scoreboard_on",false);
 	$data['scoreboard_on'] = $scoreboard_on;
-	//
+	$nscore = 0;
 	$liste_scores = "";
 	foreach($scores as $score) {
-		$liste_scores .= "<span>".ucfirst($score['nom'])
-			." : ".$score['score']."</span>";
+		$liste_scores .= "<span>".ucfirst($score['nom'])." : ".$score['score'];
+		if($nscore == 0) { $liste_scores .= '<img class="crown" src="cjs/crown.png"/>'; }
+		#if($nscore == 1) { $liste_scores .= '<img class="crown" src="cjs/tiare.png"/>'; }
+		$liste_scores .= "</span>";
+		$nscore += 1;
 	}
 	$data['liste_scores'] = $liste_scores;
 	// reload
@@ -99,6 +102,7 @@ if(isset($_REQUEST['get'])) {
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
 		var current_image = "";
+		var liste_scores = "";
 		function update_image() {
 			$.ajax({
 				url:'slide.php',
@@ -130,11 +134,9 @@ if(isset($_REQUEST['get'])) {
 					//
 					if(data['scoreboard_on']) {
 						$("#scores").show();
-						var liste_scores = data['liste_scores'];
-						if(liste_scores != $("#scores").html()) {
+						if(liste_scores != data['liste_scores']) {
+							liste_scores = data['liste_scores'];
 							$("#scores").html(liste_scores);
-							$("#scores span:nth-child(1)").prepend('<img class="crown" src="cjs/crown.png"/>');
-							//$("#scores span:nth-child(2)").prepend('<img class="crown" src="cjs/tiare.png"/>');
 							if(height != 1080) {
 								$("#scores span").css({
 									fontSize: Math.max(8,Math.floor(24*height/1080))+"px",
