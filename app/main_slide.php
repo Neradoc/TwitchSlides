@@ -83,13 +83,13 @@ if(isset($_REQUEST['get'])) {
 	#scores span {
 		position: relative;
 		display: inline-block;
-		padding: 8px 16px 12px;
+		padding: 16px;
 		margin-right: 100px;
 		border-radius: 24px;
 		color: white;
 		background: rgba(0,0,0,1);
 	}
-	#scores span:first-child img {
+	#scores span .crown {
 		position: absolute;
 		height: 40px;
 		left: 20px;
@@ -133,7 +133,20 @@ if(isset($_REQUEST['get'])) {
 						var liste_scores = data['liste_scores'];
 						if(liste_scores != $("#scores").html()) {
 							$("#scores").html(liste_scores);
-							$("#scores span:first-child").prepend('<img src="cjs/crown.png"/>');
+							$("#scores span:nth-child(1)").prepend('<img class="crown" src="cjs/crown.png"/>');
+							//$("#scores span:nth-child(2)").prepend('<img class="crown" src="cjs/tiare.png"/>');
+							if(height != 1080) {
+								$("#scores span").css({
+									fontSize: Math.max(8,Math.floor(24*height/1080))+"px",
+									padding: Math.max(4,Math.floor(16*height/1080))+"px",
+									marginRight: Math.max(10,Math.floor(100*height/1080))+"px",
+								});
+								$("#scores span .crown").css({
+									height: Math.max(4,Math.floor(40*height/1080))+"px",
+									left: Math.max(4,Math.floor(20*height/1080))+"px",
+									top: -1*Math.max(6,Math.floor(30*height/1080))+"px",
+								});
+							}
 						}
 					} else {
 						$("#scores").hide();
@@ -153,22 +166,17 @@ if(isset($_REQUEST['get'])) {
 							continue;
 						}
 						//
-						var left = Math.floor(screen['pos'][0]/1920*width);
-						var top = Math.floor(screen['pos'][1]/1080*height);
-						image.css({
-							left: left+"px",
-							top: top+"px",
-						});
-						//
-						var iw = screen['size'][0];
-						var ih = screen['size'][1];
+						var left = screen['pos'][0]*width/1920;
+						var top = screen['pos'][1]*height/1080;
+						var iw = screen['size'][0]*width/1920;
+						var ih = screen['size'][1]*height/1080;
 						var zoom = screen['pos'][2];
 						if(!(zoom>0)) { zoom = 1; }
 						image.css({
+							left: Math.floor(left)+"px",
+							top: Math.floor(top)+"px",
 							width: Math.floor(iw*zoom)+"px",
 							height: Math.floor(ih*zoom)+"px",
-							maxWidth: "auto",
-							maxHeight: "auto",
 						});
 						//
 						image.show();
