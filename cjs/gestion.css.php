@@ -165,22 +165,60 @@ h3 {
 }
 
 #sources .pagination_sources {
-	padding: 8px;
+	padding: 0px 8px 0px;
 	clear:both;
+	border-style: solid;
+	border-color: #88F;
+	border-width: 2px 0px 2px;
+	text-align: center;
 }
 #sources .bouton_pagination {
 	display: inline-block;
-	padding: 8px;
-	border: 2px solid #888;
-	border-radius: 8px;
+	padding: 4px 0px;
+	border-style: solid;
+	border-color: #88F;
+	border-width: 0px 2px;
+	border-radius: 16px;
+	text-decoration: none;
+	color: #44F;
+	background: white;
+	min-width: 2em;
+	min-height: 20px;
+	text-align: center;
+}
+#sources .bouton_pagination.useless {
+	color: #BBB;
+	border-color: #BBB;
+}
+#sources .bouton_pagination:hover {
+	color: white;
+	background: #88F;
+}
+#sources .pagination_star {
+	width: 16px;
+	height: 16px;
+}
+
+.source .source_star {
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+	padding: 0px;
+	margin: 0px;
+	border: none;
+	background: transparent;
 }
 
 /* boutons / inputs */
-.upload_fichier {
+#upload .upload_fichier {
 	font-size: 100%;
 }
-.upload_url {
-	width: 280px;
+#upload .upload_url {
+	width: <?=$screen_width - 120?>px;
+}
+#upload .upload_btn {
+	font-size: 100%;
+	margin-left:<?=$screen_width - 85?>px;
 }
 .strawpoll_lien {
 	width: <?=$screen_width - 8?>px;
@@ -192,10 +230,6 @@ h3 {
 	border:0;
 	transform: scale(0.5,0.5);
 	transform-origin: top left;
-}
-#upload .upload_btn {
-	font-size: 100%;
-	margin-left:310px;
 }
 .source .assign option:first-child {
 	color: #888;
