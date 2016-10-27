@@ -68,7 +68,7 @@ if(isset($_REQUEST['get'])) {
 	#screen {
 		position:relative;
 	}
-	#screen img {
+	#screen .image {
 		position:absolute;
 		bottom:0px;
 		left:0px;
