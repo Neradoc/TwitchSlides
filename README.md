@@ -26,12 +26,12 @@ N'oubliez pas qu'il est généralement possible (dans OBS par exemple) de limite
 
 ## Twitter l'image
 ### Avec IFTTT.com
-Mettre en place un recette (recipe) sur IFTTT.com qui relie la chaine Maker et envoie un tweet avec le message de votre choix, et une image définie comme {{Value1}}. Puis renseigner les variables $iftMakerKey et $iftRebusChannel dans le fichier "config.php".
+Mettre en place un recette (recipe) sur IFTTT.com qui relie la chaine Maker et envoie un tweet avec le message de votre choix, et une image définie comme {{Value1}}. Puis renseigner les variables iftMakerKey et iftRebusChannel dans le fichier "config.ini".
 ### Avec l'API twitter
-Il faut d'abord crééer une clef d'application twitter ainsi qu'un token à https://apps.twitter.com/app/new et configurer les paramètres adequat. Attention, ne pas oublier de définir $twitterUtiliserApi.
+Il faut d'abord crééer une clef d'application twitter ainsi qu'un token à https://apps.twitter.com/app/new et configurer les paramètres adequat. Attention, ne pas oublier de définir twitterUtiliserApi.
 
 ## Variables de configuration
-Variables à définir dans le fichier *"config.php"* à la racine.
+Variables à définir dans le fichier *"data/config.ini"* à la racine.
 
 * **url_miniature_stream**: url de la miniature du stream, celle affichée par twitch dans la page "Suivis".
 * **Nscreens**: nombre d'écrans configurables (chacun peut contenir une image).
