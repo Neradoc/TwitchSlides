@@ -185,15 +185,13 @@ function disp_sources($thisurl) {
 	});
 	$lesSources = $sources;
 	$numSources = count($sources);
-	$source_page = 0;
 	if($numSources > SOURCES_PARPAGE) {
 		?><div class="pagination_sources"><?
+		$source_page = 0;
 		if(isset($_REQUEST['source_page'])) {
 			$source_page = $_REQUEST['source_page'];
-		} else {
-			$source_page = 0;
 		}
-		if($source_page == "stars") {
+		if($source_page === "stars") {
 			$lesSources = array_filter($sources,function($source) {
 				global $prefs;
 				$file = basename($source['file']);
@@ -201,38 +199,35 @@ function disp_sources($thisurl) {
 			});
 			?><a class="bouton_pagination" href="<?=thisurl(['source_page'=>0])?>"><img class="pagination_star" src="cjs/nogrp.png"/></a><?
 		} else {
-			$source_page = intval($_REQUEST['source_page']);
 			if($source_page<$numSources) {
-				$lesSources = array_slice($sources,$source_page,SOURCES_PARPAGE);
+				$lesSources = array_slice($sources,$source_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
 			}
 			if($source_page==0) $class="useless"; else $class = "";
-			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['source_page'=>"stars"])?>"><img class="pagination_star" src="cjs/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>max(0,$source_page-SOURCES_PARPAGE)])?>">&lt;&mdash;</a><?
+			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['source_page'=>"stars"])?>"><img class="pagination_star" src="cjs/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>max(0,$source_page-1)])?>">&lt;&mdash;</a><?
 			$numPages = floor($numSources/SOURCES_PARPAGE);
-			$curPage = floor($source_page/SOURCES_PARPAGE);
 			$start = 0;
 			$end = $numPages;
 			if($numPages > SOURCES_VISIBLEPAGES) {
-				$start = max(0,$curPage-SOURCES_VISIBLEAVAP);
+				$start = max(0,$source_page-SOURCES_VISIBLEAVAP);
 				$start = min($numPages-SOURCES_VISIBLEPAGES,$start);
-				$end = min($numPages,$curPage+SOURCES_VISIBLEAVAP);
+				$end = min($numPages,$source_page+SOURCES_VISIBLEAVAP);
 				$end = max(SOURCES_VISIBLEPAGES,$end);
 			}
 			if($start == 1) $start = 0;
 			if($end == $numPages-1) $end = $numPages;
 			$sourcesList = range($start,$end);
 			if($start>0) {
-				?><a class="bouton_pagination useless" href="">...</a><?
+				?><a class="bouton_pagination" href="<?=thisurl(['source_page'=>0]) ?>">...</a><?
 			}
 			foreach($sourcesList as $pageN) {
-				if($curPage==$pageN) $class="useless"; else $class = "";
-				$sourceN = $pageN * SOURCES_PARPAGE;
-				?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>$sourceN])?>"><?=$pageN+1 ?></a><?
+				if($source_page==$pageN) $class="current"; else $class = "";
+				?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>$pageN])?>"><?=$pageN+1 ?></a><?
 			}
 			if($end<$numPages) {
-				?><a class="bouton_pagination useless" href="">...</a><?
+				?><a class="bouton_pagination" href="<?=thisurl(['source_page'=>$numPages]) ?>">...</a><?
 			}
-			if($curPage>=$pageN) $class="useless"; else $class = "";
-			?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>min($sourceN,$source_page+SOURCES_PARPAGE)]) ?>">&mdash;&gt;</a><?
+			if($source_page>=$pageN) $class="useless"; else $class = "";
+			?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>min($numPages,$source_page+1)]) ?>">&mdash;&gt;</a><?
 		}
 		?></div><?
 	}

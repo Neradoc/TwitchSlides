@@ -1,19 +1,35 @@
 <?php
 include_once("head.php");
 
-function is_image($file) {
+// retourne le nom du fichier dans lequel mettre une nouvelle image source
+// retourne false si le fichier n'est pas une image d'un format supporté
+function source_file($file) {
 	if(!file_exists($file)) return false;
-	$mime = mime_content_type($file);
-	if(preg_match('`image/(jpeg|png)`i',$mime)) return true;
-	return false;
+	switch(mime_content_type($file)) {
+	case "image/jpeg":
+		$ext = "jpg";
+		break;
+	case "image/png":
+		$ext = "png";
+		break;
+	case "image/gif":
+		$ext = "gif";
+		break;
+	default:
+		$ext = "";
+	}
+	if($ext) {
+		return SOURCES_DIR."image_".uniqid().".".$ext;
+	} else {
+		return false;
+	}
 }
 
 if(isset($_FILES["upload_fichier"])||isset($_POST["upload_url"])) {
 	if(isset($_FILES["upload_fichier"])) {
 		$file = $_FILES["upload_fichier"];
-		if(is_image($file['tmp_name'])) {
-			$ext = pathinfo($file['name'],PATHINFO_EXTENSION);
-			$filename = SOURCES_DIR."image_".uniqid().".".$ext;
+		$filename = source_file($file['tmp_name']);
+		if($filename) {
 			move_uploaded_file($file['tmp_name'],$filename);
 		}
 	}
@@ -22,19 +38,8 @@ if(isset($_FILES["upload_fichier"])||isset($_POST["upload_url"])) {
 		if($tmp_file) {
 			$data = file_get_contents($_POST["upload_url"]);
 			file_put_contents($tmp_file,$data);
-			switch(mime_content_type($tmp_file)) {
-			case "image/jpeg":
-				$ext = "jpg";
-				break;
-			case "image/png":
-				$ext = "png";
-				break;
-			default:
-				$ext = "";
-			}
-			if($ext) {
-				mime_content_type($tmp_file);
-				$filename = SOURCES_DIR."image_".uniqid().".".$ext;
+			$filename = source_file($tmp_file);
+			if($filename) {
 				rename($tmp_file,$filename);
 				chmod($filename,0777);
 			} else {

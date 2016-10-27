@@ -190,7 +190,12 @@ h3 {
 	color: #BBB;
 	border-color: #BBB;
 }
-#sources .bouton_pagination:hover {
+#sources .bouton_pagination.current {
+	color: white;
+	background: #BBB;
+	border-color: #BBB;
+}
+#sources a.bouton_pagination:hover {
 	color: white;
 	background: #88F;
 }

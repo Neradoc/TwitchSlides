@@ -33,11 +33,14 @@ class PrefsManager {
 		}
 	}
 	function save() {
+		$this->prefs['scores'] = $this->scores;
+		$this->prefs['screens'] = $this->screens;
 		// ne garder que les 10 derniers tweets
 		$this->prefs['tweets'] = array_slice($this->tweets,-10,10);
-		$this->prefs['screens'] = $this->screens;
-		$this->prefs['scores'] = $this->scores;
-		$this->prefs['stars'] = $this->stars;
+		// vérifier que les fichiers star existent
+		$this->prefs['stars'] = array_filter($this->stars,function($is,$star) {
+			return file_exists(SOURCES_DIR.$star) && $is;
+		},ARRAY_FILTER_USE_BOTH);
 		file_put_contents($this->file,json_encode($this->prefs));
 	}
 	function get($key,$defaut=null) {
