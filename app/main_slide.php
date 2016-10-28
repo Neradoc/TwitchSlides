@@ -88,7 +88,7 @@ if(isset($_REQUEST['get'])) {
 		display: inline-block;
 		padding: 16px;
 		margin-right: 100px;
-		border-radius: 24px;
+		border-radius: 48px;
 		color: white;
 		background: rgba(0,0,0,1);
 	}
@@ -103,6 +103,9 @@ if(isset($_REQUEST['get'])) {
 	<script type="text/javascript" language="javascript" charset="utf-8">
 		var current_image = "";
 		var liste_scores = "";
+		var ref_width = 1920;
+		var ref_height = 1080;
+		var height_0 = 0;
 		function update_image() {
 			$.ajax({
 				url:'slide.php',
@@ -137,18 +140,19 @@ if(isset($_REQUEST['get'])) {
 						if(liste_scores != data['liste_scores']) {
 							liste_scores = data['liste_scores'];
 							$("#scores").html(liste_scores);
-							if(height != 1080) {
-								$("#scores span").css({
-									fontSize: Math.max(8,Math.floor(24*height/1080))+"px",
-									padding: Math.max(4,Math.floor(16*height/1080))+"px",
-									marginRight: Math.max(10,Math.floor(100*height/1080))+"px",
-								});
-								$("#scores span .crown").css({
-									height: Math.max(4,Math.floor(40*height/1080))+"px",
-									left: Math.max(4,Math.floor(20*height/1080))+"px",
-									top: -1*Math.max(6,Math.floor(30*height/1080))+"px",
-								});
-							}
+						}
+						if(height != height_0) { // height != ref_height
+							height_0 = height;
+							$("#scores span").css({
+								fontSize: Math.max(8,Math.floor(24*height/ref_height))+"px",
+								padding: Math.max(4,Math.floor(16*height/ref_height))+"px",
+								marginRight: Math.max(10,Math.floor(100*height/ref_height))+"px",
+							});
+							$("#scores span .crown").css({
+								height: Math.max(4,Math.floor(40*height/ref_height))+"px",
+								left: Math.max(4,Math.floor(20*height/ref_height))+"px",
+								top: -1*Math.max(6,Math.floor(30*height/ref_height))+"px",
+							});
 						}
 					} else {
 						$("#scores").hide();
@@ -168,10 +172,10 @@ if(isset($_REQUEST['get'])) {
 							continue;
 						}
 						//
-						var left = screen['pos'][0]*width/1920;
-						var top = screen['pos'][1]*height/1080;
-						var iw = screen['size'][0]*width/1920;
-						var ih = screen['size'][1]*height/1080;
+						var left = screen['pos'][0]*width/ref_width;
+						var top = screen['pos'][1]*height/ref_height;
+						var iw = screen['size'][0]*width/ref_width;
+						var ih = screen['size'][1]*height/ref_height;
 						var zoom = screen['pos'][2];
 						if(!(zoom>0)) { zoom = 1; }
 						image.css({
