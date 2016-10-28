@@ -1,6 +1,6 @@
 $(function() {
 	$(".scoreboard_new_nom").keyup(function() {
-		var search = $(this).val();
+		var search = $(this).val().toLowerCase();
 		$(".scoreboard_line").each(function() {
 			var nom = $(this).find(".nom").html().toLowerCase();
 			if(nom.match(search)) {
