@@ -42,7 +42,9 @@ function disp_strawpoll($thisurl) {
 		<!-- <div>
 		<button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/10987342")'>Test 1</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/3888622")'>Test 2</button> <button onclick='$(".strawpoll_lien").val("http://www.strawpoll.me/4796816")'>Test 3</button>
 		</div> -->
-		<input type="text" name="strawpoll_lien" class="strawpoll_lien" value="<?=$poll_page?>"/><br/>
+		<input type="text" name="strawpoll_lien" class="strawpoll_lien" value="<?=$poll_page?>"/>
+		<input type="submit" name="strapoll_ok" value="ok" style="display:none;"/>
+		<br/>
 		<iframe class="strawpoll_frame" src="<?=$poll_embed?>">Loading poll...</iframe>
 		<div class="btns">
 			<button class="effacer" name="effacer_poll" value="">Effacer</button>
