@@ -20,8 +20,8 @@ function effacer_screen($screen) {
 	}
 }
 
-if(isset($_POST["effacer_source"])) {
-	$file = $_POST["effacer_source"];
+if(isset($_POST["sources_effacer"])) {
+	$file = $_POST["sources_effacer"];
 	$file = basename($file);
 	$file = SOURCES_DIR.$file;
 	if(file_exists($file)) {
@@ -30,8 +30,8 @@ if(isset($_POST["effacer_source"])) {
 	exit_redirect();
 }
 
-if(isset($_POST['source_star'])) {
-	$source = $_POST['source_star'];
+if(isset($_POST['sources_star'])) {
+	$source = $_POST['sources_star'];
 	if(isset($prefs->stars[$source])) {
 		$prefs->stars[$source] = $prefs->stars[$source] ? false : true;
 	} else {
@@ -41,8 +41,8 @@ if(isset($_POST['source_star'])) {
 	exit_redirect();
 }
 
-if(isset($_POST['assign_source'])) {
-	$screen = intval($_POST['assign_source']);
+if(isset($_POST['sources_assign'])) {
+	$screen = intval($_POST['sources_assign']);
 	if($screen>0) {
 		$source = $_POST['image_file'];
 		$source = basename($source);
@@ -187,47 +187,47 @@ function disp_sources($thisurl) {
 	$numSources = count($sources);
 	if($numSources > SOURCES_PARPAGE) {
 		?><div class="pagination_sources"><?
-		$source_page = 0;
-		if(isset($_REQUEST['source_page'])) {
-			$source_page = $_REQUEST['source_page'];
+		$sources_page = 0;
+		if(isset($_REQUEST['sources_page'])) {
+			$sources_page = $_REQUEST['sources_page'];
 		}
-		if($source_page === "stars") {
+		if($sources_page === "stars") {
 			$lesSources = array_filter($sources,function($source) {
 				global $prefs;
 				$file = basename($source['file']);
 				return isset($prefs->stars[$file]) && $prefs->stars[$file];
 			});
-			?><a class="bouton_pagination" href="<?=thisurl(['source_page'=>0])?>"><img class="pagination_star" src="cjs/nogrp.png"/></a><?
+			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>"><img class="pagination_star" src="cjs/nogrp.png"/></a><?
 		} else {
-			if($source_page<$numSources) {
-				$lesSources = array_slice($sources,$source_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
+			if($sources_page<$numSources) {
+				$lesSources = array_slice($sources,$sources_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
 			}
-			if($source_page==0) $class="useless"; else $class = "";
-			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['source_page'=>"stars"])?>"><img class="pagination_star" src="cjs/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>max(0,$source_page-1)])?>">&lt;&mdash;</a><?
+			if($sources_page==0) $class="useless"; else $class = "";
+			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>"><img class="pagination_star" src="cjs/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>max(0,$sources_page-1)])?>">&lt;&mdash;</a><?
 			$numPages = floor($numSources/SOURCES_PARPAGE);
 			$start = 0;
 			$end = $numPages;
 			if($numPages > SOURCES_VISIBLEPAGES) {
-				$start = max(0,$source_page-SOURCES_VISIBLEAVAP);
+				$start = max(0,$sources_page-SOURCES_VISIBLEAVAP);
 				$start = min($numPages-SOURCES_VISIBLEPAGES,$start);
-				$end = min($numPages,$source_page+SOURCES_VISIBLEAVAP);
+				$end = min($numPages,$sources_page+SOURCES_VISIBLEAVAP);
 				$end = max(SOURCES_VISIBLEPAGES,$end);
 			}
 			if($start == 1) $start = 0;
 			if($end == $numPages-1) $end = $numPages;
 			$sourcesList = range($start,$end);
 			if($start>0) {
-				?><a class="bouton_pagination" href="<?=thisurl(['source_page'=>0]) ?>">...</a><?
+				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0]) ?>">...</a><?
 			}
 			foreach($sourcesList as $pageN) {
-				if($source_page==$pageN) $class="current"; else $class = "";
-				?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>$pageN])?>"><?=$pageN+1 ?></a><?
+				if($sources_page==$pageN) $class="current"; else $class = "";
+				?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>$pageN])?>"><?=$pageN+1 ?></a><?
 			}
 			if($end<$numPages) {
-				?><a class="bouton_pagination" href="<?=thisurl(['source_page'=>$numPages]) ?>">...</a><?
+				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>$numPages]) ?>">...</a><?
 			}
-			if($source_page>=$pageN) $class="useless"; else $class = "";
-			?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['source_page'=>min($numPages,$source_page+1)]) ?>">&mdash;&gt;</a><?
+			if($sources_page>=$pageN) $class="useless"; else $class = "";
+			?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>min($numPages,$sources_page+1)]) ?>">&mdash;&gt;</a><?
 		}
 		?></div><?
 	}
@@ -267,8 +267,8 @@ function disp_sources($thisurl) {
 				<button class="pos_btn zoomzero">=</button>
 			</div>
 			<div class="btns">
-				<button class="effacer" name="effacer_source" value="<?=$name?>">Effacer</button>
-				<select class="assign" name="assign_source">
+				<button class="effacer" name="sources_effacer" value="<?=$name?>">Effacer</button>
+				<select class="assign" name="sources_assign">
 					<option value="0">Afficher sur le stream</option>
 					<?php
 					for($screen=1; $screen<=$Nscreens; $screen++) {
@@ -278,9 +278,9 @@ function disp_sources($thisurl) {
 				</select>
 			</div>
 			<?php if(isset($prefs->stars[$name]) && $prefs->stars[$name]): ?>
-			<button class="source_star" name="source_star" value="<?=$name?>"><img src="cjs/star.png"/></button>
+			<button class="sources_star" name="sources_star" value="<?=$name?>"><img src="cjs/star.png"/></button>
 			<?php else: ?>
-			<button class="source_star" name="source_star" value="<?=$name?>"><img src="cjs/nogrp.png"/></button>
+			<button class="sources_star" name="sources_star" value="<?=$name?>"><img src="cjs/nogrp.png"/></button>
 			<?php endif; ?>
 			</form>
 		</div><?

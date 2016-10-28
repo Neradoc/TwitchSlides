@@ -5,7 +5,7 @@ $poll_page = $prefs->get("strawpoll","");
 $poll_embed = $prefs->poll_embed();
 $poll_on = $prefs->get("strawpoll_on",true);
 
-if(isset($_POST["effacer_poll"])) {
+if(isset($_POST["strawpoll_effacer"])) {
 	$prefs->set("strawpoll","");
 	$prefs->save();
 	exit_redirect();
@@ -47,7 +47,7 @@ function disp_strawpoll($thisurl) {
 		<br/>
 		<iframe class="strawpoll_frame" src="<?=$poll_embed?>">Loading poll...</iframe>
 		<div class="btns">
-			<button class="effacer" name="effacer_poll" value="">Effacer</button>
+			<button class="effacer" name="strawpoll_effacer" value="">Effacer</button>
 		</div>
 		</form>
 	</div>

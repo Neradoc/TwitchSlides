@@ -204,7 +204,7 @@ h3 {
 	height: 16px;
 }
 
-.source .source_star {
+.source .sources_star {
 	position: absolute;
 	bottom: 8px;
 	right: 8px;
@@ -297,19 +297,28 @@ form {
 #scoreboard {
 	font-size: 90%;
 }
-#scoreboard .scorecard_new {
+#scoreboard .scoreboard_new {
+	position: absolute;
+	bottom: 8px;
+	width: <?=$screen_width?>px;
+}
+#scoreboard .scoreboard_new_nom {
 	width: 225px;
 }
-#scoreboard .scorecard_new_score {
+#scoreboard .scoreboard_new_score {
 	width: 60px;
 	text-align: right;
+}
+#scoreboard .scoreboard_new_btn {
+	position: absolute;
+	right: 0px;
 }
 #scoreboard .scoreboard_list {
 	overflow-x: auto;
 	overflow-y: auto;
 	height: 220px;
 }
-#scoreboard .scorecard_line {
+#scoreboard .scoreboard_line {
 	clear: both;
 	padding: 2px;
 }

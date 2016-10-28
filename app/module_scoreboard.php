@@ -3,8 +3,8 @@ function formate_card($post) {
 	return preg_replace('/[^-_a-zA-Z0-9 \'' .'àáâãäçèéêëìíîï' .'ñòóôõöùúûüýÿ' .'ÀÁÂÃÄÇÈÉÊËÌÍÎÏ' .'ÑÒÓÔÕÖÙÚÛÜÝ]/ui','', $post);
 }
 
-if(isset($_POST['effacer_score'])) {
-	$card = formate_card($_POST['scorecard_nom']);
+if(isset($_POST['scoreboard_effacer'])) {
+	$card = formate_card($_POST['scoreboard_nom']);
 	if($card && isset($prefs->scores[$card])) {
 		unset($prefs->scores[$card]);
 		$prefs->save();
@@ -18,11 +18,11 @@ if(isset($_POST['scoreboard_switch'])) {
 	exit_redirect();
 }
 
-if(isset($_POST["updown_score"])) {
-	$value = intval($_POST["changer_score"]);
-	$delta = intval($_POST["updown_score"]) * intval($_POST["modif_score"]);
+if(isset($_POST["scoreboard_updown"])) {
+	$value = intval($_POST["scoreboard_changer"]);
+	$delta = intval($_POST["scoreboard_updown"]) * intval($_POST["scoreboard_modif"]);
 	if($delta != 0) {
-		$card = formate_card($_POST['scorecard_nom']);
+		$card = formate_card($_POST['scoreboard_nom']);
 		if($card && isset($prefs->scores[$card])) {
 			$prefs->scores[$card]['score'] = $value+$delta;
 			$prefs->scores[$card]['stamp'] = time();
@@ -32,9 +32,9 @@ if(isset($_POST["updown_score"])) {
 	exit_redirect();
 }
 
-if(isset($_POST["modif_score"]) && $_POST["modif_score"]!="") {
-	$card = formate_card($_POST['scorecard_nom']);
-	$value = intval($_POST["changer_score"]);
+if(isset($_POST["scoreboard_modif"]) && $_POST["scoreboard_modif"]!="") {
+	$card = formate_card($_POST['scoreboard_nom']);
+	$value = intval($_POST["scoreboard_changer"]);
 	if($card && isset($prefs->scores[$card])) {
 		$prefs->scores[$card]['score'] = $value;
 		$prefs->scores[$card]['stamp'] = time();
@@ -43,13 +43,13 @@ if(isset($_POST["modif_score"]) && $_POST["modif_score"]!="") {
 	exit_redirect();
 }
 
-if(isset($_POST['scorecard_new']) && $_POST['scorecard_new']!="") {
-	$card = formate_card($_POST['scorecard_new']);
-	if($_POST["scorecard_new_score"] == "") $value = 1;
-	else $value = intval($_POST["scorecard_new_score"]);
-	if($card && !isset($prefs->scores[$card])) {
-		$prefs->scores[$card] = array(
-			'nom' => $card,
+if(isset($_POST['scoreboard_new_nom']) && $_POST['scoreboard_new_nom']!="") {
+	$nom = formate_card($_POST['scoreboard_new_nom']);
+	if($_POST["scoreboard_new_score"] == "") $value = 1;
+	else $value = intval($_POST["scoreboard_new_score"]);
+	if($nom && !isset($prefs->scores[$nom])) {
+		$prefs->scores[$nom] = array(
+			'nom' => $nom,
 			'score' => $value,
 			't0' => time(),
 			'stamp' => time(), // dernier gain
@@ -81,25 +81,27 @@ function disp_scoreboard($thisurl) {
 		$i += 1;
 		if($i%2) { $parite = "pair"; } else { $parite = "impair"; }
 		?>
-		<div class="scorecard_line <?=$parite?>">
+		<div class="scoreboard_line <?=$parite?>">
 		<form action="<?=$thisurl?>" name="scorecard" method="POST" autocomplete="off">
-			<input type="submit" style="display:none" name="scorecard_ok" value="ok"/>
-			<input type="hidden" name="scorecard_nom" value="<?=$card['nom']?>"/>
-			<button class="rond down_score" name="updown_score" value="-1" title="Réduire le score du nombre indiqué"><img src="cjs/bouton_moins.png"/></button>
-			<input class="modif_score" type="text" name="modif_score" value="1" title="Valeur pour modifier le score"/>
-			<button class="rond up_score" name="updown_score" value="1" title="Augmenter le score du nombre indiqué"><img src="cjs/bouton_plus.png"/></button>
-			<input class="score" type="text" name="changer_score" value="<?=$card['score']?>" title="Valeur de score, appuyer sur entrée pour modifier"/>
-			<!-- <button class="rond valider_score" name="valider_score" value=""><img src="cjs/bouton_check.png"/></button> -->
+			<input type="submit" style="display:none" name="scoreboard_ok" value="ok"/>
+			<input type="hidden" name="scoreboard_nom" value="<?=$card['nom']?>"/>
+			<button class="rond down_score" name="scoreboard_updown" value="-1" title="Réduire le score du nombre indiqué"><img src="cjs/bouton_moins.png"/></button>
+			<input class="modif_score" type="text" name="scoreboard_modif" value="1" title="Valeur pour modifier le score"/>
+			<button class="rond up_score" name="scoreboard_updown" value="1" title="Augmenter le score du nombre indiqué"><img src="cjs/bouton_plus.png"/></button>
+			<input class="score" type="text" name="scoreboard_changer" value="<?=$card['score']?>" title="Valeur de score, appuyer sur entrée pour modifier"/>
+			<!-- <button class="rond valider_score" name="scoreboard_valider" value=""><img src="cjs/bouton_check.png"/></button> -->
 			<span class="nom"><?=$card['nom']?></span>
-			<button class="rond effacer_score" name="effacer_score" value="<?=$card['nom']?>"><img src="cjs/bouton_croix.png" title="Retirer le score"/></button>
+			<button class="rond effacer_score" name="scoreboard_effacer" value="<?=$card['nom']?>"><img src="cjs/bouton_croix.png" title="Retirer le score"/></button>
 		</form>
 		</div>
 		<?
 	}
 	?>
 	</div>
-	<form action="<?=$thisurl?>" name="scorecard" method="POST">
-	Ajouter&nbsp;<input class="scorecard_new_score" name="scorecard_new_score" value="" title="Nouvelle valeur de points" placeholder="Score (1)"/><input class="scorecard_new" name="scorecard_new" value="" title="Entrer un nouveau nom et valider avec entrée" placeholder="Nom du nouveau"/><button class="rond" name="scorecard_new_btn" value="ok"><img src="cjs/bouton_check.png"/></button>
+	<form action="<?=$thisurl?>" name="scoreboard" method="POST">
+	<div class="scoreboard_new">
+		Ajouter&nbsp;<input class="scoreboard_new_score" name="scoreboard_new_score" value="" title="Nouvelle valeur de points" placeholder="Score (1)"/><input class="scoreboard_new_nom" name="scoreboard_new_nom" value="" title="Entrer un nouveau nom et valider avec entrée" placeholder="Nom du nouveau"/><button class="rond scoreboard_new_btn" name="scoreboard_new_btn" value="ok"><img src="cjs/bouton_check.png"/></button>
+	</div>
 	</form>
 	</div>
 	<?
