@@ -93,10 +93,8 @@ class PrefsManager {
 	}
 	function screenOn($screenNum) {
 		if(isset($this->screens[$screenNum]['file'])) {
-			if($this->screens[$screenNum]['file'] != "") {
-				if(isset($this->screens[$screenNum]['on'])) {
-					return $this->screens[$screenNum]['on'];
-				}
+			if(isset($this->screens[$screenNum]['on'])) {
+				return $this->screens[$screenNum]['on'];
 			}
 		}
 		return true;
