@@ -55,9 +55,9 @@ function disp_upload($thisurl) {
 	?>
 	<div id="upload">
 	<form action="<?=$thisurl?>" name="upload" method="POST" enctype="multipart/form-data">
-		<b>Ajouter une image</b><br/>
+		<b>Ajouter une image</b> <i>(jpg,png,gif)</i><br/>
 		Locale&nbsp;: <input type="file" name="upload_fichier" class="upload_fichier"><br/>
-		Par une URL&nbsp;: <input type="text" name="upload_url" class="upload_url"><br/>
+		Par une URL&nbsp;: <input type="text" name="upload_url" class="upload_url" placeholder="Lien direct d'une image"><br/>
 		<button class="upload_btn">Envoyer</button>
 	</form>
 	</div>
