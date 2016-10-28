@@ -28,8 +28,11 @@ if(!empty($_POST) || !empty($_FILES)) {
 	<meta name="viewport" content="width=420">
 	<title>Les écrans de realmyop</title>
 	<link rel='stylesheet' href='cjs/gestion.css.php' type='text/css' />
+	<link rel='stylesheet' href='cjs/module_twitter.css' type='text/css' />
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
+	<script type="text/javascript" src="cjs/jquery.elastic.js"></script>
 	<script type="text/javascript" src="cjs/module_screens.js"></script>
+	<script type="text/javascript" src="cjs/module_twitter.js"></script>
 	<script type="text/javascript" src="cjs/module_scoreboard.js"></script>
 </head>
 <body>
@@ -67,6 +70,11 @@ if(!empty($_POST) || !empty($_FILES)) {
 	bouton pour effacer toutes les images (pas celles en cours) à la fin du stream
 -->
 <?php disp_sources($thisurl); ?>
+<!--
+	fenêtre twitter pour la validation
+-->
 </div>
+<div id="black_block" style="display:none;"></div>
+<?php disp_twitter($thisurl); ?>
 </body>
 </html>

@@ -10,6 +10,16 @@ $scale = 0.20;
 
 body { padding: 0px; margin:0px; }
 p { padding: 2px; margin:0px; }
+#black_block {
+	background-image: url("damier-dark.png");
+	position: absolute;
+	left: 4px;
+	right: 4px;
+	top: 4px;
+	bottom: 4px;
+	opacity: 0.8;
+}
+
 .screen,
 .source,
 #strawpoll,

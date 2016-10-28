@@ -61,3 +61,7 @@ function exit_redirect($debug = DEBUG) {
 	}
 	exit();
 }
+
+function intag($texte) {
+	return htmlspecialchars(strip_tags($texte),ENT_QUOTES);
+}

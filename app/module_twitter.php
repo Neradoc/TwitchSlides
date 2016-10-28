@@ -25,7 +25,7 @@ function twitterImageIfttt($imageFile) {
 	global $iftMakerKey,$iftRebusChannel;
 	$iftUrl = "https://maker.ifttt.com/trigger/$iftRebusChannel/with/key/$iftMakerKey";
 
-	$urlImage = dirname($thisurl).SCREENS_URL.$file;
+	$urlImage = dirname(thisurl()).SCREENS_URL.$imageFile;
 	$data = array("value1" => $urlImage, "value2" => "");
 	$data_string = json_encode($data);                                                                                   
 	
@@ -55,6 +55,7 @@ function twitterImage($imageFile) {
 
 if(isset($_POST["twitter_screen"])) {
 	$screen = intval($_POST["twitter_screen"]);
+	$message = $_POST["twitter_message"];
 	$imageFile = $prefs->screenFile($screen);
 	if($imageFile && file_exists(SCREENS_DIR.$imageFile)) {
 		if(!in_array($imageFile,$prefs->tweets)) {
@@ -66,4 +67,36 @@ if(isset($_POST["twitter_screen"])) {
 		}
 	}
 	exit_redirect();
+}
+
+function disp_twitter($thisurl) {
+	global $messages_twitter;
+	/*
+	afficher la fenêtre de choix du dialogue (masqué à la base)
+	quand on clique sur le bouton affiche
+		- l'image pour récapituler (avec une taille limite)
+		- le message, avec une liste de choix possibles
+		- un bouton pour valider l'envoi (fait quelles vérifications?)
+		  (compte les 140 caractères et la taille du fichier <1Mo ?)
+		- prévient si ça a déjà été envoyé ?
+	*/
+	?>
+	<div id="twitter_window">
+	<form action="<?=$thisurl?>" name="twitter_en_vrai" method="POST">
+		<input type="hidden" class="twitter_screen" name="twitter_screen" value=""/>
+		<button class="twitter_fermer"><img src="cjs/bouton_croix.png"/></button>
+		<div class="twitter_impetrant"><img src=""/></div>
+		<div class="twitter_choix_message">
+		<?php foreach($messages_twitter as $mess): ?>
+			<div class="twitter_exemple_message" data-message="<?= intag($mess)?>"><?= nl2br(strip_tags($mess)) ?></div>
+		<?php endforeach; ?>
+		</div>
+		<!-- <div>NOTE: dire si elle a déjà été twittée</div> -->
+		<div>
+			<textarea class="twitter_message" maxlength="140" name="twitter_message"></textarea><br/>
+			<span class="twitter_error"></span>
+			<button class="twitter_envoyer">Confirmer le tweet !</button>
+		</div>
+	</form>
+	</div><?
 }

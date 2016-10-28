@@ -3,3 +3,4 @@ config.ini
 prefs.txt
 prefs.json
 htpasswd
+htgroups

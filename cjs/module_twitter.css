@@ -1,0 +1,89 @@
+#black_block {
+	/* display:block!important; */
+}
+#twitter_window {
+	display: none;
+}
+#twitter_window {
+	position: absolute;
+	left:15%;
+	right: 15%;
+	max-width: 504px;
+	top: 20px;
+	background: white;
+	padding: 8px;
+	border: 2px solid #1da1f2;
+	border-radius: 16px;
+}
+.twitter_fermer {
+	position: absolute;
+	top:8px;
+	right:8px;
+	width: 17px;
+	height: 17px;
+	padding: 0px;
+	border: none;
+	border-radius: 50px;
+	background:transparent;
+	vertical-align:middle;
+	cursor: pointer;
+}
+.twitter_fermer:hover {
+	background: red;
+}
+.twitter_fermer img {
+	display: block;
+}
+
+.twitter_impetrant {
+	text-align: center;
+	border: 2px dashed #1da1f2;
+	width: 500px;
+}
+.twitter_impetrant img {
+	max-width: 496px;
+	max-height: 280px;
+}
+
+.twitter_choix_message {
+	width: 496px; /* 500 - 2*2 */
+	max-height: 400px;
+	overflow: auto;
+	border-width: 0px 2px 0px;
+	border-style: solid;
+	border-color: #1da1f2;
+	padding: 2px 2px;
+}
+.twitter_exemple_message
+{
+	border: 2px solid white;
+	padding: 4px;
+	cursor: pointer;
+	background-color: rgba(29,161,242,0.2);
+}
+.twitter_exemple_message:hover {
+	background: #1da1f2;
+	color: white;
+}
+
+.twitter_message {
+	width: 500px;
+	height: 3.2em;
+}
+.twitter_error {
+	color: red;
+}
+
+.twitter_envoyer {
+	float: right;
+	font-size: 100%;
+	border-radius: 10px;
+	padding: 2px 8px;
+	background: white;
+	border-color: green;
+	cursor: pointer;
+}
+.twitter_envoyer:hover {
+	color: white;
+	background: black;
+}
