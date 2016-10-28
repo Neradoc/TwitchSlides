@@ -83,6 +83,14 @@ h3 {
 	font-size: 300%;
 	width: 70px;
 	height: 70px;
+	text-align: center;
+	background: white;
+	border: none;
+	border-radius: 0px;
+	display: none;
+}
+.pimage:hover .pos_btn {
+	display:block;
 }
 .pos_btn.topleft {
 	top: 0px;
@@ -101,30 +109,40 @@ h3 {
 	right: 0px;
 }
 .pos_btn.centerleft {
-	/*top: 105px;*/
 	top: 505px;
 	left: 0px;
 }
 .pos_btn.centerright {
-	/*top: 105px;*/
 	top: 505px;
 	right: 0px;
 }
 .pos_btn.centertop {
 	top: 0px;
-	/*left: 190px;*/
 	left: 925px;
 }
 .pos_btn.centerbottom {
 	bottom: 0px;
-	/*left: 190px;*/
 	left: 925px;
 }
 .pos_btn.centercenter {
-	/*top: 105px;*/
 	top: 505px;
-	/*left: 190px;*/
 	left: 925px;
+}
+.pos_btn.moveleft {
+	top: 420px;
+	left: 0px;
+}
+.pos_btn.moveright {
+	top: 420px;
+	right: 0px;
+}
+.pos_btn.movetop {
+	top: 0px;
+	left: 840px;
+}
+.pos_btn.movebottom {
+	bottom: 0px;
+	left: 840px;
 }
 .pos_btn.zoomout {
 	bottom: 0px;
@@ -138,13 +156,33 @@ h3 {
 	bottom: 0px;
 	left: 1180px;
 }
-.pos_btn {
-	display: none;
+@media only screen and (max-device-width: 480px) {
+	.pos_btn {
+		width: 140px;
+		height: 140px;
+	}
+	.pos_btn.zoomout {
+		left: 1080px;
+	}
+	.pos_btn.zoomzero {
+		left: 1240px;
+	}
+	.pos_btn.zoomin {
+		left: 1400px;
+	}
+	.pos_btn.moveleft {
+		top: 350px;
+	}
+	.pos_btn.moveright {
+		top: 350px;
+	}
+	.pos_btn.movetop {
+		left: 770px;
+	}
+	.pos_btn.movebottom {
+		left: 770px;
+	}
 }
-.pimage:hover .pos_btn {
-	display:block;
-}
-
 
 /* position changée mais pas validée */
 .screen.modified {
@@ -245,8 +283,9 @@ h3 {
 }
 .btns button,
 .btns select {
-	font-size: 120%;
+	font-size: 100%;
 	border-radius: 10px;
+	padding: 2px 8px;
 	background: white;
 	border-color: #88F;
 	cursor:pointer;

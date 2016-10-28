@@ -150,6 +150,10 @@ function disp_screens($thisurl) {
 				<button class="pos_btn centertop">@</button>
 				<button class="pos_btn centerbottom">@</button>
 				<button class="pos_btn centercenter">@</button>
+				<button class="pos_btn moveleft">&lt;</button>
+				<button class="pos_btn moveright">&gt;</button>
+				<button class="pos_btn movetop">^</button>
+				<button class="pos_btn movebottom">v</button>
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>
@@ -262,6 +266,10 @@ function disp_sources($thisurl) {
 				<button class="pos_btn centertop">@</button>
 				<button class="pos_btn centerbottom">@</button>
 				<button class="pos_btn centercenter">@</button>
+				<button class="pos_btn moveleft">&lt;</button>
+				<button class="pos_btn moveright">&gt;</button>
+				<button class="pos_btn movetop">^</button>
+				<button class="pos_btn movebottom">v</button>
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>

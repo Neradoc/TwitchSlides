@@ -169,6 +169,55 @@ $(function() {
 		$(this).closest(".screen").addClass("modified");
 		return false;
 	});
+	//
+	function moveImage(img,deltaX,deltaY) {
+		var parent = img.parent();
+		var imgPos = {
+			top: img.offset().top  - parent.offset().top,
+			left:img.offset().left - parent.offset().left,
+		};
+		var newPosX = Math.round(imgPos.left*scale+deltaX*scale);
+		var newPosY = Math.round(imgPos.top *scale+deltaY*scale);
+		// empêcher de sortir à gauche
+		newPosX = Math.max(0, newPosX);
+		newPosY = Math.max(0, newPosY);
+		// empêcher de sortir à droite
+		var fmw = Math.floor(fw-img.width());
+		var fmh = Math.floor(fh-img.height());
+		newPosX = Math.min(fmw, newPosX);
+		newPosY = Math.min(fmh, newPosY);
+		img.css({
+			left: newPosX+"px",
+			top:  newPosY+"px",
+			bottom:"auto",
+			right:"auto",
+		});
+	}
+	$(".pos_btn.moveleft").click(function() {
+		var img = $(this).siblings(".image");
+		moveImage(img,-5,0);
+		$(this).closest(".screen").addClass("modified");
+		return false;
+	});
+	$(".pos_btn.moveright").click(function() {
+		var img = $(this).siblings(".image");
+		moveImage(img,5,0);
+		$(this).closest(".screen").addClass("modified");
+		return false;
+	});
+	$(".pos_btn.movetop").click(function() {
+		var img = $(this).siblings(".image");
+		moveImage(img,0,-5);
+		$(this).closest(".screen").addClass("modified");
+		return false;
+	});
+	$(".pos_btn.movebottom").click(function() {
+		var img = $(this).siblings(".image");
+		moveImage(img,0,5);
+		$(this).closest(".screen").addClass("modified");
+		return false;
+	});
+	//
 	$(".pos_btn.zoomin").click(function() {
 		var img = $(this).siblings(".image");
 		zoom = $(this).siblings(".zoom");
@@ -202,30 +251,10 @@ $(function() {
 	// déplacement manuel des images
 	function movingImageMouseMove(evt) {
 		if(movingImage != false) {
-			var parent = movingImage.parent();
 			var curPos = [evt.pageX,evt.pageY];
-			var imgPos = {
-				top: movingImage.offset().top  - parent.offset().top,
-				left:movingImage.offset().left - parent.offset().left,
-			};
 			var deltaX = curPos[0]-movingStart[0];
 			var deltaY = curPos[1]-movingStart[1];
-			var newPosX = Math.round(imgPos.left*scale+deltaX*scale);
-			var newPosY = Math.round(imgPos.top *scale+deltaY*scale);
-			// empêcher de sortir à gauche
-			newPosX = Math.max(0, newPosX);
-			newPosY = Math.max(0, newPosY);
-			// empêcher de sortir à droite
-			var fmw = Math.floor(fw-movingImage.width());
-			var fmh = Math.floor(fh-movingImage.height());
-			newPosX = Math.min(fmw, newPosX);
-			newPosY = Math.min(fmh, newPosY);
-			movingImage.css({
-				left: newPosX+"px",
-				top:  newPosY+"px",
-				bottom:"auto",
-				right:"auto",
-			});
+			moveImage(movingImage,deltaX,deltaY);
 			movingStart = curPos;
 			return false;
 		}
