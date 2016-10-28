@@ -1,7 +1,7 @@
 $(function() {
-	$(".new_scorecard").keyup(function() {
+	$(".scoreboard_new_nom").keyup(function() {
 		var search = $(this).val();
-		$(".scorecard_line").each(function() {
+		$(".scoreboard_line").each(function() {
 			var nom = $(this).find(".nom").html().toLowerCase();
 			if(nom.match(search)) {
 				$(this).show();
@@ -9,8 +9,8 @@ $(function() {
 				$(this).hide();
 			}
 		});
-		if($(".scorecard_line:visible").size() == 0) {
-			$(".scorecard_line").show();
+		if($(".scoreboard_line:visible").size() == 0) {
+			$(".scoreboard_line").show();
 		}
 	});
 });
