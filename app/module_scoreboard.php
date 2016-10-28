@@ -43,12 +43,14 @@ if(isset($_POST["modif_score"]) && $_POST["modif_score"]!="") {
 	exit_redirect();
 }
 
-if(isset($_POST['new_scorecard']) && $_POST['new_scorecard']!="") {
-	$card = formate_card($_POST['new_scorecard']);
+if(isset($_POST['scorecard_new']) && $_POST['scorecard_new']!="") {
+	$card = formate_card($_POST['scorecard_new']);
+	if($_POST["scorecard_new_score"] == "") $value = 1;
+	else $value = intval($_POST["scorecard_new_score"]);
 	if($card && !isset($prefs->scores[$card])) {
 		$prefs->scores[$card] = array(
 			'nom' => $card,
-			'score' => 0,
+			'score' => $value,
 			't0' => time(),
 			'stamp' => time(), // dernier gain
 		);
@@ -97,7 +99,7 @@ function disp_scoreboard($thisurl) {
 	?>
 	</div>
 	<form action="<?=$thisurl?>" name="scorecard" method="POST">
-	Ajouter&nbsp;: <input class="new_scorecard" name="new_scorecard" value="" title="Entrer un nouveau nom et valider avec entrée"/>
+	Ajouter&nbsp;<input class="scorecard_new_score" name="scorecard_new_score" value="" title="Nouvelle valeur de points" placeholder="Score (1)"/><input class="scorecard_new" name="scorecard_new" value="" title="Entrer un nouveau nom et valider avec entrée" placeholder="Nom du nouveau"/><button class="rond" name="scorecard_new_btn" value="ok"><img src="cjs/bouton_check.png"/></button>
 	</form>
 	</div>
 	<?

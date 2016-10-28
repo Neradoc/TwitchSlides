@@ -226,12 +226,12 @@ h3 {
 	margin-left:<?=$screen_width - 85?>px;
 }
 .strawpoll_lien {
-	width: <?=$screen_width - 8?>px;
+	width: <?=$screen_width-12?>px;
 }
 .strawpoll_frame {
 	position: absolute;
-	width:<?=$screen_width * 2?>px;
-	height:<?=$screen_height * 1.8?>px;
+	width:<?=floor($screen_width * 1.99)?>px;
+	height:<?=floor($screen_height * 1.8)?>px;
 	border:0;
 	transform: scale(0.5,0.5);
 	transform-origin: top left;
@@ -297,12 +297,16 @@ form {
 #scoreboard {
 	font-size: 90%;
 }
-#scoreboard .new_scorecard {
-	width: 230px;
+#scoreboard .scorecard_new {
+	width: 225px;
+}
+#scoreboard .scorecard_new_score {
+	width: 60px;
+	text-align: right;
 }
 #scoreboard .scoreboard_list {
 	overflow-x: auto;
-	overflow-y: scroll;
+	overflow-y: auto;
 	height: 220px;
 }
 #scoreboard .scorecard_line {
