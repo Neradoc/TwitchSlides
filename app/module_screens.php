@@ -15,8 +15,8 @@ if(isset($_POST["sources_effacer"])) {
 
 if(isset($_POST['sources_star'])) {
 	$source = $_POST['sources_star'];
-	if(isset($prefs->stars[$source])) {
-		$prefs->stars[$source] = $prefs->stars[$source] ? false : true;
+	if(isset($prefs->stars[$source]) && $prefs->stars[$source]) {
+		unset($prefs->stars[$source]);
 	} else {
 		$prefs->stars[$source] = true;
 	}
