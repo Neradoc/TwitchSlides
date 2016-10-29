@@ -6,9 +6,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include_once("head.php");
-include_once("prefs.php");
-
-$prefs = new PrefsManager();
 
 include_once("module_strawpoll.php");
 include_once("module_upload.php");

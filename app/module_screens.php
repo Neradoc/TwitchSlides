@@ -3,23 +3,6 @@ define('SOURCES_PARPAGE',12);
 define('SOURCES_VISIBLEAVAP',2);
 define('SOURCES_VISIBLEPAGES',2*SOURCES_VISIBLEAVAP+1);
 
-function effacer_screen($screen) {
-	global $prefs;
-	$file = $prefs->screenFile($screen);
-	if($file != "") {
-		$prefs->screens[$screen] = array(
-			'file' => "",
-			'top' => 0,
-			'left' => 0,
-			'zoom' => 0,
-		);
-		$prefs->save();
-		if(file_exists(SCREENS_DIR.$file)) {
-			unlink(SCREENS_DIR.$file);
-		}
-	}
-}
-
 if(isset($_POST["sources_effacer"])) {
 	$file = $_POST["sources_effacer"];
 	$file = basename($file);
@@ -49,8 +32,8 @@ if(isset($_POST['sources_assign'])) {
 		$source = SOURCES_DIR.$source;
 		if(file_exists($source)) {
 			$ext = pathinfo($source,PATHINFO_EXTENSION);
-			$screen_cible = sprintf(IMAGE_FORMAT,md5($source),$screen,$ext);
-			effacer_screen($screen);
+			$screen_cible = sprintf(IMAGE_FORMAT,md5_file($source),$ext);
+			$prefs->effacer_screen($screen);
 			copy($source,SCREENS_DIR.$screen_cible);
 			$prefs->screens[$screen] = array(
 				"file" => basename($screen_cible),
@@ -99,7 +82,7 @@ if(isset($_POST['screen_changer'])) {
 
 if(isset($_POST["screen_effacer"])) {
 	$screen = intval($_POST["screen_effacer"]);
-	effacer_screen($screen);
+	$prefs->effacer_screen($screen);
 	exit_redirect();
 }
 

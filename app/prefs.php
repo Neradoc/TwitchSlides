@@ -6,7 +6,7 @@ class PrefsManager {
 	public $screens = array();
 	public $scores = array();
 	public $stars = array();
-	function __construct($file = "data/prefs.json") {
+	function __construct($Nscreens = 0, $file = "data/prefs.json") {
 		if(!file_exists($file)) {
 			$this->prefs = array();
 		} else {
@@ -24,6 +24,15 @@ class PrefsManager {
 		}
 		if(isset($this->prefs['screens']) && is_array($this->prefs['screens'])) {
 			$this->screens = $this->prefs['screens'];
+			// limiter le nombre de screens à $Nscreens
+			if($Nscreens>0) {
+				$this->screens = array_filter($this->screens,
+					function($n) use ($Nscreens) {
+						return $n>0 && $n<=$Nscreens;
+					},
+					ARRAY_FILTER_USE_KEY
+				);
+			}
 		}
 		if(isset($this->prefs['scores']) && is_array($this->prefs['scores'])) {
 			$this->scores = $this->prefs['scores'];
@@ -98,6 +107,27 @@ class PrefsManager {
 			}
 		}
 		return true;
+	}
+	function effacer_screen($screen) {
+		$file = $this->screenFile($screen);
+		if($file != "") {
+			$this->screens[$screen] = array(
+				'file' => "",
+				'top' => 0,
+				'left' => 0,
+				'zoom' => 0,
+			);
+			$this->save();
+			// n'effacer que si l'image n'est pas dans un autre screen
+			foreach($this->screens as $screen) {
+				if($screen['file'] == $file) {
+					return;
+				}
+			}
+			if(file_exists(SCREENS_DIR.$file)) {
+				unlink(SCREENS_DIR.$file);
+			}
+		}
 	}
 	function sortedScores() {
 		$scores = $this->scores;

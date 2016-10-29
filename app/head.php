@@ -1,4 +1,5 @@
 <?php
+require("prefs.php");
 // créer les dossiers
 define("SCREENS_DIR" ,"images/");
 define("SCREENS_URL","images/");
@@ -25,8 +26,10 @@ if(file_exists("data/config.php")) {
 if(!defined("DEBUG")) {
 	define("DEBUG",$debug);
 }
-define("IMAGE_FORMAT","screen_%s_%d.%s");
+define("IMAGE_FORMAT","screen_%s.%s");
 define("SOURCES_GLOB",SOURCES_DIR."image_*");
+
+$prefs = new PrefsManager($Nscreens);
 
 function thisurl($params = []) {
 	$thisurl = 'http';

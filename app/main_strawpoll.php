@@ -1,6 +1,5 @@
 <?php
-include("prefs.php");
-$prefs = new PrefsManager();
+include("head.php");
 $poll_on = $prefs->get("strawpoll_on",true);
 $poll_page = $prefs->get("strawpoll","");
 $poll_embed = $prefs->poll_embed();
