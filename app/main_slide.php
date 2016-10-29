@@ -5,7 +5,16 @@ include("prefs.php");
 // screens
 $screensNumbers = [];
 if(isset($_REQUEST['screen'])) {
-	$screensNumbers = array_filter( array_map( function($x) { return intval($x); }, preg_split('/,/', $_REQUEST['screen'], -1, PREG_SPLIT_NO_EMPTY)));
+	$screensNumbers =
+		array_filter(
+			array_map(
+				function($x) { return intval($x); },
+				preg_split('/,/', $_REQUEST['screen'], -1, PREG_SPLIT_NO_EMPTY)
+			),
+		function($n) use ($Nscreens) {
+			return $n>0 && $n<=intval($Nscreens);
+		}
+	);
 } else {
 	for($i=1; $i<=$Nscreens; $i++) {
 		$screensNumbers[] = $i;
@@ -101,7 +110,7 @@ if(isset($_REQUEST['get'])) {
 	</style>
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
-		var current_image = "";
+		var current_image = {};
 		var liste_scores = "";
 		var ref_width = 1920;
 		var ref_height = 1080;
@@ -155,16 +164,16 @@ if(isset($_REQUEST['get'])) {
 							});
 						}
 					} else {
-						$("#scores").hide();
+						$("#scores:visible").hide();
 					}
 					//
-					$(".image").hide();
+					$(".image:visible").hide();
 					for(var num in data['screens']) {
 						var screen = data['screens'][num];
 						var image = $(".image"+screen['num']);
-						if(screen['image'] != current_image) {
-							current_image = screen['image'];
-							image.attr("src",current_image);
+						if(!(num in current_image) || screen['image'] != current_image[num]) {
+							current_image[num] = screen['image'];
+							image.attr("src",current_image[num]);
 						}
 						//
 						if( screen['image'] == ""
@@ -187,7 +196,7 @@ if(isset($_REQUEST['get'])) {
 							height: Math.floor(ih*zoom)+"px",
 						});
 						//
-						image.show();
+						image.not(":visible").show();
 					}
 				},
 			});
@@ -215,7 +224,7 @@ if(isset($_REQUEST['get'])) {
 </head>
 <body>
 <div id="screen">
-	<?php for($i=0; $i<$Nscreens; $i++) {
+	<?php for($i=0; $i<max($Nscreens,8); $i++) {
 		print('<img class="image image'.($i+1).'" src="cjs/vide.png" />'."\n");
 	}
 	?>
