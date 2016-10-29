@@ -49,7 +49,7 @@ if(isset($_POST['sources_assign'])) {
 		$source = SOURCES_DIR.$source;
 		if(file_exists($source)) {
 			$ext = pathinfo($source,PATHINFO_EXTENSION);
-			$screen_cible = sprintf(IMAGE_FORMAT,md5($source),$ext);
+			$screen_cible = sprintf(IMAGE_FORMAT,md5($source),$screen,$ext);
 			effacer_screen($screen);
 			copy($source,SCREENS_DIR.$screen_cible);
 			$prefs->screens[$screen] = array(

@@ -24,7 +24,7 @@ if(file_exists("data/config.php")) {
 if(!defined("DEBUG")) {
 	define("DEBUG",$debug);
 }
-define("IMAGE_FORMAT","screen_%s.%s");
+define("IMAGE_FORMAT","screen_%s_%d.%s");
 define("SOURCES_GLOB",SOURCES_DIR."image_*");
 
 function thisurl($params = []) {
