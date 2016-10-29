@@ -90,7 +90,7 @@ function disp_twitter($thisurl) {
 		<?php endforeach; ?>
 		</div>
 		<!-- <div>NOTE: dire si elle a déjà été twittée</div> -->
-		<div>
+		<div class="twitter_message_zone">
 			<textarea class="twitter_message" maxlength="140" name="twitter_message" placeholder="Texte du tweet. N'oubliez pas l'adresse du stream !"></textarea><br/>
 			<span class="twitter_error"></span>
 			<button class="twitter_envoyer">Confirmer le tweet !</button>

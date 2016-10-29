@@ -16,7 +16,7 @@ $(function() {
 		return false;
 	});
 	// fermer
-	$('#twitter_window .twitter_fermer').click(function() {
+	$('#black_block, #twitter_window .twitter_fermer').click(function() {
 		$('.twitter_screen').val(0);
 		$('#twitter_window').hide();
 		$('#black_block').hide();
