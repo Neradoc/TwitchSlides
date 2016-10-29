@@ -1,6 +1,7 @@
 <?php
 include("head.php");
-include("prefs.php");
+
+$debug = isset($_REQUEST['debug']);
 
 // screens
 $screensNumbers = [];
@@ -22,7 +23,6 @@ if(isset($_REQUEST['screen'])) {
 }
 // ajax
 if(isset($_REQUEST['get'])) {
-	$prefs = new PrefsManager();
 	$data = array("screens" => array());
 	foreach($screensNumbers as $screen) {
 		$file = $prefs->screenFile($screen);
@@ -224,6 +224,9 @@ if(isset($_REQUEST['get'])) {
 </head>
 <body>
 <div id="screen">
+	<?php if($debug): ?>
+	<img src="<?=$url_miniature_stream?>" style="display:absolute; left:0px; top:0px; width:100%; height:100%;"/>
+	<?php endif; ?>
 	<?php for($i=0; $i<max($Nscreens,8); $i++) {
 		print('<img class="image image'.($i+1).'" src="cjs/vide.png" />'."\n");
 	}
