@@ -9,10 +9,11 @@ define("SOURCES_URL","sources/");
 @mkdir(SOURCES_DIR);
 
 // valeurs par défaut
-// changer ces paramètres dans config_user.php
+// changer ces paramètres dans data/config.ini ou data/config.php
 $url_miniature_stream = "";
 $Nscreens = 1;
 $debug = false;
+$messages_twitter = array();
 
 if(file_exists("data/config.ini")) {
 	extract(parse_ini_file("data/config.ini"));
