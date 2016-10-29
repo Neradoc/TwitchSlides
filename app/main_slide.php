@@ -167,8 +167,10 @@ if(isset($_REQUEST['get'])) {
 							image.attr("src",current_image);
 						}
 						//
-						if("on" in screen && screen['on'] == false) {
-							image.hide();
+						if( screen['image'] == ""
+							|| ("on" in screen
+								&& screen['on'] == false)
+						) {
 							continue;
 						}
 						//
