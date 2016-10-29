@@ -70,8 +70,20 @@ if(isset($_POST['sources_assign'])) {
 	exit_redirect();
 }
 
-if(isset($_POST['changer_screen'])) {
-	$screen = intval($_POST['changer_screen']);
+if(isset($_POST['screen_moveto'])) {
+	$screen = intval($_POST["screen_num"]);
+	$autre = intval($_POST['screen_moveto']);
+	if($autre>0 && $autre<=$Nscreens) {
+		$theScreen = $prefs->screens[$screen];
+		$prefs->screens[$screen] = $prefs->screens[$autre];
+		$prefs->screens[$autre] = $theScreen;
+		$prefs->save();
+	}
+	exit_redirect();
+}
+
+if(isset($_POST['screen_changer'])) {
+	$screen = intval($_POST['screen_changer']);
 	$file = $prefs->screenFile($screen);
 	if($file != "") {
 		if(isset($_POST['image_top']))
@@ -85,8 +97,8 @@ if(isset($_POST['changer_screen'])) {
 	exit_redirect();
 }
 
-if(isset($_POST["effacer_screen"])) {
-	$screen = intval($_POST["effacer_screen"]);
+if(isset($_POST["screen_effacer"])) {
+	$screen = intval($_POST["screen_effacer"]);
 	effacer_screen($screen);
 	exit_redirect();
 }
@@ -165,10 +177,16 @@ function disp_screens($thisurl) {
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>
+				<? if($index>1): ?>
+				<button class="pos_btn moveprev" name="screen_moveto" value="<?= $index-1?>">&gt;<?= $index-1 ?></button>
+				<? endif; ?>
+				<? if($index<$Nscreens): ?>
+				<button class="pos_btn movenext" name="screen_moveto" value="<?= $index+1?>">&gt;<?= $index+1 ?></button>
+				<? endif; ?>
 			</div>
 			<div class="btns">
-				<button class="changer <?=$btns_classes?>" name="changer_screen" value="<?=$index?>">Changer</button>
-				<button class="effacer <?=$btns_classes?>" name="effacer_screen" value="<?=$index?>">Effacer</button>
+				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>">Changer</button>
+				<button class="effacer <?=$btns_classes?>" name="screen_effacer" value="<?=$index?>">Effacer</button>
 				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>">Twitter le rébus</button>
 			</div>
 			</form>

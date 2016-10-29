@@ -166,6 +166,14 @@ h3 {
 	bottom: 0px;
 	left: 1180px;
 }
+.pos_btn.moveprev {
+	top: 0px;
+	left: 1020px;
+}
+.pos_btn.movenext {
+	top: 0px;
+	left: 1100px;
+}
 @media only screen and (max-device-width: 480px) {
 	.pos_btn {
 		width: 140px;
@@ -191,6 +199,12 @@ h3 {
 	}
 	.pos_btn.movebottom {
 		left: 770px;
+	}
+	.pos_btn.moveprev {
+		left: 1080px;
+	}
+	.pos_btn.movenext {
+		left: 1240px;
 	}
 }
 
