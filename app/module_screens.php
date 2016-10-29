@@ -113,11 +113,19 @@ function disp_screens($thisurl) {
 		$base_lien = dirname($thisurl);
 		$lien = $base_lien ."/slide";
 		if($imageurl != "" && file_exists(SCREENS_DIR.$imageurl)) {
+			$btns_classes = "";
+			$btns_classes2 = "";
+			if(in_array($imageurl,$prefs->tweets)) {
+				$btns_classes2 = "disabled";
+				$twitter_title = "Image déjà twittée";
+			}
 			$sizes = getimagesize(SCREENS_DIR.$imageurl);
 			$imageurl = SCREENS_URL.$imageurl;
 			$w = $sizes[0];
 			$h = $sizes[1];
 		} else {
+			$btns_classes = "disabled";
+			$btns_classes2 = $btns_classes;
 			$w = 0;
 			$h = 0;
 		}
@@ -159,9 +167,9 @@ function disp_screens($thisurl) {
 				<button class="pos_btn zoomzero">=</button>
 			</div>
 			<div class="btns">
-				<button class="changer" name="changer_screen" value="<?=$index?>">Changer</button>
-				<button class="effacer" name="effacer_screen" value="<?=$index?>">Effacer</button>
-				<button class="twitter" name="twitter_screen" value="<?=$index?>">Twitter le rébus</button>
+				<button class="changer <?=$btns_classes?>" name="changer_screen" value="<?=$index?>">Changer</button>
+				<button class="effacer <?=$btns_classes?>" name="effacer_screen" value="<?=$index?>">Effacer</button>
+				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>">Twitter le rébus</button>
 			</div>
 			</form>
 		</div><?
