@@ -2,6 +2,7 @@ $(function() {
 	$('.twitter_exemple_message').click(function() {
 		var message = $(this).data("message");
 		$('.twitter_message').val(message);
+		return false;
 	});
 	$('.twitter_message').elastic();
 	// afficher
@@ -12,6 +13,16 @@ $(function() {
 			$('.twitter_screen').val($(this).val());
 			$('#twitter_window').show();
 			$('#black_block').show();
+			//
+			var left;
+			if($(document).width()<=500) {
+				left = 0;
+			} else {
+				left = Math.max(0, Math.floor($(window).width()/2 - $('#twitter_window').width()/2 - 18));
+			}
+			$('#twitter_window').css({
+				left: left+"px",
+			});
 		}
 		return false;
 	});

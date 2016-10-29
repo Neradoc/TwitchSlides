@@ -6,10 +6,9 @@
 }
 #twitter_window {
 	position: absolute;
-	left:15%;
-	right: 15%;
 	max-width: 504px;
 	top: 20px;
+	left: 8px;
 	background: white;
 	padding: 8px;
 	border: 2px solid #1da1f2;
@@ -40,21 +39,23 @@
 .twitter_impetrant {
 	text-align: center;
 	border: 2px dashed #1da1f2;
-	width: 500px;
+	max-width: 100%;/*500px;*/
+	max-height: 300px;
 }
 .twitter_impetrant img {
-	max-width: 496px;
-	max-height: 280px;
+	max-width: 100%;
+	max-height: 300px;
 }
 
 .twitter_choix_message {
-	width: 496px; /* 500 - 2*2 */
-	max-height: 400px;
+	width: 100%;
+	max-height: 240px;
 	overflow: auto;
 	border-width: 0px 2px 0px;
 	border-style: solid;
 	border-color: #1da1f2;
-	padding: 2px 2px;
+	padding: 0px;
+	margin-left:-2px;
 }
 .twitter_exemple_message
 {
@@ -70,16 +71,20 @@
 
 .twitter_message_zone {
 	background-color: rgba(29,161,242,0.3);
+	padding: 5px 2px;
+	overflow: auto;
 }
 .twitter_message {
+	display: block;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	border: 2px solid #1da1f2;
-	margin:6px;
-	width: 486px;
+	margin:0px auto 2px;
+	width: 94%;
 	height: 3.9em;
 }
 .twitter_error {
 	color: red;
+	margin-left: 12px;
 }
 
 .twitter_envoyer {
@@ -87,6 +92,7 @@
 	font-size: 100%;
 	border-radius: 10px;
 	padding: 2px 8px;
+	margin: 0px 12px 0px 0px;
 	background: white;
 	border-color: green;
 	cursor: pointer;

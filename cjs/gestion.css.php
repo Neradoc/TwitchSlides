@@ -8,15 +8,15 @@ $screen_height = 216;
 $scale = 0.20;
 ?>
 
-body { padding: 0px; margin:0px; }
+body { padding: 0px; margin:0px; position:relative; }
 p { padding: 2px; margin:0px; }
 #black_block {
 	background-image: url("damier-dark.png");
-	position: absolute;
-	left: 4px;
-	right: 4px;
-	top: 4px;
-	bottom: 4px;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
 	opacity: 0.8;
 }
 
