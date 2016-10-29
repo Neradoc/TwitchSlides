@@ -3,12 +3,10 @@ require_once('twitteroauth/autoload.php');
 use Abraham\TwitterOAuth\TwitterOAuth;
 if(!isset($twitterUtiliserApi)) $twitterUtiliserApi = false;
 
-function twitterImageAPI($imageFile) {
+function twitterImageAPI($imageFile,$tweetMessage) {
 	global $twitterConsumerKey, $twitterConsumerSecret, $twitterAccessToken, $twitterAccessTokenSecret;
 	$connection = new TwitterOAuth($twitterConsumerKey, $twitterConsumerSecret, $twitterAccessToken, $twitterAccessTokenSecret);
 
-	// message du tweet
-	$tweetMessage = "Venez décrypter le rébus avec nous sur le stream\nhttps://www.twitch.tv/realmyop2";
 	// ajout de l'image
 	$media = $connection->upload('media/upload', ['media' => SCREENS_DIR.$imageFile]);
 	// zou
@@ -21,12 +19,12 @@ function twitterImageAPI($imageFile) {
 	return true;
 }
 
-function twitterImageIfttt($imageFile) {
+function twitterImageIfttt($imageFile,$tweetMessage) {
 	global $iftMakerKey,$iftRebusChannel;
 	$iftUrl = "https://maker.ifttt.com/trigger/$iftRebusChannel/with/key/$iftMakerKey";
 
 	$urlImage = dirname(thisurl()).SCREENS_URL.$imageFile;
-	$data = array("value1" => $urlImage, "value2" => "");
+	$data = array("value1" => $urlImage, "value2" => $tweetMessage);
 	$data_string = json_encode($data);                                                                                   
 	
 	$ch = curl_init($iftUrl);
@@ -43,23 +41,23 @@ function twitterImageIfttt($imageFile) {
 	return preg_match('/^Congratulations!/',$response);
 }
 
-function twitterImage($imageFile) {
+function twitterImage($imageFile,$tweetMessage) {
 	global $twitterUtiliserApi;
 	// TODO: tester la présence et les valeurs des configs ifttt et/ou api
 	if($twitterUtiliserApi) {
-		return twitterImageAPI($imageFile);
+		return twitterImageAPI($imageFile,$tweetMessage);
 	} else {
-		return twitterImageIfttt($imageFile);
+		return twitterImageIfttt($imageFile,$tweetMessage);
 	}
 }
 
 if(isset($_POST["twitter_screen"])) {
-	$screen = intval($_POST["twitter_screen"]);
 	$message = $_POST["twitter_message"];
+	$screen = intval($_POST["twitter_screen"]);
 	$imageFile = $prefs->screenFile($screen);
 	if($imageFile && file_exists(SCREENS_DIR.$imageFile)) {
 		if(!in_array($imageFile,$prefs->tweets)) {
-			$res = twitterImage($imageFile);
+			$res = twitterImage($imageFile,$message);
 			if($res) {
 				$prefs->tweets[] = $imageFile;
 				$prefs->save();
@@ -93,7 +91,7 @@ function disp_twitter($thisurl) {
 		</div>
 		<!-- <div>NOTE: dire si elle a déjà été twittée</div> -->
 		<div>
-			<textarea class="twitter_message" maxlength="140" name="twitter_message"></textarea><br/>
+			<textarea class="twitter_message" maxlength="140" name="twitter_message" placeholder="Texte du tweet. N'oubliez pas l'adresse du stream !"></textarea><br/>
 			<span class="twitter_error"></span>
 			<button class="twitter_envoyer">Confirmer le tweet !</button>
 		</div>

@@ -314,6 +314,12 @@ h3 {
 	background:#800!important;
 	color:white!important;
 }
+.btns button.disabled:hover,
+.btns button.disabled {
+	background: white !important;
+	border-color: #BBB !important;
+	color: #BBB !important;
+}
 
 .btn_switch {
 	position: absolute;
