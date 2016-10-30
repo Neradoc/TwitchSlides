@@ -23,7 +23,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 	<meta charset="utf-8" />
 	<link rel="shortcut icon" href="favicon.png" />
 	<meta name="viewport" content="width=420">
-	<title>Les écrans de realmyop</title>
+	<title><?= $htmlTitleGestion ?></title>
 	<link rel='stylesheet' href='cjs/gestion.css.php' type='text/css' />
 	<link rel='stylesheet' href='cjs/module_twitter.css' type='text/css' />
 	<script type="text/javascript" src="cjs/jquery2.js"></script>

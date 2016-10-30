@@ -20,8 +20,8 @@ function twitterImageAPI($imageFile,$tweetMessage) {
 }
 
 function twitterImageIfttt($imageFile,$tweetMessage) {
-	global $iftMakerKey,$iftRebusChannel;
-	$iftUrl = "https://maker.ifttt.com/trigger/$iftRebusChannel/with/key/$iftMakerKey";
+	global $twitterIftMakerKey,$twitterIftChannel;
+	$iftUrl = "https://maker.ifttt.com/trigger/$twitterIftChannel/with/key/$twitterIftMakerKey";
 
 	$urlImage = dirname(thisurl()).SCREENS_URL.$imageFile;
 	$data = array("value1" => $urlImage, "value2" => $tweetMessage);
@@ -68,7 +68,7 @@ if(isset($_POST["twitter_screen"])) {
 }
 
 function disp_twitter($thisurl) {
-	global $messages_twitter;
+	global $twitterMessages;
 	/*
 	afficher la fenêtre de choix du dialogue (masqué à la base)
 	quand on clique sur le bouton affiche
@@ -85,7 +85,7 @@ function disp_twitter($thisurl) {
 		<button class="twitter_fermer"><img src="cjs/bouton_croix.png"/></button>
 		<div class="twitter_impetrant"><img src=""/></div>
 		<div class="twitter_choix_message">
-		<?php foreach($messages_twitter as $mess): ?>
+		<?php foreach($twitterMessages as $mess): ?>
 			<div class="twitter_exemple_message" data-message="<?= intag($mess)?>"><?= nl2br(strip_tags($mess)) ?></div>
 		<?php endforeach; ?>
 		</div>

@@ -26,24 +26,24 @@ N'oubliez pas qu'il est généralement possible (dans OBS par exemple) de limite
 
 ## Twitter l'image
 ### Avec IFTTT.com
-Mettre en place un recette (recipe) sur IFTTT.com qui relie la chaine Maker et envoie un tweet avec le message de votre choix, et une image définie comme {{Value1}}. Puis renseigner les variables iftMakerKey et iftRebusChannel dans le fichier "config.ini".
+Mettre en place un recette (recipe) sur IFTTT.com qui relie la chaine Maker et envoie un tweet avec le message défini comme {{Value2}}, et une image définie comme {{Value1}}. Puis renseigner les variables twitterIftMakerKey et twitterIftChannel dans le fichier "config.ini".
 ### Avec l'API twitter
 Il faut d'abord crééer une clef d'application twitter ainsi qu'un token à https://apps.twitter.com/app/new et configurer les paramètres adequat. Attention, ne pas oublier de définir twitterUtiliserApi.
 
 ## Variables de configuration
 Variables à définir dans le fichier *"data/config.ini"*. Le format exact est indiqué dans le fichier *"config.exemple.ini"* distribué avec l'application.
 
+* **htmlTitleGestion**: titre de la page gestion (au sens de la balise title).
 * **url_miniature_stream**: url de la miniature du stream, celle affichée par twitch dans la page "Suivis".
 * **Nscreens**: nombre d'écrans configurables (chacun peut contenir une image).
-  *Actuellement des valeurs différentes de 1 ne sont pas tellement testées.*
-* **iftMakerKey**: l'identifiant de votre chaine Maker dans IFTTT.
-* **iftRebusChannel**: le nom de l'event utilisé dans votre recette dans IFTTT.
+* **twitterIftMakerKey**: l'identifiant de votre chaine Maker dans IFTTT.
+* **twitterIftChannel**: le nom de l'event utilisé dans votre recette dans IFTTT.
 * **twitterConsumerKey**: Consumer Key pour l'API twitter.
 * **twitterConsumerSecret**: Consumer Secret pour l'API twitter.
 * **twitterAccessToken**: Access Token pour l'API twitter.
 * **twitterAccessTokenSecret**: Access Token Secret pour l'API twitter.
 * **twitterUtiliserApi**: utiliser ou non l'API twitter.
-* **messages_twitter[]**: liste des messages pré-configurés dans l'interface twitter. Mettez en autant que vous voulez, ils seront ajoutés à la liste.
+* **twitterMessages[]**: liste des messages pré-configurés dans l'interface twitter. Mettez en autant que vous voulez, ils seront ajoutés à la liste.
 
 # Information pour les développeurs
 ## Notes diverses

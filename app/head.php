@@ -14,7 +14,8 @@ define("SOURCES_URL","sources/");
 $url_miniature_stream = "";
 $Nscreens = 1;
 $debug = false;
-$messages_twitter = array();
+$twitterMessages = array();
+$html_title_gestion = "";
 
 if(file_exists("data/config.ini")) {
 	extract(parse_ini_file("data/config.ini"));
