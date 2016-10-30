@@ -17,7 +17,7 @@ p { padding: 2px; margin:0px; }
 	top: 0px;
 	width: 100%;
 	height: 100%;
-	opacity: 0.8;
+	opacity: 0.6;
 }
 
 .screen,
