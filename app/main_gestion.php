@@ -67,11 +67,11 @@ if(!empty($_POST) || !empty($_FILES)) {
 	bouton pour effacer toutes les images (pas celles en cours) à la fin du stream
 -->
 <?php disp_sources($thisurl); ?>
+</div>
+<div id="black_block" style="display:none;"></div>
 <!--
 	fenêtre twitter pour la validation
 -->
-</div>
-<div id="black_block" style="display:none;"></div>
 <?php disp_twitter($thisurl); ?>
 </body>
 </html>
