@@ -20,7 +20,7 @@ La variable de configuration url_miniature_stream permet de déclarer l'adresse 
 
 La variable de configuration Nscreens peut être augmentée (elle est à 1 par défaut) ajoutant autant de modules "écran" à la page de gestion. Chaque écran gère une image différente, qui seront toutes affichées en même temps dans le slide, les écrans de numéro plus élevé devant les autres.
 
-Il est possible de n'afficher que certaines image à la fois en ajoutant le paramètre "screen" à l'adresse du slide, par exemple: http://site.web/slide?screen=1 ou http://site.web/slide?screen=2,5 par exemple.
+Il est possible de n'afficher que certaines image à la fois en ajoutant le paramètre "screen" à l'adresse du slide, par exemple: http://site.web/slide?screen=1 ou http://site.web/slide?screen=2,5 pour les images (des écrans) 2 et 5.
 
 N'oubliez pas qu'il est généralement possible (dans OBS par exemple) de limiter l'affichage d'une image à une région limitée de l'écran. Évidemment l'image miniature de fond ne correspondra plus. Vous pouvez également garder la taille de la zone en plein écran mais couper les bords ("crop") gardant ainsi la conrrespondance tout en controlant la zone affichée.
 
@@ -31,7 +31,7 @@ Mettre en place un recette (recipe) sur IFTTT.com qui relie la chaine Maker et e
 Il faut d'abord crééer une clef d'application twitter ainsi qu'un token à https://apps.twitter.com/app/new et configurer les paramètres adequat. Attention, ne pas oublier de définir twitterUtiliserApi.
 
 ## Variables de configuration
-Variables à définir dans le fichier *"data/config.ini"* à la racine.
+Variables à définir dans le fichier *"data/config.ini"*. Le format exact est indiqué dans le fichier *"config.exemple.ini"* distribué avec l'application.
 
 * **url_miniature_stream**: url de la miniature du stream, celle affichée par twitch dans la page "Suivis".
 * **Nscreens**: nombre d'écrans configurables (chacun peut contenir une image).
@@ -43,27 +43,37 @@ Variables à définir dans le fichier *"data/config.ini"* à la racine.
 * **twitterAccessToken**: Access Token pour l'API twitter.
 * **twitterAccessTokenSecret**: Access Token Secret pour l'API twitter.
 * **twitterUtiliserApi**: utiliser ou non l'API twitter.
+* **messages_twitter[]**: liste des messages pré-configurés dans l'interface twitter. Mettez en autant que vous voulez, ils seront ajoutés à la liste.
+
+# Information pour les développeurs
+## Notes diverses
+La page *slide* interroge le site toutes les secondes pour connaitre les informations à afficher et met à jour les parties de la page qui doivent l'être. La page n'est pas rechargée en entier pour éviter un éventuel clignotement.
 
 ## Fichier "prefs.json"
 Le fichier prefs.json est géré par l'application, il ne faut pas le modifier à la main.
 ### Valeurs
-* **tweets**: les 10 dernières urls d'images tweetés (pour empêcher les doublons)
-* **screens**: liste des screens configurés indexés à partir de 1 (ouaip)
-	* **file**: nom du fichier image actuel (ou "")
-	* **top**: position en y
-	* **left**: position en x
-	* **zoom**: niveau de zoom de l'image (float)
-* **strawpoll**: url du strawpoll (n'importe, on veut juste le gros nombre qu'on trouve dedans)
-* **scoreboard_on**: true/false si on affiche les scores ou pas
-* **scores**: scores indexés par le nom
-	* **nom**: le nom (encore)
+* **screens**: liste des screens configurés indexés à partir de 1 (ouaip).
+	* **file**: nom du fichier image actuel (ou "").
+	* **top**: position en y.
+	* **left**: position en x.
+	* **zoom**: niveau de zoom de l'image (float).
+	* **on**: si l'image doit être affichée ou non.
+* **tweets**: les 10 dernières urls d'images tweetés (pour empêcher les doublons).
+* **strawpoll_on**: true/false si on affiche le strawpoll ou pas.
+* **strawpoll**: url du strawpoll (n'importe, on veut juste le gros nombre qu'on trouve dedans).
+* **scoreboard_on**: true/false si on affiche les scores ou pas.
+* **scores**: scores indexés par le nom.
+	* **nom**: le nom (encore).
 	* **score**: le score !
-	* **t0**: time() de l'ajout du nom
-	* **stamp**: time() de dernière modification
+	* **t0**: time() de l'ajout du nom.
+	* **stamp**: time() de dernière modification.
+* **stars**: liste des images favorites comme clefs. La valeur (actuellement true/false) sera peut-être utilisée plus tard pour ranger les images sources dans plusieurs catégories.
+* **reload_slide**: force le rechargement de la page *slide* toute entière (n'a pas d'interface).
 
 ### Méthodes de la classe PrefsManager
-* **screenFile($screenNum)**: renvoie le nom de fichier du screen au numéro demandé ou ""
-* **screenPos($screenNum)**: renvoie [x,y,z] où (x,y) est la position est z le niveau de zoom
-* **sortedScores()**: renvoie le tableau de scores, trié par score, puis dernière modification, puis nom
+* **screenFile($screenNum)**: renvoie le nom de fichier du screen au numéro demandé ou "".
+* **screenPos($screenNum)**: renvoie [x,y,z] où (x,y) est la position est z le niveau de zoom.
+* **screenOn($screenNum)**: envoie true/false selon que l'cran est activé ou non.
+* **effacer_screen($screen)**: vide un écran et efface le fichier image associé si il n'est pas dans un autre écran.
+* **sortedScores()**: renvoie le tableau de scores, trié par score, puis dernière modification, puis nom.
 * **poll_embed()**: renvoie l'url d'embed du strawpoll (construite à partir du numéro)
-
