@@ -9,11 +9,40 @@ Sur un site situé à l'adresse http://site.web/
 
 ### Le panneau de gestion
 * En haut nous retrouvons les modules gérant ce qui est affiché sur le stream.
-	* Le module "Écran" permet de choisir la taille et la position de l'image à l'écran, l'enlever et twitter (voir plus bas).
+	* Le module "Écran" permet de positionner l'image à l'écran, l'enlever et twitter.
 	* Le module "Strawpoll" permet d'affichage et masquage un strawpoll (les résultats).
 	* Le module "Scores" permet de compter des scores qui seront affichés défilant en bas de l'écran sur le stream.
- * Le module "Ajouter une image" permet de mettre une image sur le site via le sélecteur de fichiers ou en mettant son adresse web directe.
- * Les modules d'images listent toutes les images disponibles et permettent de choisir la taille et la position d'une image avant de l'envoyer vers l'écran.
+* Le module "Ajouter une image" permet de mettre une image sur le site via le sélecteur de fichiers ou en mettant son adresse web directe.
+* Les modules d'images sources listent toutes les images disponibles et permettent de choisir la taille et la position d'une image avant de l'envoyer vers l'écran.
+
+#### Plus en détails
+* Le bouton ON/OFF permet de masquer un module dans le stream sans perdre ses réglages.
+* Module écran et modules d'images sources:
+	* Déplacer l'image en la glissant à la souris. La touche shift maintient l'image dans l'écran.
+	* Redimensionner l'image en maintenant la touche alt en glissant à la souris.
+	* Positionner l'image avec les boutons "@" apparaissant quand on survole l'image.
+	* Changer l'échelle de l'image avec les boutons "+", "-" et "=".
+	* Déplacer l'image pas à pas avec les boutons flèches.
+	* Échanger les images de 2 écrans avec les boutons ">1" où "1" est le numéro de l'écran avant ou après.
+	* Le bouton "Changer" valide les changements de position et dimension.
+	* Le bouton "Effacer" retire l'image de l'écran.
+	* Le bouton "Twitter" appelle la fenêtre twitter.
+* Module d'images sources:
+	* Le bouton "Effacer" supprime l'image du serveur.
+	* Le menu "Afficher sur le stream" envoie l'image source vers l'écran choisit.
+	* Le bouton ![Étoile](cjs/star-mini.png) Étoile sous l'image permet de la marquer favorite.
+	* Si il y a plus de 12 images, la liste des pages apparait au dessus des images.
+	* Le bouton (![Étoile](cjs/star-mini.png)) Étoile dans la liste des pages accède aux favoris.
+* Module strawpoll:
+	* Entrer l'url du strawpoll (seul le numéro compte) et valider avec entrée. La page de résultats (en histogrammes) sera affichée.
+	* Le bouton "Effacer" efface l'url du strawpoll.
+* Module scores:
+	* Ajouter un joueur avec le champ texte en bas et son score (1 par défaut). Valider avec entrée ou avec le bouton coche.
+	* Le champ de texte permet aussi de filtrer les noms (pour voir si le joueur est déjà là par exemple).
+	* Les boutons "+" et "-" changent le nombre de points de la valeur indiquée au milieu (pour ne pas avoir à faire des additions de tête).
+	* Le champ contenant le score est modifiable pour donner directement un score. Valider avec entrée.
+	* La croix rouge retire le joueur.
+	
 
 ### Aller plus loin
 La variable de configuration url_miniature_stream permet de déclarer l'adresse (relative ou absolue) de l'image de fond affichée dans le module écran (pas sur le stream), permettant d'aider au positionnement des images.
@@ -36,14 +65,17 @@ Variables à définir dans le fichier *"data/config.ini"*. Le format exact est i
 * **htmlTitleGestion**: titre de la page gestion (au sens de la balise title).
 * **url_miniature_stream**: url de la miniature du stream, celle affichée par twitch dans la page "Suivis".
 * **Nscreens**: nombre d'écrans configurables (chacun peut contenir une image).
-* **twitterIftMakerKey**: l'identifiant de votre chaine Maker dans IFTTT.
-* **twitterIftChannel**: le nom de l'event utilisé dans votre recette dans IFTTT.
-* **twitterConsumerKey**: Consumer Key pour l'API twitter.
-* **twitterConsumerSecret**: Consumer Secret pour l'API twitter.
-* **twitterAccessToken**: Access Token pour l'API twitter.
-* **twitterAccessTokenSecret**: Access Token Secret pour l'API twitter.
-* **twitterUtiliserApi**: utiliser ou non l'API twitter.
-* **twitterMessages[]**: liste des messages pré-configurés dans l'interface twitter. Mettez en autant que vous voulez, ils seront ajoutés à la liste.
+* Twitter par If-This-Then-That
+	* **twitterIftMakerKey**: l'identifiant de votre chaine Maker dans IFTTT.
+	* **twitterIftChannel**: le nom de l'event utilisé dans votre recette dans IFTTT.
+* Twitter par l'API
+	* **twitterUtiliserApi**: utiliser ou non l'API twitter.
+	* **twitterConsumerKey**: Consumer Key pour l'API twitter.
+	* **twitterConsumerSecret**: Consumer Secret pour l'API twitter.
+	* **twitterAccessToken**: Access Token pour l'API twitter.
+	* **twitterAccessTokenSecret**: Access Token Secret pour l'API twitter.
+* **twitterMessages[]**: liste des messages pré-configurés dans l'interface twitter.
+  Mettez en autant que vous voulez, ils seront ajoutés à la liste.
 
 # Information pour les développeurs
 ## Notes diverses
