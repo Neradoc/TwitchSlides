@@ -226,6 +226,9 @@ h3 {
 	/* max-width: 1920px; */
 	/* max-height: 1080px; */
 }
+.pimage:hover .image {
+	outline: 8px dashed #444;
+}
 
 #sources .pagination_sources {
 	padding: 0px 8px 0px;

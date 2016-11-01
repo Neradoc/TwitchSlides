@@ -276,7 +276,7 @@ $(function() {
 		// changer de delta max en conservant les proportions
 		var newWidth = img.width()+deltaX*scale;
 		var newHeight = img.height()+deltaY*scale;
-		if(newWidth/newHeight > img.width()/img.height()) {
+		if(Math.abs(deltaX/deltaY)>16/9) {
 			newHeight = newWidth*img.height()/img.width();
 			deltaY = (newHeight - img.height()) / scale;
 		} else {
