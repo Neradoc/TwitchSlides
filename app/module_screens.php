@@ -212,12 +212,11 @@ function disp_sources($thisurl) {
 			});
 			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>"><img class="pagination_star" src="cjs/nogrp.png"/></a><?
 		} else {
-			if($sources_page<$numSources) {
-				$lesSources = array_slice($sources,$sources_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
-			}
+			$numPages = floor(($numSources-1)/SOURCES_PARPAGE);
+			$sources_page = max(0,min($numPages,$sources_page));
+			$lesSources = array_slice($sources,$sources_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
 			if($sources_page==0) $class="useless"; else $class = "";
 			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>"><img class="pagination_star" src="cjs/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>max(0,$sources_page-1)])?>">&lt;&mdash;</a><?
-			$numPages = floor($numSources/SOURCES_PARPAGE);
 			$start = 0;
 			$end = $numPages;
 			if($numPages > SOURCES_VISIBLEPAGES) {
