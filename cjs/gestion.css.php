@@ -11,7 +11,7 @@ $scale = 0.20;
 body { padding: 0px; margin:0px; position:relative; }
 p { padding: 2px; margin:0px; }
 #black_block {
-	background-image: url("damier-dark.png");
+	background-image: url("img/damier-dark.png");
 	position: fixed;
 	left: 0px;
 	top: 0px;
@@ -75,7 +75,7 @@ h3 {
 	transform-origin: top left;
 	padding: 0px;
 	margin: 0px;
-	background-image: url("damier.png");
+	background-image: url("img/damier.png");
 }
 .pimage .back_screen {
 	position:absolute;

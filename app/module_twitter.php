@@ -82,7 +82,7 @@ function disp_twitter($thisurl) {
 	<div id="twitter_window">
 	<form action="<?=$thisurl?>" name="twitter_en_vrai" method="POST">
 		<input type="hidden" class="twitter_screen" name="twitter_screen" value=""/>
-		<button class="twitter_fermer"><img src="cjs/bouton_croix.png"/></button>
+		<button class="twitter_fermer"><img src="cjs/img/bouton_croix.png"/></button>
 		<div class="twitter_impetrant"><img src=""/></div>
 		<div class="twitter_choix_message">
 		<?php foreach($twitterMessages as $mess): ?>

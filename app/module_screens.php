@@ -144,19 +144,19 @@ function disp_screens($thisurl) {
 				<input type="hidden" name="image_top" value="0"/>
 				<input type="hidden" name="image_left" value="0"/>
 				<input class="zoom" type="hidden" name="image_zoom" value="0"/>
-				<button class="pos_btn topleft"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn topright"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn bottomleft"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn bottomright"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centerleft"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centerright"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centertop"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centerbottom"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centercenter"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn moveleft">︎<img src="cjs/fleche_left.png"/></button>
-				<button class="pos_btn moveright"><img src="cjs/fleche_right.png"/></button>
-				<button class="pos_btn movetop"><img src="cjs/fleche_top.png"/></button>
-				<button class="pos_btn movebottom"><img src="cjs/fleche_bottom.png"/></button>
+				<button class="pos_btn topleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn topright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn bottomleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn bottomright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centertop"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerbottom"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centercenter"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn moveleft">︎<img src="cjs/img/fleche_left.png"/></button>
+				<button class="pos_btn moveright"><img src="cjs/img/fleche_right.png"/></button>
+				<button class="pos_btn movetop"><img src="cjs/img/fleche_top.png"/></button>
+				<button class="pos_btn movebottom"><img src="cjs/img/fleche_bottom.png"/></button>
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>
@@ -210,13 +210,13 @@ function disp_sources($thisurl) {
 				$file = basename($source['file']);
 				return isset($prefs->stars[$file]) && $prefs->stars[$file];
 			});
-			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>"><img class="pagination_star" src="cjs/nogrp.png"/></a><?
+			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>"><img class="pagination_star" src="cjs/img/nogrp.png"/></a><?
 		} else {
 			$numPages = floor(($numSources-1)/SOURCES_PARPAGE);
 			$sources_page = max(0,min($numPages,$sources_page));
 			$lesSources = array_slice($sources,$sources_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
 			if($sources_page==0) $class="useless"; else $class = "";
-			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>"><img class="pagination_star" src="cjs/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>max(0,$sources_page-1)])?>">&lt;&mdash;</a><?
+			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>"><img class="pagination_star" src="cjs/img/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>max(0,$sources_page-1)])?>">&lt;&mdash;</a><?
 			$start = 0;
 			$end = $numPages;
 			if($numPages > SOURCES_VISIBLEPAGES) {
@@ -265,19 +265,19 @@ function disp_sources($thisurl) {
 				<input type="hidden" name="image_top" value="0"/>
 				<input type="hidden" name="image_left" value="0"/>
 				<input class="zoom" type="hidden" name="image_zoom" value="0"/>
-				<button class="pos_btn topleft"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn topright"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn bottomleft"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn bottomright"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centerleft"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centerright"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centertop"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centerbottom"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn centercenter"><img src="cjs/crosshair.png"/></button>
-				<button class="pos_btn moveleft">︎<img src="cjs/fleche_left.png"/></button>
-				<button class="pos_btn moveright"><img src="cjs/fleche_right.png"/></button>
-				<button class="pos_btn movetop"><img src="cjs/fleche_top.png"/></button>
-				<button class="pos_btn movebottom"><img src="cjs/fleche_bottom.png"/></button>
+				<button class="pos_btn topleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn topright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn bottomleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn bottomright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centertop"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerbottom"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centercenter"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn moveleft">︎<img src="cjs/img/fleche_left.png"/></button>
+				<button class="pos_btn moveright"><img src="cjs/img/fleche_right.png"/></button>
+				<button class="pos_btn movetop"><img src="cjs/img/fleche_top.png"/></button>
+				<button class="pos_btn movebottom"><img src="cjs/img/fleche_bottom.png"/></button>
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>
@@ -294,9 +294,9 @@ function disp_sources($thisurl) {
 				</select>
 			</div>
 			<?php if(isset($prefs->stars[$name]) && $prefs->stars[$name]): ?>
-			<button class="sources_star" name="sources_star" value="<?=$name?>"><img src="cjs/star.png"/></button>
+			<button class="sources_star" name="sources_star" value="<?=$name?>"><img src="cjs/img/star.png"/></button>
 			<?php else: ?>
-			<button class="sources_star" name="sources_star" value="<?=$name?>"><img src="cjs/nogrp.png"/></button>
+			<button class="sources_star" name="sources_star" value="<?=$name?>"><img src="cjs/img/nogrp.png"/></button>
 			<?php endif; ?>
 			</form>
 		</div><?

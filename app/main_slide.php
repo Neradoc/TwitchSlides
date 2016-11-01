@@ -49,8 +49,8 @@ if(isset($_REQUEST['get'])) {
 	$liste_scores = "";
 	foreach($scores as $score) {
 		$liste_scores .= "<span>".ucfirst($score['nom'])." : ".$score['score'];
-		if($nscore == 0) { $liste_scores .= '<img class="crown" src="cjs/crown.png"/>'; }
-		#if($nscore == 1) { $liste_scores .= '<img class="crown" src="cjs/tiare.png"/>'; }
+		if($nscore == 0) { $liste_scores .= '<img class="crown" src="cjs/img/crown.png"/>'; }
+		#if($nscore == 1) { $liste_scores .= '<img class="crown" src="cjs/img/tiare.png"/>'; }
 		$liste_scores .= "</span>";
 		$nscore += 1;
 	}
@@ -228,7 +228,7 @@ if(isset($_REQUEST['get'])) {
 	<img src="<?=$url_miniature_stream?>" style="display:absolute; left:0px; top:0px; width:100%; height:100%;"/>
 	<?php endif; ?>
 	<?php for($i=0; $i<max($Nscreens,8); $i++) {
-		print('<img class="image image'.($i+1).'" src="cjs/vide.png" />'."\n");
+		print('<img class="image image'.($i+1).'" src="cjs/img/vide.png" />'."\n");
 	}
 	?>
 	<div id="scores">Les scores ne sont pas encore chargés</div>

@@ -30,9 +30,9 @@ Sur un site situé à l'adresse http://site.web/
 * Module d'images sources:
 	* Le bouton "Effacer" supprime l'image du serveur.
 	* Le menu "Afficher sur le stream" envoie l'image source vers l'écran choisit.
-	* Le bouton ![Étoile](cjs/star-mini.png) Étoile sous l'image permet de la marquer favorite.
+	* Le bouton ![Étoile](cjs/img/star-mini.png) Étoile sous l'image permet de la marquer favorite.
 	* Si il y a plus de 12 images, la liste des pages apparait au dessus des images.
-	* Le bouton (![Étoile](cjs/star-mini.png)) Étoile dans la liste des pages accède aux favoris.
+	* Le bouton (![Étoile](cjs/img/star-mini.png)) Étoile dans la liste des pages accède aux favoris.
 * Module strawpoll:
 	* Entrer l'url du strawpoll (seul le numéro compte) et valider avec entrée. La page de résultats (en histogrammes) sera affichée.
 	* Le bouton "Effacer" efface l'url du strawpoll.
