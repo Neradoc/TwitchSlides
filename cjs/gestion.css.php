@@ -89,11 +89,12 @@ h3 {
 /* boutons de positions */
 .pos_btn {
 	position: absolute;
-	padding: 0px;
+	padding: 2px;
 	font-size: 300%;
 	width: 70px;
 	height: 70px;
 	text-align: center;
+	vertical-align: middle;
 	background: white;
 	border: none;
 	border-radius: 0px;

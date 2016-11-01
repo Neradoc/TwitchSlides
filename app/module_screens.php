@@ -144,27 +144,27 @@ function disp_screens($thisurl) {
 				<input type="hidden" name="image_top" value="0"/>
 				<input type="hidden" name="image_left" value="0"/>
 				<input class="zoom" type="hidden" name="image_zoom" value="0"/>
-				<button class="pos_btn topleft">@</button>
-				<button class="pos_btn topright">@</button>
-				<button class="pos_btn bottomleft">@</button>
-				<button class="pos_btn bottomright">@</button>
-				<button class="pos_btn centerleft">@</button>
-				<button class="pos_btn centerright">@</button>
-				<button class="pos_btn centertop">@</button>
-				<button class="pos_btn centerbottom">@</button>
-				<button class="pos_btn centercenter">@</button>
-				<button class="pos_btn moveleft">&lt;</button>
-				<button class="pos_btn moveright">&gt;</button>
-				<button class="pos_btn movetop">^</button>
-				<button class="pos_btn movebottom">v</button>
+				<button class="pos_btn topleft"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn topright"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn bottomleft"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn bottomright"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centerleft"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centerright"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centertop"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centerbottom"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centercenter"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn moveleft">︎<img src="cjs/fleche_left.png"/></button>
+				<button class="pos_btn moveright"><img src="cjs/fleche_right.png"/></button>
+				<button class="pos_btn movetop"><img src="cjs/fleche_top.png"/></button>
+				<button class="pos_btn movebottom"><img src="cjs/fleche_bottom.png"/></button>
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>
 				<? if($index>1): ?>
-				<button class="pos_btn moveprev" name="screen_moveto" value="<?= $index-1?>">&gt;<?= $index-1 ?></button>
+				<button class="pos_btn moveprev" name="screen_moveto" value="<?= $index-1?>">➤<?= $index-1 ?></button>
 				<? endif; ?>
 				<? if($index<$Nscreens): ?>
-				<button class="pos_btn movenext" name="screen_moveto" value="<?= $index+1?>">&gt;<?= $index+1 ?></button>
+				<button class="pos_btn movenext" name="screen_moveto" value="<?= $index+1?>">➤<?= $index+1 ?></button>
 				<? endif; ?>
 			</div>
 			<div class="btns">
@@ -266,19 +266,19 @@ function disp_sources($thisurl) {
 				<input type="hidden" name="image_top" value="0"/>
 				<input type="hidden" name="image_left" value="0"/>
 				<input class="zoom" type="hidden" name="image_zoom" value="0"/>
-				<button class="pos_btn topleft">@</button>
-				<button class="pos_btn topright">@</button>
-				<button class="pos_btn bottomleft">@</button>
-				<button class="pos_btn bottomright">@</button>
-				<button class="pos_btn centerleft">@</button>
-				<button class="pos_btn centerright">@</button>
-				<button class="pos_btn centertop">@</button>
-				<button class="pos_btn centerbottom">@</button>
-				<button class="pos_btn centercenter">@</button>
-				<button class="pos_btn moveleft">&lt;</button>
-				<button class="pos_btn moveright">&gt;</button>
-				<button class="pos_btn movetop">^</button>
-				<button class="pos_btn movebottom">v</button>
+				<button class="pos_btn topleft"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn topright"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn bottomleft"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn bottomright"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centerleft"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centerright"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centertop"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centerbottom"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn centercenter"><img src="cjs/crosshair.png"/></button>
+				<button class="pos_btn moveleft">︎<img src="cjs/fleche_left.png"/></button>
+				<button class="pos_btn moveright"><img src="cjs/fleche_right.png"/></button>
+				<button class="pos_btn movetop"><img src="cjs/fleche_top.png"/></button>
+				<button class="pos_btn movebottom"><img src="cjs/fleche_bottom.png"/></button>
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>
