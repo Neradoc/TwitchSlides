@@ -1,5 +1,5 @@
 <?
-if(isset($_GET['rewrite'])) {
+if(isset($_GET['rewrite']) && $_GET['rewrite'] != "") {
 	$file = substr($_GET['rewrite'],0,32);
 	$file = preg_replace('/\.php$/','',$file);
 	$file = preg_replace('/[^a-z0-9_-]/i','',$file);
