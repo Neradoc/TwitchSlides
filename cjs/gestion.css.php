@@ -208,6 +208,9 @@ h3 {
 		left: 1240px;
 	}
 }
+.pos_btn:active {
+	background: #888;
+}
 
 /* position changée mais pas validée */
 .screen.modified {
