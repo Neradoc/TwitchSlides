@@ -13,8 +13,8 @@ define("SOURCES_URL","sources/");
 // changer ces paramètres dans data/config.ini ou data/config.php
 $url_miniature_stream = "";
 $Nscreens = 1;
-$debug = false;
 $twitterMessages = array();
+$debug = false;
 $html_title_gestion = "";
 
 if(file_exists("data/config.ini")) {
@@ -31,6 +31,10 @@ define("IMAGE_FORMAT","screen_%s.%s");
 define("SOURCES_GLOB",SOURCES_DIR."image_*");
 
 $prefs = new PrefsManager($Nscreens);
+
+$url_miniature_stream = $prefs->get("url_miniature_stream",$url_miniature_stream);
+$Nscreens = $prefs->get("Nscreens",$Nscreens);
+$twitterMessages = $prefs->twitterMessages;
 
 function thisurl($params = []) {
 	$thisurl = 'http';

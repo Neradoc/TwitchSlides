@@ -1,12 +1,19 @@
 <?php
 class PrefsManager {
+	// données de prefs
 	public $prefs = array();
+	// fichier de prefs
 	public $file = "";
+	// listes initialisées
 	public $tweets = array();
 	public $screens = array();
 	public $scores = array();
 	public $stars = array();
+	// réglages de config
+	public $twitterMessages = array();
+	//
 	function __construct($Nscreens = 0, $file = "data/prefs.json") {
+		global $twitterMessages;
 		if(!file_exists($file)) {
 			$this->prefs = array();
 		} else {
@@ -19,6 +26,11 @@ class PrefsManager {
 		}
 		$this->file = $file;
 		// init
+		if(isset($this->prefs['Nscreens'])) {
+			if(intval($this->prefs['Nscreens'])>0) {
+				$Nscreens = $this->prefs['Nscreens'];
+			}
+		}
 		if(isset($this->prefs['tweets']) && is_array($this->prefs['tweets'])) {
 			$this->tweets = $this->prefs['tweets'];
 		}
@@ -40,16 +52,25 @@ class PrefsManager {
 		if(isset($this->prefs['stars']) && is_array($this->prefs['stars'])) {
 			$this->stars = $this->prefs['stars'];
 		}
+		if(isset($this->prefs['twitterMessages'])
+			&& is_array($this->prefs['twitterMessages'])
+			&& !empty($this->prefs['twitterMessages'])) {
+			$this->twitterMessages = $this->prefs['twitterMessages'];
+		} else {
+			$this->twitterMessages = $twitterMessages;
+		}
 	}
 	function save() {
 		$this->prefs['scores'] = $this->scores;
 		$this->prefs['screens'] = $this->screens;
+		$this->prefs['twitterMessages'] = $this->twitterMessages;
 		// ne garder que les 10 derniers tweets
 		$this->prefs['tweets'] = array_slice($this->tweets,-10,10);
 		// vérifier que les fichiers star existent
 		$this->prefs['stars'] = array_filter($this->stars,function($is,$star) {
 			return file_exists(SOURCES_DIR.$star) && $is;
 		},ARRAY_FILTER_USE_BOTH);
+		// sauvegarder dans le fichier
 		file_put_contents($this->file,json_encode($this->prefs));
 	}
 	function get($key,$defaut=null) {
@@ -61,6 +82,9 @@ class PrefsManager {
 	}
 	function set($key,$value) {
 		$this->prefs[$key] = $value;
+	}
+	function del($key) {
+		unset($this->prefs[$key]);
 	}
 	function poll_embed() {
 		$strawpoll_page = $this->get("strawpoll","");
