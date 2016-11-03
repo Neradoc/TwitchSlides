@@ -33,21 +33,52 @@ if(!empty($_POST)) {
 <html lang="fr">
 <head>
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=400">
 	<title></title>
 	<style type="text/css" title="text/css">
 	body {
 		padding:0px;
 		margin:0px;
 		overflow: auto;
-		background: lightblue;
+		background: #ADD8E6;
 	}
 	#contenu {
-		border: 20px solid white;
+		border-width: 4px 4px 4px;
+		border-style: solid;
+		border-color: #60A0B6;
 		width: 640px;
-		margin: 16px auto 0px;
+		margin: 0px auto 0px;
+		padding: 0px 20px 20px;
 		background: white;
 		overflow: auto;
 	}
+	#menu {
+		width: 640px;
+		margin: 0px auto 0px;
+		padding: 2px 8px 0px;
+		overflow: auto;
+	}
+	#menu a
+	{
+		float: left;
+		padding: 4px 16px;
+		margin: 0px 2px;
+		color: black;
+		background: white;
+		border-width: 2px 2px 0px 2px;
+		border-color: #60A0B6;
+		border-style: solid;
+		border-radius: 8px 8px 0px 0px;
+		text-decoration: none;
+	}
+	#menu a.ici {
+		background: #60A0B6;
+	}
+	
+	button {
+		background: white;
+	}
+
 	.message_twitter {
 		padding: 4px 0px;
 		vertical-align: bottom;
@@ -58,6 +89,7 @@ if(!empty($_POST)) {
 		float: left;
 	}
 	.message_twitter textarea {
+		font-size: 100%;
 		padding: 4px;
 		margin: 0px;
 		display: inline-block;
@@ -73,7 +105,11 @@ if(!empty($_POST)) {
 		margin-left: 8px;
 		border: 2px solid red;
 		border-radius: 8px;
+		background: #800;
+		color: white;
 	}
+	.message_twitter button:hover { background: red; }
+	.message_twitter button:active { background: #400; color: white; }
 	.message_twitter0 { display:none; }
 	
 	.ajout_message { overflow: auto; }
@@ -86,13 +122,12 @@ if(!empty($_POST)) {
 		border-radius: 8px;
 	}
 
-	button:hover {
-		background: #CCC;
-	}
-	button:active {
-		background: #444;
-		color: white;
-	}
+	.config_nouveau_message_twitter:hover { background: #DDF; }
+	.config_nouveau_message_twitter:active { background: #000; color:white; }
+	
+	button:hover { background: #CCC; }
+	button:active { background: #444; color: white; }
+	
 	input.nscreens {
 		width: 3em;
 		text-align: right;
@@ -122,8 +157,18 @@ if(!empty($_POST)) {
 		padding: 8px;
 		border-radius: 8px;
 	}
-	.valider:hover { background: #AAA; }
+	.valider:hover { background: #8D8; }
 	.valider:active { background: #000; color:white; }
+	
+	@media only screen and (max-device-width: 480px) {
+		#contenu { width: 400px; }
+		.message_twitter textarea { width: 320px; }
+		.message_twitter button { width: 50px; }
+		.config_nouveau_message_twitter { width: 390px; }
+		input.url_miniature_stream { width: 375px; }
+		.url_miniature_img { width: 375px; }
+	}
+	
 	</style>
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" src="cjs/jquery.elastic.js"></script>
@@ -145,6 +190,7 @@ if(!empty($_POST)) {
 	</script>
 </head>
 <body>
+<div id="menu"><a href="gestion">Gestion</a><a class="ici" href="config">Config</a></div>
 <div id="contenu">
 <form action="<?=$thisurl?>" name="config" method="POST">
 <h2>Configuration du bidule</h2>

@@ -437,3 +437,29 @@ form {
 }
 #scoreboard .pair { background: #DFE; }
 #scoreboard .impair { background: white; }
+
+#menu {
+	clear:both;
+	padding: 0px 4px 4px;
+	background: white;
+	overflow: auto;
+	min-height: 20px;
+	border-width: 2px 0px 0px;
+	border-color: #60A0B6;
+	border-style: solid;
+}
+#menu a {
+	float: left;
+	padding: 4px 16px;
+	margin: 0px 2px;
+	color: black;
+	background: white;
+	border-width: 0px 2px 2px 2px;
+	border-color: #60A0B6;
+	border-style: solid;
+	border-radius: 0px 0px 8px 8px;
+	text-decoration: none;
+}
+#menu a.ici {
+	background: #60A0B6;
+}

@@ -68,6 +68,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 -->
 <?php disp_sources($thisurl); ?>
 </div>
+<div id="menu"><a class="ici" href="gestion">Gestion</a><a href="config">Config</a></div>
 <div id="black_block" style="display:none;"></div>
 <!--
 	fenêtre twitter pour la validation
