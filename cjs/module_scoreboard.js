@@ -13,4 +13,7 @@ $(function() {
 			$(".scoreboard_line").show();
 		}
 	});
+	$(".scoreboard_index").change(function() {
+		$(this).closest("form").submit();
+	});
 });

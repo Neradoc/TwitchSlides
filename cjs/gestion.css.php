@@ -346,7 +346,6 @@ h3 {
 	position: absolute;
 	top: 8px;
 	right: 8px;
-	padding:0px;
 	margin:0px;
 	border-radius: 10px;
 	width: 5em;
@@ -372,6 +371,16 @@ form {
 
 #scoreboard {
 	font-size: 90%;
+}
+#scoreboard .scoreboard_index {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	margin:0px;
+	border-radius: 10px;
+	padding: 2px 8px;
+	background: white;
+	border-color: #88F;
 }
 #scoreboard .scoreboard_new {
 	position: absolute;

@@ -55,6 +55,8 @@ if(isset($_REQUEST['get'])) {
 		$nscore += 1;
 	}
 	$data['liste_scores'] = $liste_scores;
+	$zindex = intval($prefs->get('scoreboard_index',0));
+	$data['scoreboard_index'] = $zindex;
 	// reload
 	$reload = $prefs->get("reload_slide",false);
 	$data['reload'] = $reload;
@@ -88,16 +90,16 @@ if(isset($_REQUEST['get'])) {
 	#scores {
 		position:absolute;
 		left:0px;
-		bottom:8px;
+		bottom:4px;
 		font-size: 24px;
 		white-space: pre;
 	}
 	#scores span {
 		position: relative;
 		display: inline-block;
-		padding: 16px;
+		padding: 4px 10px 4px;
 		margin-right: 100px;
-		border-radius: 48px;
+		border-radius: 8px;
 		color: white;
 		background: rgba(0,0,0,1);
 	}
@@ -154,7 +156,6 @@ if(isset($_REQUEST['get'])) {
 							height_0 = height;
 							$("#scores span").css({
 								fontSize: Math.max(8,Math.floor(24*height/ref_height))+"px",
-								padding: Math.max(4,Math.floor(16*height/ref_height))+"px",
 								marginRight: Math.max(10,Math.floor(100*height/ref_height))+"px",
 							});
 							$("#scores span .crown").css({
@@ -162,6 +163,9 @@ if(isset($_REQUEST['get'])) {
 								left: Math.max(4,Math.floor(20*height/ref_height))+"px",
 								top: -1*Math.max(6,Math.floor(30*height/ref_height))+"px",
 							});
+						}
+						if(data['scoreboard_index'] !== false) {
+							$("#scores").css("z-index",data['scoreboard_index']*10+5);
 						}
 					} else {
 						$("#scores:visible").hide();
@@ -225,13 +229,13 @@ if(isset($_REQUEST['get'])) {
 <body>
 <div id="screen">
 	<?php if($debug): ?>
-	<img src="<?=$url_miniature_stream?>" style="display:absolute; left:0px; top:0px; width:100%; height:100%;"/>
+	<img src="<?=$url_miniature_stream?>" style="display:absolute; left:0px; top:0px; width:100%; height:100%; z-index:0;"/>
 	<?php endif; ?>
 	<?php for($i=0; $i<max($Nscreens,8); $i++) {
-		print('<img class="image image'.($i+1).'" src="cjs/img/vide.png" />'."\n");
+		print('<img class="image image'.($i+1).'" src="cjs/img/vide.png" style="z-index:'.($i*10+10).';" />'."\n");
 	}
 	?>
-	<div id="scores">Les scores ne sont pas encore chargés</div>
+	<div id="scores" style="z-index:<?=intval($prefs->get("scoreboard_index",0))*10+5?>;">Les scores ne sont pas encore chargés</div>
 </div>
 </body>
 </html>
