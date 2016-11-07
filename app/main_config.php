@@ -11,6 +11,7 @@ if(isset($_POST['Nscreens'])) {
 	$N = intval($_POST['Nscreens']);
 	if($N > 0 && $N != $Nscreens) {
 		$prefs->set("Nscreens",$N);
+		$prefs->set("reload_slide",true);
 	} else {
 		$prefs->del("Nscreens");
 	}
