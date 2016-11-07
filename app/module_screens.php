@@ -107,6 +107,7 @@ function disp_screens($thisurl) {
 		$isOn = $prefs->screenOn($index);
 		$base_lien = dirname($thisurl);
 		$lien = $base_lien ."/slide";
+		$twitter_title = "";
 		if($imageurl != "" && file_exists(SCREENS_DIR.$imageurl)) {
 			$btns_classes = "";
 			$btns_classes2 = "";
@@ -168,8 +169,8 @@ function disp_screens($thisurl) {
 				<? endif; ?>
 			</div>
 			<div class="btns">
-				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>">Changer</button>
-				<button class="effacer <?=$btns_classes?>" name="screen_effacer" value="<?=$index?>">Effacer</button>
+				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Changer</button>
+				<button class="effacer <?=$btns_classes?>" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button>
 				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>">Twitter le rébus</button>
 			</div>
 			</form>
@@ -210,13 +211,13 @@ function disp_sources($thisurl) {
 				$file = basename($source['file']);
 				return isset($prefs->stars[$file]) && $prefs->stars[$file];
 			});
-			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>"><img class="pagination_star" src="cjs/img/nogrp.png"/></a><?
+			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>" title="Toutes les images"><img class="pagination_star" src="cjs/img/nogrp.png"/></a><?
 		} else {
 			$numPages = floor(($numSources-1)/SOURCES_PARPAGE);
 			$sources_page = max(0,min($numPages,$sources_page));
 			$lesSources = array_slice($sources,$sources_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
 			if($sources_page==0) $class="useless"; else $class = "";
-			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>"><img class="pagination_star" src="cjs/img/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>max(0,$sources_page-1)])?>">&lt;&mdash;</a><?
+			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>" title="Images favorites"><img class="pagination_star" src="cjs/img/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>max(0,$sources_page-1)])?>">&lt;&mdash;</a><?
 			$start = 0;
 			$end = $numPages;
 			if($numPages > SOURCES_VISIBLEPAGES) {
@@ -283,8 +284,8 @@ function disp_sources($thisurl) {
 				<button class="pos_btn zoomzero">=</button>
 			</div>
 			<div class="btns">
-				<button class="effacer" name="sources_effacer" value="<?=$name?>">Effacer</button>
-				<select class="assign" name="sources_assign">
+				<button class="effacer" name="sources_effacer" value="<?=$name?>" title="Retirer l'image du serveur (irréversible)">Effacer</button>
+				<select class="assign" name="sources_assign" title="Choisir un écran où afficher l'image">
 					<option value="0">Afficher sur le stream</option>
 					<?php
 					for($screen=1; $screen<=$Nscreens; $screen++) {
@@ -294,9 +295,9 @@ function disp_sources($thisurl) {
 				</select>
 			</div>
 			<?php if(isset($prefs->stars[$name]) && $prefs->stars[$name]): ?>
-			<button class="sources_star" name="sources_star" value="<?=$name?>"><img src="cjs/img/star.png"/></button>
+			<button class="sources_star" name="sources_star" value="<?=$name?>" title="Retirer cette image des favorites"><img src="cjs/img/star.png"/></button>
 			<?php else: ?>
-			<button class="sources_star" name="sources_star" value="<?=$name?>"><img src="cjs/img/nogrp.png"/></button>
+			<button class="sources_star" name="sources_star" value="<?=$name?>" title="Marquer cette image comme favorite"><img src="cjs/img/nogrp.png"/></button>
 			<?php endif; ?>
 			</form>
 		</div><?

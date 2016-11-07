@@ -73,14 +73,14 @@ function disp_scoreboard($thisurl) {
 	<h3>Scores</h3>
 	<form action="<?=$thisurl?>" name="scoreboard_indexing" method="POST">
 		<?php $zindex = intval($prefs->get('scoreboard_index',0)); ?>
-		<select class="scoreboard_index" name="scoreboard_index">
-			<option value="0" title="Afficher derrière les écrans">Derrière</option><?php
+		<select class="scoreboard_index" name="scoreboard_index" title="Position par rapport aux écrans">
+			<option value="0">Derrière</option><?php
 			for($screen=1; $screen<$Nscreens; $screen++) {
 				$selected = $screen == $zindex ? "selected" : "";
 				?><option value="<?=$screen?>" <?=$selected?>>Entre <?=$screen ?> et <?=$screen+1 ?></option><?
 			}
 			$selected = ($Nscreens == $zindex || $zindex == 100) ? "selected" : ""; ?>
-			<option value="100" title="Afficher devant les écrans" <?=$selected?>>Devant</option>
+			<option value="100" <?=$selected?>>Devant</option>
 		</select>
 	</form>
 	<form action="<?=$thisurl?>" name="scoreboard_onoff" method="POST">
