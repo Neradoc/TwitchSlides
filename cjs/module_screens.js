@@ -333,18 +333,21 @@ $(function() {
 			return false;
 		}
 	}
+	//
+	function noCursor() {
+		$(".pimage, .pimage .image").removeClass("nwresize swresize neresize seresize");
+	}
 	function exitMove(evt) {
+		movingImageMouseMove(evt);
 		if(movingImage) {
-			movingImageMouseMove(evt);
 			movingImage.closest(".screen").addClass("modified");
 		}
 		if(scalingImage) {
-			movingImageMouseMove(evt);
 			scalingImage.closest(".screen").addClass("modified");
 		}
 		scalingImage = false;
 		movingImage = false;
-		$(".pimage, .pimage .image").removeClass("nwresize swresize neresize seresize");
+		noCursor();
 	}
 	function setScalingImage(image,evt) {
 		movingImage = false;
@@ -362,7 +365,7 @@ $(function() {
 			y: (evt.pageY - scalingImage.offset().top)
 			/ scalingImage.height() * scale,
 		};
-		$(".pimage, .pimage .image").removeClass("nwresize swresize neresize seresize");
+		noCursor();
 		if(ptTouch.x<0.5 && ptTouch.y<0.5) {
 			scalingDirection = "topleft";
 			parent.addClass("nwresize");
@@ -382,9 +385,20 @@ $(function() {
 		}
 	}
 	$(".pimage .image").on("mouseover mousemove",function(evt) {
-		if(evt.altKey && movingImage == false && scalingImage == false) {
-			setScalingImage($(this),evt);
-			scalingImage = false;
+		if(movingImage == false && scalingImage == false) {
+			image = $(this);
+			if(evt.altKey) {
+				setScalingImage(image,evt);
+				scalingImage = false;
+			} else {
+				noCursor();
+			}
+		}
+		return false;
+	});
+	$(".pimage").on("mouseover mousemove",function(evt) {
+		if(movingImage == false && scalingImage == false) {
+			noCursor();
 		}
 	});
 	$(".pimage .image").mousedown(function(evt) {

@@ -231,16 +231,16 @@ h3 {
 }
 /*  */
 .nwresize {
-	cursor: nw-resize;
+	cursor: nw-resize !important;
 }
 .swresize {
-	cursor: sw-resize;
+	cursor: sw-resize !important;
 }
 .neresize {
-	cursor: ne-resize;
+	cursor: ne-resize !important;
 }
 .seresize {
-	cursor: se-resize;
+	cursor: se-resize !important;
 }
 
 #sources .pagination_sources {
