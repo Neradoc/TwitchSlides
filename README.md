@@ -6,6 +6,7 @@ Sur un site situé à l'adresse http://site.web/
 * Le streamer ajoute une capture de la page http://site.web/slide en plein écran, réglée pour la taille 1920x1080, et la dimensionne à la taille du stream (qu'on suppose donc en 16/9e).
 * Le streamer peut également capturer http://site.web/strawpoll à l'endroit et la taille voulue, en établissant une couleur de transparence appropriée.
 * L'assistant se connecte à http://site.web/gestion pour accéder au panneau de gestion.
+* Certains paramètres de l'interface de gestion peuvent être modifiés dans le panneau de configuration à http://site.web/config
 
 ### Le panneau de gestion
 * En haut nous retrouvons les modules gérant ce qui est affiché sur le stream.
@@ -37,6 +38,7 @@ Sur un site situé à l'adresse http://site.web/
 	* Entrer l'url du strawpoll (seul le numéro compte) et valider avec entrée. La page de résultats (en histogrammes) sera affichée.
 	* Le bouton "Effacer" efface l'url du strawpoll.
 * Module scores:
+	* Le menu de position permet de décider si les scores s'affichent devant ou derrière les images.
 	* Ajouter un joueur avec le champ texte en bas et son score (1 par défaut). Valider avec entrée ou avec le bouton coche.
 	* Le champ de texte permet aussi de filtrer les noms (pour voir si le joueur est déjà là par exemple).
 	* Les boutons "+" et "-" changent le nombre de points de la valeur indiquée au milieu (pour ne pas avoir à faire des additions de tête).
@@ -45,22 +47,26 @@ Sur un site situé à l'adresse http://site.web/
 	
 
 ### Aller plus loin
-La variable de configuration url_miniature_stream permet de déclarer l'adresse (relative ou absolue) de l'image de fond affichée dans le module écran (pas sur le stream), permettant d'aider au positionnement des images.
-
-La variable de configuration Nscreens peut être augmentée (elle est à 1 par défaut) ajoutant autant de modules "écran" à la page de gestion. Chaque écran gère une image différente, qui seront toutes affichées en même temps dans le slide, les écrans de numéro plus élevé devant les autres.
+Le **nombre d'écrans configurables** peut être augmenté (il est à 1 par défaut) ajoutant autant de modules "écran" à la page de gestion. Chaque écran gère une image différente, qui seront toutes affichées en même temps dans le slide, les écrans de numéro plus élevé devant les autres.
 
 Il est possible de n'afficher que certaines image à la fois en ajoutant le paramètre "screen" à l'adresse du slide, par exemple: http://site.web/slide?screen=1 ou http://site.web/slide?screen=2,5 pour les images (des écrans) 2 et 5.
 
-N'oubliez pas qu'il est généralement possible (dans OBS par exemple) de limiter l'affichage d'une image à une région limitée de l'écran. Évidemment l'image miniature de fond ne correspondra plus. Vous pouvez également garder la taille de la zone en plein écran mais couper les bords ("crop") gardant ainsi la conrrespondance tout en controlant la zone affichée.
+La configuration de **l'image de fond des écrans** permet de déclarer l'adresse (relative ou absolue) de l'image de fond affichée dans le module écran (pas sur le stream), permettant d'aider au positionnement des images.
+
+Il est possible d'afficher l'image de fond sur le "slide" en ajoutant la variable debug à l'adresse, pour prévisualiser l'ensemble des images ensemble (à ne pas faire sur le stream par contre, ça cacherait tout).
+
+N'oubliez pas qu'il est généralement possible (dans OBS par exemple) de limiter l'affichage d'une image à une région limitée de l'écran. Évidemment l'image miniature de fond ne correspondra plus. Vous pouvez également garder la taille de la zone en plein écran mais couper les bords ("crop") gardant ainsi la correspondance tout en controlant la zone affichée. Avec OBS alt-click permet de croper à la souris.
 
 ## Twitter l'image
 ### Avec IFTTT.com
 Mettre en place un recette (recipe) sur IFTTT.com qui relie la chaine Maker et envoie un tweet avec le message défini comme {{Value2}}, et une image définie comme {{Value1}}. Puis renseigner les variables twitterIftMakerKey et twitterIftChannel dans le fichier "config.ini".
 ### Avec l'API twitter
-Il faut d'abord crééer une clef d'application twitter ainsi qu'un token à https://apps.twitter.com/app/new et configurer les paramètres adequat. Attention, ne pas oublier de définir twitterUtiliserApi.
+Il faut d'abord crééer une clef d'application twitter ainsi qu'un token à https://apps.twitter.com/app/new et configurer les paramètres adequat dans le fichier "config.ini". Attention, ne pas oublier de définir twitterUtiliserApi.
+
+Les messages par défaut proposés dans l'interface de twitter peuvent être modifiés, retirés, ajoutés, dans l'interface de configuration.
 
 ## Variables de configuration
-Variables à définir dans le fichier *"data/config.ini"*. Le format exact est indiqué dans le fichier *"config.exemple.ini"* distribué avec l'application.
+Variables à définir dans le fichier *"data/config.ini"*. Le format exact est indiqué dans le fichier *"config.exemple.ini"* distribué avec l'application. Certaines de ces valeurs servent de valeur par défaut et sont replacées par celles de l'interface de configuration.
 
 * **htmlTitleGestion**: titre de la page gestion (au sens de la balise title).
 * **url_miniature_stream**: url de la miniature du stream, celle affichée par twitch dans la page "Suivis".
