@@ -360,6 +360,7 @@ h3 {
 	border-radius: 10px;
 	width: 5em;
 	padding: 2px 4px;
+	cursor: pointer;
 }
 .btn_switch_on {
 	color:white;
@@ -370,6 +371,9 @@ h3 {
 	color:white;
 	background: #800;
 	text-align: right;
+}
+.btn_switch:hover {
+	border-color: #888;
 }
 
 form {
@@ -426,7 +430,10 @@ form {
 	border-radius: 10px;
 	border: 2px solid transparent;
 }
-#scoreboard button:hover {
+#scoreboard .scoreboard_list button {
+	cursor: pointer;
+}
+#scoreboard .scoreboard_list button:hover {
 	border: 2px solid black;
 }
 #scoreboard .down_score:hover { border-color: #BB9105; }
