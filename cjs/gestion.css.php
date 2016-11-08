@@ -23,7 +23,8 @@ p { padding: 2px; margin:0px; }
 .screen,
 .source,
 #strawpoll,
-#scoreboard {
+#scoreboard,
+#previsu {
 	position: relative;
 	float:left;
 	padding: 8px;
@@ -32,6 +33,10 @@ p { padding: 2px; margin:0px; }
 	border-style: solid;
 	border-radius: 8px;
 	width: <?=$screen_width?>px;
+}
+#previsu {
+	border-color: #80FF80;
+	height: <?=$screen_height + 65?>px;
 }
 .screen {
 	border-color:#080;
@@ -42,7 +47,7 @@ p { padding: 2px; margin:0px; }
 	height: <?=$screen_height + 37?>px;
 }
 #strawpoll {
-	border-color:#080;
+	border-color:#804000;
 	height: <?=$screen_height + 65?>px;
 }
 #scoreboard {
@@ -474,7 +479,7 @@ form {
 	border-color: #60A0B6;
 	border-style: solid;
 }
-#menu a {
+#menu a, #menu label {
 	float: left;
 	padding: 4px 16px;
 	margin: 0px 2px;
@@ -485,6 +490,9 @@ form {
 	border-style: solid;
 	border-radius: 0px 0px 8px 8px;
 	text-decoration: none;
+}
+#menu input {
+	margin: 0px 4px 0px 0px;
 }
 #menu a.ici {
 	background: #60A0B6;

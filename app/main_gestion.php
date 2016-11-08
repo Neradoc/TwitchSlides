@@ -6,7 +6,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include_once("head.php");
-
+include_once("module_previsu.php");
 include_once("module_strawpoll.php");
 include_once("module_upload.php");
 include_once("module_scoreboard.php");
@@ -28,12 +28,22 @@ if(!empty($_POST) || !empty($_FILES)) {
 	<link rel='stylesheet' href='cjs/module_twitter.css' type='text/css' />
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" src="cjs/jquery.elastic.js"></script>
+	<script type="text/javascript" src="cjs/gestion.js"></script>
 	<script type="text/javascript" src="cjs/module_screens.js"></script>
 	<script type="text/javascript" src="cjs/module_twitter.js"></script>
 	<script type="text/javascript" src="cjs/module_scoreboard.js"></script>
 </head>
 <body>
+<div id="menu">
+	<a class="ici" href="gestion">Gestion</a>
+	<a href="config">Config</a>
+	<label><input class="previsu" type="checkbox" />Prévisu</label>
+</div>
 <div id="contenu">
+<!--
+	prévisu du slide
+-->
+<?php disp_previsu($thisurl); ?>
 <!--
 	liste des écrans (images qu'on peut inclure dans son stream)
 	- affiche l'image actuelle
@@ -68,7 +78,6 @@ if(!empty($_POST) || !empty($_FILES)) {
 -->
 <?php disp_sources($thisurl); ?>
 </div>
-<div id="menu"><a class="ici" href="gestion">Gestion</a><a href="config">Config</a></div>
 <div id="black_block" style="display:none;"></div>
 <!--
 	fenêtre twitter pour la validation
