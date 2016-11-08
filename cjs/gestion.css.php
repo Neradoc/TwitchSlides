@@ -224,13 +224,23 @@ h3 {
 /* images */
 .screen .image,
 .source .image {
-	/*max-width: 400px;*/
-	/*max-height: 225px;*/
-	/* max-width: 1920px; */
-	/* max-height: 1080px; */
+	cursor: move;
 }
 .pimage:hover .image {
 	outline: 8px dashed #444;
+}
+/*  */
+.nwresize {
+	cursor: nw-resize;
+}
+.swresize {
+	cursor: sw-resize;
+}
+.neresize {
+	cursor: ne-resize;
+}
+.seresize {
+	cursor: se-resize;
 }
 
 #sources .pagination_sources {

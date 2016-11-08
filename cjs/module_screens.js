@@ -344,32 +344,52 @@ $(function() {
 		}
 		scalingImage = false;
 		movingImage = false;
+		$(".pimage, .pimage .image").removeClass("nwresize swresize neresize seresize");
 	}
+	function setScalingImage(image,evt) {
+		movingImage = false;
+		scalingImage = image;
+		scalingStart = [evt.pageX,evt.pageY];
+		//
+		var parent = scalingImage.parent();
+		var imgPos = {
+			top: scalingImage.offset().top  - parent.offset().top,
+			left:scalingImage.offset().left - parent.offset().left,
+		};
+		var ptTouch = {
+			x: (evt.pageX - scalingImage.offset().left)
+			/ scalingImage.width() * scale,
+			y: (evt.pageY - scalingImage.offset().top)
+			/ scalingImage.height() * scale,
+		};
+		$(".pimage, .pimage .image").removeClass("nwresize swresize neresize seresize");
+		if(ptTouch.x<0.5 && ptTouch.y<0.5) {
+			scalingDirection = "topleft";
+			parent.addClass("nwresize");
+			scalingImage.addClass("nwresize");
+		} else if(ptTouch.x>=0.5 && ptTouch.y<0.5) {
+			scalingDirection = "topright";
+			parent.addClass("neresize");
+			scalingImage.addClass("neresize");
+		} else if(ptTouch.x<0.5 && ptTouch.y>=0.5) {
+			scalingDirection = "bottomleft";
+			parent.addClass("swresize");
+			scalingImage.addClass("swresize");
+		} else {
+			scalingDirection = "bottomright";
+			parent.addClass("seresize");
+			scalingImage.addClass("seresize");
+		}
+	}
+	$(".pimage .image").on("mouseover mousemove",function(evt) {
+		if(evt.altKey && movingImage == false && scalingImage == false) {
+			setScalingImage($(this),evt);
+			scalingImage = false;
+		}
+	});
 	$(".pimage .image").mousedown(function(evt) {
 		if(evt.altKey) {
-			movingImage = false;
-			scalingImage = $(this);
-			scalingStart = [evt.pageX,evt.pageY];
-			//
-			var parent = scalingImage.parent();
-			var imgPos = {
-				top: scalingImage.offset().top  - parent.offset().top,
-				left:scalingImage.offset().left - parent.offset().left,
-			};
-			ptTouch = {
-				x: (evt.pageX - scalingImage.offset().left)
-				/ scalingImage.width() * scale,
-				y: (evt.pageY - scalingImage.offset().top)
-				/ scalingImage.height() * scale,
-			};
-			if(ptTouch.x<0.5 && ptTouch.y<0.5)
-				scalingDirection = "topleft";
-			else if(ptTouch.x>=0.5 && ptTouch.y<0.5)
-				scalingDirection = "topright";
-			else if(ptTouch.x<0.5 && ptTouch.y>=0.5)
-				scalingDirection = "bottomleft";
-			else
-				scalingDirection = "bottomright";
+			setScalingImage($(this),evt);
 		} else {
 			scalingImage = false;
 			movingImage = $(this);
