@@ -221,6 +221,7 @@ if(isset($_REQUEST['get'])) {
 			}
 		}
 		$(function() {
+			setTimeout(update_image,100);
 			setInterval(update_image,1000);
 			setInterval(movescores,speed);
 		});
