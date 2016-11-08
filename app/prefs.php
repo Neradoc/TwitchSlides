@@ -88,9 +88,15 @@ class PrefsManager {
 	}
 	function poll_embed() {
 		$strawpoll_page = $this->get("strawpoll","");
-		if(preg_match('`(\d\d+)`',$strawpoll_page,$m)) {
-			$numpoll = $m[1];
-			return "http://www.strawpoll.me/embed_1/$numpoll/r";
+		$strawpoll_page = trim($strawpoll_page);
+		$strawpoll_page = preg_replace(',^https?:?/*,i','',$strawpoll_page);
+		if(preg_match('`^(www.)?strawpoll.me/(.*)`i',$strawpoll_page,$m)) {
+			$strawpoll_page = $m[2];
+			$strawpoll_page = preg_replace(',/r?$,i','',$strawpoll_page);
+			if(preg_match('`/?([a-z0-9]+)$`',$strawpoll_page,$m)) {
+				$numpoll = $m[1];
+				return "https://www.strawpoll.me/embed_1/$numpoll/r";
+			}
 		}
 		return "";
 	}
