@@ -5,7 +5,7 @@ $debug = isset($_REQUEST['debug']);
 
 // screens
 $screensNumbers = [];
-if(isset($_REQUEST['screen'])) {
+if(isset($_REQUEST['screen']) && $_REQUEST['screen'] != "") {
 	$screensNumbers =
 		array_filter(
 			array_map(

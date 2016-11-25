@@ -97,7 +97,7 @@ if(!empty($_POST)) {
 		width: 564px;
 		height: 4em;
 	}
-	.message_twitter button {
+	.config_retirer_message_twitter {
 		display: inline-block;
 		width: 56px;
 		height: 50px;
