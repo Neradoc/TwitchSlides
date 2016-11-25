@@ -1,0 +1,44 @@
+#slide_block {
+	position:relative;
+	overflow: hidden;
+}
+#slide_block .image {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+}
+#slide_block .slide_background {
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;
+	height:100%;
+	z-index:0;
+}
+
+#slide_scores {
+	position:absolute;
+	left:0px;
+	bottom:4px;
+	font-size: 24px;
+	white-space: pre;
+}
+#slide_scores span {
+	position: relative;
+	display: inline-block;
+	padding: 4px 10px 4px;
+	margin-right: 100px;
+	border-radius: 8px;
+	color: white;
+	background: rgba(0,0,0,1);
+}
+#slide_scores span .crown {
+	position: absolute;
+	height: 40px;
+	left: 20px;
+	top: -30px;
+}
+
+.main_gestion #slide_block {
+	
+}

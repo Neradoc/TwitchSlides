@@ -136,7 +136,7 @@ function disp_screens($thisurl) {
 				?><button class="btn_switch btn_switch_off" name="screen_switch" value="1" title="Désactivé, cliquer pour activer l'affichage des scores">OFF</button><?
 			}
 			?>
-			<div class="pimage">
+			<div class="pimage screensize">
 				<?php if($url_miniature_stream): ?>
 				<img class="back_screen" src="<?=$url_miniature_stream?>" />
 				<?php endif; ?>
@@ -257,7 +257,7 @@ function disp_sources($thisurl) {
 		}
 		?><div class='source'>
 			<form action="<?=$thisurl?>" name="sources" method="POST">
-			<div class="pimage">
+			<div class="pimage screensize">
 				<?php if($url_miniature_stream): ?>
 				<img class="back_screen" src="<?=$url_miniature_stream?>" />
 				<?php endif; ?>

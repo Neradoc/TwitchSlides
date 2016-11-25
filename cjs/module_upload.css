@@ -1,0 +1,10 @@
+#upload .upload_fichier {
+	font-size: 100%;
+}
+#upload .upload_url {
+	width: <?=$screen_width - 120?>px;
+}
+#upload .upload_btn {
+	font-size: 100%;
+	margin-left:<?=$screen_width - 85?>px;
+}

@@ -1,0 +1,11 @@
+.strawpoll_lien {
+	width: <?=$screen_width-12?>px;
+}
+.strawpoll_frame {
+	position: absolute;
+	width:<?=floor($screen_width * 1.99)?>px;
+	height:<?=floor($screen_height * 1.8)?>px;
+	border:0;
+	transform: scale(0.5,0.5);
+	transform-origin: top left;
+}

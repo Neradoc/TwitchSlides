@@ -1,0 +1,80 @@
+#scoreboard {
+	font-size: 90%;
+}
+#scoreboard .scoreboard_index {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	margin:0px;
+	border-radius: 10px;
+	padding: 2px 8px;
+	background: white;
+	border-color: #88F;
+}
+#scoreboard .scoreboard_new {
+	position: absolute;
+	bottom: 8px;
+	width: <?=$screen_width?>px;
+}
+#scoreboard .scoreboard_new_nom {
+	width: 225px;
+}
+#scoreboard .scoreboard_new_score {
+	width: 60px;
+	text-align: right;
+}
+#scoreboard .scoreboard_new_btn {
+	position: absolute;
+	right: 0px;
+}
+#scoreboard .scoreboard_list {
+	overflow-x: auto;
+	overflow-y: auto;
+	height: 220px;
+}
+#scoreboard .scoreboard_line {
+	clear: both;
+	padding: 2px;
+}
+#scoreboard button.rond {
+	width:21px;
+	height:21px;
+	padding: 0px;
+	vertical-align:bottom;
+	background:transparent;
+	border-radius: 10px;
+	border: 2px solid transparent;
+}
+#scoreboard .scoreboard_list button {
+	cursor: pointer;
+}
+#scoreboard .scoreboard_list button:hover {
+	border: 2px solid black;
+}
+#scoreboard .down_score:hover { border-color: #BB9105; }
+#scoreboard .up_score:hover { border-color: #0C5B0B; }
+#scoreboard .valider_score:hover { border-color: #117E9C; }
+#scoreboard .effacer_score:hover { border-color: #8C0002; }
+
+#scoreboard .nom {
+	padding: 2px 4px 2px;
+}
+#scoreboard .score {
+	text-align: right;
+	font-size: 100%;
+	width: 3.5em;
+	border:none;
+}
+#scoreboard .modif_score {
+	text-align: center;
+	width: 1.5em;
+	padding: 2px 0px;
+	border:none;
+}
+#scoreboard .nom {}
+
+#scoreboard .effacer_score {
+	float:right;
+}
+#scoreboard .pair { background: #DFE; }
+#scoreboard .impair { background: white; }

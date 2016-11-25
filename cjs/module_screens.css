@@ -1,0 +1,232 @@
+.screensize {
+	position: absolute;
+	overflow:hidden;
+	/* 16/9 */
+	width: 1920px;
+	height: 1080px;
+	transform: scale(<?=$scale?>);
+	transform-origin: top left;
+	padding: 0px;
+	margin: 0px;
+	background-image: url("img/damier.png");
+}
+.screensize .back_screen {
+	position:absolute;
+	width: 1920px;
+	height: 1080px;
+	top: 0px;
+	left: 0px;
+	opacity: 0.5;
+}
+
+/* boutons de positions */
+.pos_btn {
+	position: absolute;
+	padding: 2px;
+	font-size: 300%;
+	width: 70px;
+	height: 70px;
+	text-align: center;
+	vertical-align: middle;
+	background: white;
+	border: none;
+	border-radius: 0px;
+	display: none;
+}
+.pimage:hover .pos_btn {
+	display:block;
+}
+.pos_btn.topleft {
+	top: 0px;
+	left: 0px;
+}
+.pos_btn.topright {
+	top: 0px;
+	right: 0px;
+}
+.pos_btn.bottomleft {
+	bottom: 0px;
+	left: 0px;
+}
+.pos_btn.bottomright {
+	bottom: 0px;
+	right: 0px;
+}
+.pos_btn.centerleft {
+	top: 505px;
+	left: 0px;
+}
+.pos_btn.centerright {
+	top: 505px;
+	right: 0px;
+}
+.pos_btn.centertop {
+	top: 0px;
+	left: 925px;
+}
+.pos_btn.centerbottom {
+	bottom: 0px;
+	left: 925px;
+}
+.pos_btn.centercenter {
+	top: 505px;
+	left: 925px;
+}
+.pos_btn.moveleft {
+	top: 420px;
+	left: 0px;
+}
+.pos_btn.moveright {
+	top: 420px;
+	right: 0px;
+}
+.pos_btn.movetop {
+	top: 0px;
+	left: 840px;
+}
+.pos_btn.movebottom {
+	bottom: 0px;
+	left: 840px;
+}
+.pos_btn.zoomout {
+	bottom: 0px;
+	left: 1020px;
+}
+.pos_btn.zoomzero {
+	bottom: 0px;
+	left: 1100px;
+}
+.pos_btn.zoomin {
+	bottom: 0px;
+	left: 1180px;
+}
+.pos_btn.moveprev {
+	top: 0px;
+	left: 1020px;
+}
+.pos_btn.movenext {
+	top: 0px;
+	left: 1100px;
+}
+@media only screen and (max-device-width: 480px) {
+	.pos_btn {
+		width: 140px;
+		height: 140px;
+	}
+	.pos_btn.zoomout {
+		left: 1080px;
+	}
+	.pos_btn.zoomzero {
+		left: 1240px;
+	}
+	.pos_btn.zoomin {
+		left: 1400px;
+	}
+	.pos_btn.moveleft {
+		top: 350px;
+	}
+	.pos_btn.moveright {
+		top: 350px;
+	}
+	.pos_btn.movetop {
+		left: 770px;
+	}
+	.pos_btn.movebottom {
+		left: 770px;
+	}
+	.pos_btn.moveprev {
+		left: 1080px;
+	}
+	.pos_btn.movenext {
+		left: 1240px;
+	}
+}
+.pos_btn:active {
+	background: #888;
+}
+
+/* position changée mais pas validée */
+.screen.modified {
+	background-color: #FFFFB0;
+}
+.screen.modified .changer {
+	color: white;
+	background: #444488;
+}
+
+/* images */
+.screen .image,
+.source .image {
+	cursor: move;
+}
+.pimage:hover .image {
+	outline: 8px dashed #444;
+}
+/*  */
+.nwresize {
+	cursor: nw-resize !important;
+}
+.swresize {
+	cursor: sw-resize !important;
+}
+.neresize {
+	cursor: ne-resize !important;
+}
+.seresize {
+	cursor: se-resize !important;
+}
+
+/* modules de sources */
+
+#sources .pagination_sources {
+	padding: 0px 8px 0px;
+	clear:both;
+	border-style: solid;
+	border-color: #88F;
+	border-width: 2px 0px 2px;
+	text-align: center;
+}
+#sources .bouton_pagination {
+	display: inline-block;
+	padding: 4px 0px;
+	border-style: solid;
+	border-color: #88F;
+	border-width: 0px 2px;
+	border-radius: 16px;
+	text-decoration: none;
+	color: #44F;
+	background: white;
+	min-width: 2em;
+	min-height: 20px;
+	text-align: center;
+}
+#sources .bouton_pagination.useless {
+	color: #BBB;
+	border-color: #BBB;
+}
+#sources .bouton_pagination.current {
+	color: white;
+	background: #BBB;
+	border-color: #BBB;
+}
+#sources a.bouton_pagination:hover {
+	color: white;
+	background: #88F;
+}
+#sources .pagination_star {
+	width: 16px;
+	height: 16px;
+}
+
+.source .sources_star {
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+	padding: 0px;
+	margin: 0px;
+	border: none;
+	background: transparent;
+}
+.source .assign option:first-child {
+	color: #888;
+}
