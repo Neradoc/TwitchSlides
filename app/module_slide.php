@@ -70,74 +70,7 @@ function slide_ajax() {
 function disp_slide($thisurl) {
 	global $Nscreens,$url_miniature_stream,$prefs;
 	?>
-	<script type="text/javascript" language="javascript" charset="utf-8">
-	function posScreen(screen) {
-		var parent = screen.find(".pimage");
-		var image = parent.find(".image");
-		var top = image.offset().top-parent.offset().top;
-		var left = image.offset().left-parent.offset().left;
-		return [
-			Math.round(scale*left),Math.round(scale*top),
-			screen.find('input[name="image_zoom"]').val(),
-		];
-	}
-	function update_the_slide() {
-		var screens = [];
-		$("#screens .screen").each(function() {
-			if($(this).find('button[name="screen_switch"]').val() == 0) {
-				var image = $(this).find('.image');
-				var pos = posScreen($(this));
-				var size = [image.data("width"),image.data("height")];
-				var screen = {
-					"num":$(this).find('input[name="screen_num"]').val(),
-					"image":image.attr('src'),
-					"pos":pos,
-					"size":size,
-					"on":true,
-				}
-				screens.push(screen);
-			}
-		});
-		var liste_scores = "";
-		$(".scoreboard_list .scoreboard_line").each(function(index) {
-			var nom = $(this).find('input[name="scoreboard_nom"]').val();
-			var score = $(this).find('input.score').val();
-			var out = "<span>"+nom+" : "+score+"</span>";
-			liste_scores += out;
-		});
-		var data = {
-			"screens":screens,
-			"scoreboard_on":$('button[name="scoreboard_switch"]').val()=="1"?false:true,
-			"scoreboard_index":$('button[name="scoreboard_index"]').val(),
-			"liste_scores":liste_scores,
-			"reload":false
-		};
-		update_slide(data);
-	}
-	var timerMoveScore = false;
-	var timerUpdateSlide = false;
-	function stopSlideLoops() {
-		if(timerMoveScore !== false) {
-			clearInterval(timerMoveScore);
-			timerMoveScore = false;
-		}
-		if(timerUpdateSlide !== false) {
-			clearInterval(timerUpdateSlide);
-			timerUpdateSlide = false;
-		}
-	}
-	function startSlideLoops() {
-		setTimeout(update_the_slide,100);
-		timerMoveScore = setInterval(movescores,50);
-		timerUpdateSlide = setInterval(update_the_slide,1000);
-	}
-	$(function() {
-		setupSlides(true,false);
-		startSlideLoops();
-		$("#slide_block").data("onshow",startSlideLoops);
-		$("#slide_block").data("onhide",stopSlideLoops);
-	});
-	</script>
+	<script type="text/javascript" src="cjs/module_slide_gestion.js"></script>
 	<div id="slide_block">
 	<h3>Prévisu</h3>
 	<div class="slide_previsu screensize">
@@ -147,6 +80,9 @@ function disp_slide($thisurl) {
 		}
 		?>
 		<div id="slide_scores" style="z-index:<?=intval($prefs->get("scoreboard_index",0))*10+5?>;">Les scores ne sont pas encore chargés</div>
+	</div>
+	<div class="btns">
+		<button class="changer_tous" name="screen_changer_tous" value="" title="Valider les changements dans l'image">Enregistrer les positions</button>
 	</div>
 	</div><?
 }

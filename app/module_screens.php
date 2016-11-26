@@ -66,7 +66,7 @@ if(isset($_POST['screen_moveto'])) {
 }
 
 if(isset($_POST['screen_changer'])) {
-	$screen = intval($_POST['screen_changer']);
+	$screen = intval($_POST['screen_num']);
 	$file = $prefs->screenFile($screen);
 	if($file != "") {
 		if(isset($_POST['image_top']))
