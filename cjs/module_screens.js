@@ -72,7 +72,7 @@ $(function() {
 	$(".lien").click(function() {
 		$(this).select();
 	});
-	$(".screen,.source").each(function() {
+	$(".module_screen_block").each(function() {
 		var screen = $(this);
 		var img = $(this).find(".pimage .image");
 		img.on("load",function() {
@@ -91,6 +91,9 @@ $(function() {
 	});
 	//
 	function screen_modified(screen) {
+		if(!screen.is(".module_screen_block")) {
+			screen = screen.closest(".module_screen_block");
+		}
 		apply_screen_changes(screen);
 		screen.addClass("modified");
 	}
@@ -100,7 +103,7 @@ $(function() {
 			top:"0px", bottom:"auto",
 			left:"0px", right:"auto",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.topright").click(function() {
@@ -108,7 +111,7 @@ $(function() {
 			top:"0px", bottom:"auto",
 			left:"auto", right:"0px",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.bottomleft").click(function() {
@@ -116,7 +119,7 @@ $(function() {
 			top:"auto", bottom:"0px",
 			left:"0px", right:"auto",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.bottomright").click(function() {
@@ -124,7 +127,7 @@ $(function() {
 			top:"auto", bottom:"0px",
 			left:"auto", right:"0px",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	//
@@ -135,7 +138,7 @@ $(function() {
 			top:Math.floor(fh/2-h/2)+"px", bottom:"auto",
 			left:"0px", right:"auto",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.centerright").click(function() {
@@ -145,7 +148,7 @@ $(function() {
 			top:Math.floor(fh/2-h/2)+"px", bottom:"auto",
 			left:"auto", right:"0px",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.centertop").click(function() {
@@ -155,7 +158,7 @@ $(function() {
 			top:"0px", bottom:"auto",
 			left:Math.floor(fw/2-w/2)+"px", right:"auto",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.centerbottom").click(function() {
@@ -165,7 +168,7 @@ $(function() {
 			top:"auto", bottom:"0px",
 			left:Math.floor(fw/2-w/2)+"px", right:"auto",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.centercenter").click(function() {
@@ -175,7 +178,7 @@ $(function() {
 			top:Math.floor(fh/2-h/2)+"px", bottom:"auto",
 			left:Math.floor(fw/2-w/2)+"px", right:"auto",
 		});
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	//
@@ -205,28 +208,32 @@ $(function() {
 			right:"auto",
 		});
 	}
-	$(".pos_btn.moveleft").click(function() {
+	$(".pos_btn.moveleft").click(function(evt) {
 		var img = $(this).siblings(".image");
-		moveImage(img,-5,0);
-		screen_modified($(this).closest(".screen"));
+		if(evt.shiftKey) { moveImage(img,-1/scale,0); }
+		else { moveImage(img,-5,0); }
+		screen_modified($(this));
 		return false;
 	});
-	$(".pos_btn.moveright").click(function() {
+	$(".pos_btn.moveright").click(function(evt) {
 		var img = $(this).siblings(".image");
-		moveImage(img,5,0);
-		screen_modified($(this).closest(".screen"));
+		if(evt.shiftKey) { moveImage(img,1/scale,0); }
+		else { moveImage(img,5,0); }
+		screen_modified($(this));
 		return false;
 	});
-	$(".pos_btn.movetop").click(function() {
+	$(".pos_btn.movetop").click(function(evt) {
 		var img = $(this).siblings(".image");
-		moveImage(img,0,-5);
-		screen_modified($(this).closest(".screen"));
+		if(evt.shiftKey) { moveImage(img,0,-1/scale); }
+		else { moveImage(img,0,-5); }
+		screen_modified($(this));
 		return false;
 	});
-	$(".pos_btn.movebottom").click(function() {
+	$(".pos_btn.movebottom").click(function(evt) {
 		var img = $(this).siblings(".image");
-		moveImage(img,0,5);
-		screen_modified($(this).closest(".screen"));
+		if(evt.shiftKey) { moveImage(img,0,1/scale); }
+		else { moveImage(img,0,5); }
+		screen_modified($(this));
 		return false;
 	});
 	//
@@ -237,7 +244,7 @@ $(function() {
 		zoom.val(zoom.val()*1.1);
 		img.height(img.data("height")*zoom.val());
 		img.width(img.data("width")*zoom.val());
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.zoomout").click(function() {
@@ -247,7 +254,7 @@ $(function() {
 		zoom.val(zoom.val()*0.9);
 		img.height(img.data("height")*zoom.val());
 		img.width(img.data("width")*zoom.val());
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	$(".pos_btn.zoomzero").click(function() {
@@ -257,7 +264,7 @@ $(function() {
 		base_size(img);
 		img.height(img.data("height")*zoom.val());
 		img.width(img.data("width")*zoom.val());
-		screen_modified($(this).closest(".screen"));
+		screen_modified($(this));
 		return false;
 	});
 	//
@@ -345,10 +352,10 @@ $(function() {
 	function exitMove(evt) {
 		movingImageMouseMove(evt);
 		if(movingImage) {
-			screen_modified(movingImage.closest(".screen,.source"));
+			screen_modified(movingImage);
 		}
 		if(scalingImage) {
-			screen_modified(scalingImage.closest(".screen,.source"));
+			screen_modified(scalingImage);
 		}
 		scalingImage = false;
 		movingImage = false;

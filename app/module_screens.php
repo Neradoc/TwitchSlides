@@ -126,7 +126,7 @@ function disp_screens($thisurl) {
 			$h = 0;
 		}
 		?>
-		<div class='screen screen<?=$index?>'>
+		<div class='screen screen<?=$index?> module_screen_block'>
 			<form action="<?=$thisurl?>" name="screens" method="POST">
 			<h3><a href="<?=$lien?>" target="_BLANK">Écran <?=$index?></a></h3>
 			<?php
@@ -255,7 +255,7 @@ function disp_sources($thisurl) {
 		} else {
 			continue;
 		}
-		?><div class='source'>
+		?><div class='source module_screen_block'>
 			<form action="<?=$thisurl?>" name="sources" method="POST">
 			<div class="pimage screensize">
 				<?php if($url_miniature_stream): ?>
