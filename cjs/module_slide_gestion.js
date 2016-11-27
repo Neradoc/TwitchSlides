@@ -43,6 +43,7 @@ function update_the_slide() {
 	update_slide(data);
 }
 function save_the_screens() {
+	$('#black_block').show();
 	var nToDo = $("#screens .screen").size();
 	// faire une série d'ajax avec les formulaires
 	$("#screens .screen").each(function() {
