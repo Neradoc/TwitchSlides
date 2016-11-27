@@ -26,13 +26,14 @@ $(function(){
 		//We need to send dropped files to Server
 		handleFileUpload(files,dropper);
 	});
-	function finishWith(num,newBlock) {
-		if(num == 0) {
+	function finishWith(numFile,fileCalls,newBlock) {
+		if(numFile+1 < fileCalls.length) {
+			fileCalls[numFile+1]();
+		} else {
 			$("#black_block").hide();
-			location.reload();
-			return;
 			if(newBlock) {
 				$("#sources").replaceWith(newBlock);
+				module_screens_init();
 			} else {
 				location.reload();
 			}
@@ -44,27 +45,31 @@ $(function(){
 		if(files.length == 0) return false;
 		//
 		$("#black_block").show();
-		var form = new FormData();
 		var numFiles = files.length;
+		var fileCalls = [];
 		for(i=0; i<files.length; i++) {
-			form.append("upload_fichier", files[i], files[i].name);
-			//
-			$.ajax({
-				url: document.location.href,
-				type: 'POST',
-				data: form,
-				processData: false,
-				contentType: false,
-				error: function() {
-					numFiles -= 1;
-					finishWith(numFiles,false);
-				},
-				complete: function(xhr,status) {
-					numFiles -= 1;
-					var newBlock = $(xhr.responseText).find('#sources');
-					finishWith(numFiles,newBlock);
-				}
-			});
+			fileCalls[i] = function() {
+				var numFile = i;
+				var fileForm = new FormData();
+				fileForm.append("upload_fichier", files[i], files[i].name);
+				return function() {
+					$.ajax({
+						url: document.location.href,
+						type: 'POST',
+						data: fileForm,
+						processData: false,
+						contentType: false,
+						error: function() {
+							finishWith(numFiles,fileCalls,false);
+						},
+						complete: function(xhr,status) {
+							var newBlock = $(xhr.responseText).find('#sources');
+							finishWith(numFile,fileCalls,newBlock);
+						}
+					});
+				};
+			}();// fileCalls[i]
 		}
+		fileCalls[0]();
 	}
 });

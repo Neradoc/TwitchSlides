@@ -1,3 +1,6 @@
+#upload {
+	position: relative;
+}
 #upload .upload_fichier {
 	font-size: 100%;
 }
@@ -6,7 +9,13 @@
 }
 #upload .upload_btn {
 	font-size: 100%;
-	margin-left:<?=$screen_width - 85?>px;
+	position: absolute;
+	width: 90px;
+	left:<?=$screen_width + 16 - 90?>px;
+}
+#upload .petitenote {
+	color: #666;
+	font-style: italic;
 }
 
 #upload.drop_enter {

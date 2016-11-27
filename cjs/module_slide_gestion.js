@@ -1,3 +1,4 @@
+// scale est défini dans module_screens
 function posScreen(screen) {
 	var parent = screen.find(".pimage");
 	var image = parent.find(".image");

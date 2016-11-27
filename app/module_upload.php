@@ -58,6 +58,7 @@ function disp_upload($thisurl) {
 		<b>Ajouter une image</b> <i>(jpg,png,gif)</i><br/>
 		Locale&nbsp;: <input type="file" name="upload_fichier" class="upload_fichier"><br/>
 		Par une URL&nbsp;: <input type="text" name="upload_url" class="upload_url" placeholder="Lien direct d'une image"><br/>
+		<span class="petitenote">Ou glisser-déposer ;-)</span>
 		<button class="upload_btn">Envoyer</button>
 	</form>
 	</div>
