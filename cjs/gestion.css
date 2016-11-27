@@ -83,14 +83,25 @@ h3 {
 	background:#000!important;
 	color:white!important;
 }
-.btns .twitter {
-	border-color: green;
-}
 .btns .effacer {
 	border-color: red;
 }
 .btns button.effacer:hover {
 	background:#800!important;
+	color:white!important;
+}
+.btns .changer {
+	border-color: green;
+}
+.btns button.changer:hover {
+	background:#080!important;
+	color:white!important;
+}
+.btns .twitter {
+	border-color: #008;
+}
+.btns button.twitter:hover {
+	background:#008!important;
 	color:white!important;
 }
 .btns button.disabled:hover,

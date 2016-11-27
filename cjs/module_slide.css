@@ -41,11 +41,18 @@
 
 .main_gestion #slide_block { }
 
+.btns .changer_tous {
+	border-color: green;
+}
+.btns button.changer_tous:hover {
+	background:#080!important;
+	color:white!important;
+}
+
 /* position changée mais pas validée */
 #slide_block.modified {
 	background-color: #FFFFB0;
 }
 #slide_block.modified .changer_tous {
-	color: white;
-	background: #444488;
+	background: #BFB;
 }
