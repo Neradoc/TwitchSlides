@@ -169,7 +169,7 @@ function disp_screens($thisurl) {
 				<? endif; ?>
 			</div>
 			<div class="btns">
-				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Changer</button>
+				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Valider</button>
 				<button class="effacer <?=$btns_classes?>" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button>
 				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>">Twitter l'image</button>
 			</div>

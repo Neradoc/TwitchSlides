@@ -96,6 +96,7 @@ $(function() {
 		}
 		apply_screen_changes(screen);
 		screen.addClass("modified");
+		$("#slide_block").addClass("modified");
 	}
 	//
 	$(".pos_btn.topleft").click(function() {

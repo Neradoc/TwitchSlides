@@ -39,6 +39,13 @@
 	top: -30px;
 }
 
-.main_gestion #slide_block {
-	
+.main_gestion #slide_block { }
+
+/* position changée mais pas validée */
+#slide_block.modified {
+	background-color: #FFFFB0;
+}
+#slide_block.modified .changer_tous {
+	color: white;
+	background: #444488;
 }

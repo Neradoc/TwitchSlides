@@ -82,7 +82,7 @@ function disp_slide($thisurl) {
 		<div id="slide_scores" style="z-index:<?=intval($prefs->get("scoreboard_index",0))*10+5?>;">Les scores ne sont pas encore chargés</div>
 	</div>
 	<div class="btns">
-		<button class="changer_tous" name="screen_changer_tous" value="" title="Valider les changements dans l'image">Enregistrer les positions</button>
+		<button class="changer_tous" name="screen_changer_tous" value="" title="Valider les changements dans l'image">Valider les positions</button>
 	</div>
 	</div><?
 }
