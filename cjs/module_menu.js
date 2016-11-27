@@ -1,3 +1,4 @@
+// classe de la checkbox et id du bloc controlé (à masquer/montrer)
 var listeOnOffs = [
 	{"nom":"previsu", "block":"#slide_block"},
 	{"nom":"livevisu", "block":"#livevisu"},
@@ -11,14 +12,11 @@ $(function() {
 			menuCheck.prop("checked","1");
 			blocCible.show();
 			if(blocCible.data("onshow")) blocCible.data("onshow")();
-		} else if (haveMenu === "0") {
+		} else {
+			// désactivé par défaut ou "0"
 			menuCheck.prop("checked","")
 			if(blocCible.data("onhide")) blocCible.data("onhide")();
 			blocCible.hide();
-		} else {
-			menuCheck.prop("checked","1");
-			blocCible.show();
-			if(blocCible.data("onshow")) blocCible.data("onshow")();
 		}
 		menuCheck.on("click",function() {
 			if($(this).prop("checked")) {
