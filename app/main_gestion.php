@@ -34,10 +34,10 @@ if(!empty($_POST) || !empty($_FILES)) {
 	<script type="text/javascript" src="cjs/module_screens.js"></script>
 	<script type="text/javascript" src="cjs/module_twitter.js"></script>
 	<script type="text/javascript" src="cjs/module_scoreboard.js"></script>
-	<script type="text/javascript" src="cjs/module_livevisu.js"></script>
-
 	<link rel='stylesheet' href='cjs/module_slide.css' type='text/css' />
 	<script type="text/javascript" src="cjs/module_slide.js"></script>
+	<script type="text/javascript" src="cjs/module_livevisu.js"></script>
+	<script type="text/javascript" src="cjs/module_upload.js"></script>
 </head>
 <body>
 <!--

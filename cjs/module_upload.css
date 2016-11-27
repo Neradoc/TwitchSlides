@@ -8,3 +8,13 @@
 	font-size: 100%;
 	margin-left:<?=$screen_width - 85?>px;
 }
+
+#upload.drop_enter {
+	background: #BFB;
+}
+#upload.drop_drop {
+	background: #BFB;
+}
+#upload.drop_wrong {
+	background: red;
+}
