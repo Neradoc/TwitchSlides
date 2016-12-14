@@ -49,7 +49,7 @@ Sur un site situé à l'adresse http://site.web/
 ### Aller plus loin
 Le **nombre d'écrans configurables** peut être augmenté (il est à 1 par défaut) ajoutant autant de modules "écran" à la page de gestion. Chaque écran gère une image différente, qui seront toutes affichées en même temps dans le slide, les écrans de numéro plus élevé devant les autres.
 
-Il est possible de n'afficher que certaines image à la fois en ajoutant le paramètre "screen" à l'adresse du slide, par exemple: http://site.web/slide?screen=1 ou http://site.web/slide?screen=2,5 pour les images (des écrans) 2 et 5.
+Il est possible de n'afficher que certaines image à la fois en ajoutant le paramètre "screens" à l'adresse du slide, par exemple: http://site.web/slide?screens=1 ou http://site.web/slide?screens=2,5 pour les images (des écrans) 2 et 5.
 
 La configuration de **l'image de fond des écrans** permet de déclarer l'adresse (relative ou absolue) de l'image de fond affichée dans le module écran (pas sur le stream), permettant d'aider au positionnement des images.
 

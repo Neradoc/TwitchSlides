@@ -5,12 +5,12 @@ $debug = isset($_REQUEST['debug']);
 
 // screens
 $screensNumbers = [];
-if(isset($_REQUEST['screen']) && $_REQUEST['screen'] != "") {
+if(isset($_REQUEST['screens']) && $_REQUEST['screens'] != "") {
 	$screensNumbers =
 		array_filter(
 			array_map(
 				function($x) { return intval($x); },
-				preg_split('/,/', $_REQUEST['screen'], -1, PREG_SPLIT_NO_EMPTY)
+				preg_split('/,/', $_REQUEST['screens'], -1, PREG_SPLIT_NO_EMPTY)
 			),
 		function($n) use ($Nscreens) {
 			return $n>0 && $n<=intval($Nscreens);
@@ -123,7 +123,7 @@ if(isset($_REQUEST['get'])) {
 				type:'POST',
 				data: {
 					get:1,
-					screen: "<?=join($screensNumbers,',')?>",
+					screens: "<?=join($screensNumbers,',')?>",
 				},
 				dataType: "json",
 				error: function(a,b,c) {
