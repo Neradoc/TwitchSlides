@@ -115,6 +115,7 @@ class PrefsManager {
 				"stamp" => 0,
 			);
 		}
+		if($file != null) $screen['file'] = $file;
 		if($top != null) $screen['top'] = $top;
 		if($left != null) $screen['left'] = $left;
 		if($zoom != null) $screen['zoom'] = $zoom;
