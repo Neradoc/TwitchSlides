@@ -1,6 +1,7 @@
 // dimensions du cadre simulant l'écran
 //var fw = 400;
 //var fh = 225;
+var time_origin_delta = 0;
 var fw = 1920;
 var fh = 1080;
 var scale = 5;
@@ -432,7 +433,29 @@ function module_screens_init() {
 			apply_screen_changes(screen);
 		});
 	});
+	function update_timer() {
+		var curTime = Math.round(Date.now()/1000 + time_origin_delta);
+		$(".screen").each(function(i) {
+			var time0 = parseInt($(this).find(".timestamp").val(),10);
+			if(time0 == 0) {
+				time = "";
+			} else {
+				time = Math.floor((curTime - time0) / 60);
+				//+ ":" + Math.floor((curTime - time0) % 60);
+			}
+			var focus = $(this).find(".screen_timer_text").is(":focus");
+			if(!focus) {
+				$(this).find(".screen_timer_text").val(time);
+			}
+		});
+	}
+	setTimeout(update_timer,100);
+	setInterval(update_timer,1000);
 }
 $(function() {
 	module_screens_init();
+	var php_origin = $("#time_origin").val();
+	if(php_origin != 0) {
+		time_origin_delta = php_origin-Date.now()/1000;
+	}
 });

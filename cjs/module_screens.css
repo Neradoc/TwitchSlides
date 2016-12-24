@@ -153,6 +153,20 @@
 	background: #BFB;
 }
 
+/* screen_timer */
+.screen .screen_timer {
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+	font-size: 80%;
+}
+.screen .screen_timer .screen_timer_text {
+	border: none;
+	width: 4em;
+	text-align: right;
+	vertical-align: top;
+}
+
 /* images */
 .screen .image,
 .source .image {

@@ -35,18 +35,17 @@ if(isset($_POST['sources_assign'])) {
 			$screen_cible = sprintf(IMAGE_FORMAT,md5_file($source),$ext);
 			$prefs->effacer_screen($screen);
 			copy($source,SCREENS_DIR.$screen_cible);
-			$prefs->screens[$screen] = array(
-				"file" => basename($screen_cible),
-				"top" => 0,
-				"left" => 0,
-				"zoom" => 0,
-			);
+			$file = basename($screen_cible);
+			$top = 0;
+			$left = 0;
+			$zoom = 0;
 			if(isset($_POST['image_top']))
-				$prefs->screens[$screen]['top'] = intval($_POST['image_top']);
+				$top = intval($_POST['image_top']);
 			if(isset($_POST['image_left']))
-				$prefs->screens[$screen]['left'] = intval($_POST['image_left']);
+				$left = intval($_POST['image_left']);
 			if(isset($_POST['image_zoom']))
-				$prefs->screens[$screen]['zoom'] = floatval($_POST['image_zoom']);
+				$zoom = floatval($_POST['image_zoom']);
+			$prefs->setScreen($screen,$file,$top,$left,$zoom);
 			$prefs->save();
 		}
 	}
@@ -68,13 +67,35 @@ if(isset($_POST['screen_moveto'])) {
 if(isset($_POST['screen_changer'])) {
 	$screen = intval($_POST['screen_num']);
 	$file = $prefs->screenFile($screen);
+	$stamp = $prefs->screenTime($screen);
 	if($file != "") {
+		$top = null;
+		$left = null;
+		$zoom = null;
+		$stamp = null;
 		if(isset($_POST['image_top']))
-			$prefs->screens[$screen]['top'] = intval($_POST['image_top']);
+			$top = intval($_POST['image_top']);
 		if(isset($_POST['image_left']))
-			$prefs->screens[$screen]['left'] = intval($_POST['image_left']);
+			$left = intval($_POST['image_left']);
 		if(isset($_POST['image_zoom']))
-			$prefs->screens[$screen]['zoom'] = floatval($_POST['image_zoom']);
+			$zoom = floatval($_POST['image_zoom']);
+		if(isset($_POST['screen_timer'])) {
+			$stamp = intval($_POST['screen_timer'])*60 + time();
+		}
+		$prefs->setScreen($screen,$file,$top,$left,$zoom,$stamp);
+		$prefs->save();
+	}
+	exit_redirect();
+}
+
+if(isset($_POST['screen_timer'])) {
+	$screen = intval($_POST['screen_num']);
+	$file = $prefs->screenFile($screen);
+	$stamp = $prefs->screenTime($screen);
+	$timer = intval($_POST['screen_timer']);
+	if($file != "") {
+		$stamp = time() - $timer*60;
+		$prefs->setScreen($screen,$file,null,null,null,$stamp);
 		$prefs->save();
 	}
 	exit_redirect();
@@ -105,6 +126,7 @@ function disp_screens($thisurl) {
 		$imageurl = $prefs->screenFile($index);
 		$imgPos = $prefs->screenPos($index);
 		$isOn = $prefs->screenOn($index);
+		$timestamp = $prefs->screenTime($index);
 		$base_lien = dirname($thisurl);
 		$lien = $base_lien ."/slide";
 		$twitter_title = "";
@@ -141,6 +163,7 @@ function disp_screens($thisurl) {
 				<img class="back_screen" src="<?=$url_miniature_stream?>" />
 				<?php endif; ?>
 				<img class="image" data-width="<?=$w?>" data-height="<?=$h?>" data-top="<?=$imgPos[1]?>" data-left="<?=$imgPos[0]?>" data-zoom="<?=$imgPos[2]?>" src="<?=$imageurl?>"/>
+				<input type="hidden" class="timestamp" name="" value="<?=$timestamp?>"/>
 				<input type="hidden" name="screen_num" value="<?=$index?>"/>
 				<input type="hidden" name="image_top" value="0"/>
 				<input type="hidden" name="image_left" value="0"/>
@@ -174,10 +197,15 @@ function disp_screens($thisurl) {
 				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>">Twitter l'image</button>
 			</div>
 			</form>
+			<form action="<?=$thisurl?>" name="screen_timer" method="POST">
+			<input type="hidden" name="screen_num" value="<?=$index?>"/>
+			<div class="screen_timer"><input type="texte" name="screen_timer" value="" class="screen_timer_text"/> <img src="cjs/img/icone-horloge.png"/></div>
+			</form>
 		</div><?
 	}
 	?>
-	</div>	<?
+	</div>
+	<?
 }
 
 function disp_sources($thisurl) {

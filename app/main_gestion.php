@@ -40,6 +40,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 	<script type="text/javascript" src="cjs/module_upload.js"></script>
 </head>
 <body>
+<input id="time_origin" type="hidden" name="time_origin" value="<?=time()?>"/>
 <!--
 	menu
 -->

@@ -100,6 +100,27 @@ class PrefsManager {
 		}
 		return "";
 	}
+	function setScreen($screenNum,$file,$top,$left,$zoom,$stamp=0) {
+		if($stamp == 0) {
+			$stamp = time();
+		}
+		if(isset($this->screens[$screenNum])) {
+			$screen = $this->screens[$screenNum];
+		} else {
+			$screen = array(
+				"file" => $file,
+				"top" => 0,
+				"left" => 0,
+				"zoom" => 0,
+				"stamp" => 0,
+			);
+		}
+		if($top != null) $screen['top'] = $top;
+		if($left != null) $screen['left'] = $left;
+		if($zoom != null) $screen['zoom'] = $zoom;
+		if($stamp != null) $screen['stamp'] = $stamp;
+		$this->screens[$screenNum] = $screen;
+	}
 	function screenFile($screenNum) {
 		if(isset($this->screens[$screenNum])) {
 			if(isset($this->screens[$screenNum]['file'])) {
@@ -138,6 +159,18 @@ class PrefsManager {
 		}
 		return true;
 	}
+	function screenTime($screenNum) {
+		if(isset($this->screens[$screenNum])) {
+			if(isset($this->screens[$screenNum]['file'])) {
+				if($this->screens[$screenNum]['file'] != "") {
+					if(isset($this->screens[$screenNum]['stamp'])) {
+						return $this->screens[$screenNum]['stamp'];
+					}
+				}
+			}
+		}
+		return 0;
+	}
 	function effacer_screen($screen) {
 		$file = $this->screenFile($screen);
 		if($file != "") {
@@ -146,6 +179,7 @@ class PrefsManager {
 				'top' => 0,
 				'left' => 0,
 				'zoom' => 0,
+				'stamp' => 0,
 			);
 			$this->save();
 			// n'effacer que si l'image n'est pas dans un autre screen
