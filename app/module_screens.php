@@ -129,7 +129,7 @@ function disp_screens($thisurl) {
 		$timestamp = $prefs->screenTime($index);
 		$base_lien = dirname($thisurl);
 		$lien = $base_lien ."/slide";
-		$twitter_title = "";
+		$twitter_title = "Poster l'image sur twitter";
 		if($imageurl != "" && file_exists(SCREENS_DIR.$imageurl)) {
 			$btns_classes = "";
 			$btns_classes2 = "";
@@ -199,7 +199,7 @@ function disp_screens($thisurl) {
 			</form>
 			<form action="<?=$thisurl?>" name="screen_timer" method="POST">
 			<input type="hidden" name="screen_num" value="<?=$index?>"/>
-			<div class="screen_timer"><input type="texte" name="screen_timer" value="" class="screen_timer_text"/> <img src="cjs/img/icone-horloge.png"/></div>
+			<div class="screen_timer" title="Minutes depuis que l'image a été mise sur l'écran"><input type="texte" name="screen_timer" value="" class="screen_timer_text"/> <img src="cjs/img/icone-horloge.png"/></div>
 			</form>
 		</div><?
 	}
