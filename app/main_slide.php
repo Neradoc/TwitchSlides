@@ -218,7 +218,7 @@ if(isset($_REQUEST['get'])) {
 	<img src="<?=$url_miniature_stream?>" style="display:absolute; left:0px; top:0px; width:100%; height:100%; z-index:0;"/>
 	<?php endif; ?>
 	<div class="all_images">
-	<?php for($i=0; $i<max($Nscreens,16); $i++) {
+	<?php for($i=0; $i<$max_images; $i++) {
 		print('<img class="image image'.($i).'" src="cjs/img/vide.png" style="z-index:'.($i*10+10).';" />'."\n");
 	}
 	?>

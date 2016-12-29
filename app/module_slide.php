@@ -1,27 +1,10 @@
 <?php
-// screens
-for($i=1; $i<=$Nscreens; $i++) {
-	$screensNumbers[] = $i;
-}
-
 function slide_ajax() {
 	global $screensNumbers,$prefs,$Nscreens;
 	// ajax
-	if(isset($_REQUEST['screen']) && $_REQUEST['screen']!="") {
-		$screensNumbers =
-			array_filter(
-				array_map(
-					function($x) { return intval($x); },
-					preg_split('/,/', $_REQUEST['screen'], -1, PREG_SPLIT_NO_EMPTY)
-				),
-			function($n) use ($Nscreens) {
-				return $n>0 && $n<=intval($Nscreens);
-			}
-		);
-	}
 	if(isset($_REQUEST['get'])) {
 		$data = array("screens" => array());
-		foreach($screensNumbers as $screen) {
+		for($screen=0; $screen<$Nscreens; $screen++) {
 			$file = $prefs->screenFile($screen);
 			$pos = $prefs->screenPos($screen);
 			$on = $prefs->screenOn($screen);

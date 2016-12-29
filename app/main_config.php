@@ -7,16 +7,6 @@ if(isset($_POST['messages_twitter']) && is_array($_POST['messages_twitter'])) {
 	$prefs->twitterMessages = $messages;
 }
 
-if(isset($_POST['Nscreens'])) {
-	$N = intval($_POST['Nscreens']);
-	if($N > 0 && $N != $Nscreens) {
-		$prefs->set("Nscreens",$N);
-		$prefs->set("reload_slide",true);
-	} else {
-		$prefs->del("Nscreens");
-	}
-}
-
 if(isset($_POST['url_miniature_stream'])) {
 	if($_POST['url_miniature_stream'] == "" || $_POST['url_miniature_stream'] == $url_miniature_stream) {
 		$prefs->del("url_miniature_stream");
@@ -129,13 +119,6 @@ if(!empty($_POST)) {
 	button:hover { background: #CCC; }
 	button:active { background: #444; color: white; }
 	
-	input.nscreens {
-		width: 3em;
-		text-align: right;
-		font-size: 100%;
-		border: 2px solid #DD6;
-		border-radius: 4px;
-	}
 	input.url_miniature_stream {
 		width: 624px;
 		padding: 4px;
@@ -206,8 +189,6 @@ foreach($prefMess as $message) {
 ?>
 </div>
 <div class="ajout_message"><button class="config_nouveau_message_twitter" name="nouveau" value="1">Nouveau</button></div>
-
-<p>Nombre d'écrans (images) configurables <input class="nscreens" type="number" name="Nscreens" value="<?=$Nscreens?>"/></p>
 
 <p>
 <?php

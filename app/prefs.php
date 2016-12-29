@@ -12,7 +12,7 @@ class PrefsManager {
 	// réglages de config
 	public $twitterMessages = array();
 	//
-	function __construct($Nscreens = 0, $file = "data/prefs.json") {
+	function __construct($max_images = 0, $file = "data/prefs.json") {
 		global $twitterMessages;
 		if(!file_exists($file)) {
 			$this->prefs = array();
@@ -31,8 +31,8 @@ class PrefsManager {
 		}
 		if(isset($this->prefs['screens']) && is_array($this->prefs['screens'])) {
 			$this->screens = $this->prefs['screens'];
-			// limiter le nombre de screens à $Nscreens
-			$this->screens = array_slice($this->screens,0,max(1,$Nscreens));
+			// limiter le nombre de screens à $max_images
+			$this->screens = array_slice($this->screens,0,max(1,$max_images));
 		}
 		if(isset($this->prefs['scores']) && is_array($this->prefs['scores'])) {
 			$this->scores = $this->prefs['scores'];

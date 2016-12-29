@@ -12,7 +12,7 @@ define("SOURCES_URL","sources/");
 // valeurs par défaut
 // changer ces paramètres dans data/config.ini ou data/config.php
 $url_miniature_stream = "";
-$Nscreens = 1;
+$max_images = 16;
 $twitterMessages = array();
 $debug = false;
 $html_title_gestion = "";
@@ -30,8 +30,7 @@ if(!defined("DEBUG")) {
 define("IMAGE_FORMAT","screen_%s.%s");
 define("SOURCES_GLOB",SOURCES_DIR."image_*");
 
-$Nscreens = 8;
-$prefs = new PrefsManager($Nscreens);
+$prefs = new PrefsManager($max_images);
 $Nscreens = $prefs->screenCount();
 
 $url_miniature_stream = $prefs->get("url_miniature_stream",$url_miniature_stream);
