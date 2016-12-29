@@ -45,23 +45,29 @@ function update_the_slide() {
 }
 function save_the_screens() {
 	$('#black_block').show();
-	var nToDo = $("#screens .screen").size();
+	var forms = [];
 	// faire une série d'ajax avec les formulaires
 	$("#screens .screen").each(function() {
 		var form = $(this).find("form[name='screens']");
+		forms.push(form);
+	});
+	var save_a_screen = function(index) {
 		$.ajax({
 			url:location.href,
 			type:'POST',
-			data: form.serialize()+"&screen_changer=1",
+			data: forms[index].serialize()+"&screen_changer=1",
 			success: function(data,status) {
-				nToDo = nToDo - 1;
-				// puis recharger la page
-				if(nToDo == 0) {
+				if(index+1 < forms.length) {
+					// sauver le screen suivant
+					save_a_screen(index+1);
+				} else {
+					// puis recharger la page
 					location.reload();
 				}
 			}
-		})
-	});
+		});
+	};
+	save_a_screen(0);
 	return false;
 }
 var timerMoveScore = false;
