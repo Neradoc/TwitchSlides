@@ -189,27 +189,34 @@
 	cursor: se-resize !important;
 }
 
-.headbtns {
+.moveprev_head,
+.movenext_head {
 	position: absolute;
-	width: 300px;
-	top: 4px;
-	left: 4px;
-}
-.movenext_head,
-.moveprev_head {
-	padding: 4px;
-	border: 2px solid #888;
+	padding: 0px;
+	border: none;
 	border-radius: 8px;
 	background: white;
-	float: left;
 	cursor: pointer;
 	margin-right: 1px;
 }
-.movenext_head:hover,
-.moveprev_head:hover {
-	background: #BBB;
-	color: white;
+.moveprev_head .hover,
+.movenext_head .hover {
+	display: none;
 }
+.moveprev_head:hover .offer,
+.movenext_head:hover .offer {
+	display: none;
+}
+.moveprev_head:hover .hover,
+.movenext_head:hover .hover {
+	display: inline;
+}
+.moveprev_head img,
+.movenext_head img {
+	width: 28px;
+}
+.moveprev_head { left: 100px; }
+.movenext_head { right: 100px; }
 
 /* modules de sources */
 

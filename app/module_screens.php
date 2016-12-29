@@ -150,10 +150,10 @@ function disp_screens($thisurl) {
 			<form action="<?=$thisurl?>" name="screens" method="POST">
 			<div class="headbtns">
 				<? if($index>0): ?>
-				<button class="moveprev_head" name="screen_moveto" value="<?= $index-1?>">➤<?= $index ?></button>
+				<button class="moveprev_head" name="screen_moveto" value="<?= $index-1?>"><img class="offer" src="cjs/img/fleche_left.png"/><img class="hover" src="cjs/img/fleche_left_hover.png"/></button>
 				<? endif; ?>
 				<? if($index<$Nscreens-1): ?>
-				<button class="movenext_head" name="screen_moveto" value="<?= $index+1?>">➤<?= $index+2 ?></button>
+				<button class="movenext_head" name="screen_moveto" value="<?= $index+1?>"><img class="offer" src="cjs/img/fleche_right.png"/><img class="hover" src="cjs/img/fleche_right_hover.png"/></button>
 				<? endif; ?>
 			</div>
 			<h3><a href="<?=$lien?>" target="_BLANK">Image <?=$index+1?></a></h3>
