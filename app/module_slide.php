@@ -75,8 +75,8 @@ function disp_slide($thisurl) {
 	<h3>Prévisu</h3>
 	<div class="slide_previsu screensize">
 		<img class="slide_background" src="<?=$url_miniature_stream?>"/>
-		<?php for($i=0; $i<max($Nscreens,8); $i++) {
-			print('<img class="image image'.($i+1).'" src="cjs/img/vide.png" style="z-index:'.($i*10+10).';" />'."\n");
+		<?php for($i=0; $i<$Nscreens; $i++) {
+			print('<img class="image image'.$i.'" src="cjs/img/vide.png" style="z-index:'.($i*10+10).';" />'."\n");
 		}
 		?>
 		<div id="slide_scores" style="z-index:<?=intval($prefs->get("scoreboard_index",0))*10+5?>;">Les scores ne sont pas encore chargés</div>

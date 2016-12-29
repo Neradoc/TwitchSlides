@@ -189,6 +189,28 @@
 	cursor: se-resize !important;
 }
 
+.headbtns {
+	position: absolute;
+	width: 300px;
+	top: 4px;
+	left: 4px;
+}
+.movenext_head,
+.moveprev_head {
+	padding: 4px;
+	border: 2px solid #888;
+	border-radius: 8px;
+	background: white;
+	float: left;
+	cursor: pointer;
+	margin-right: 1px;
+}
+.movenext_head:hover,
+.moveprev_head:hover {
+	background: #BBB;
+	color: white;
+}
+
 /* modules de sources */
 
 #sources .pagination_sources {

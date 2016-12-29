@@ -25,29 +25,31 @@ if(isset($_POST['sources_star'])) {
 }
 
 if(isset($_POST['sources_assign'])) {
-	$screen = intval($_POST['sources_assign']);
-	if($screen>0) {
-		$source = $_POST['image_file'];
-		$source = basename($source);
-		$source = SOURCES_DIR.$source;
-		if(file_exists($source)) {
-			$ext = pathinfo($source,PATHINFO_EXTENSION);
-			$screen_cible = sprintf(IMAGE_FORMAT,md5_file($source),$ext);
-			$prefs->effacer_screen($screen);
-			copy($source,SCREENS_DIR.$screen_cible);
-			$file = basename($screen_cible);
-			$top = 0;
-			$left = 0;
-			$zoom = 0;
-			if(isset($_POST['image_top']))
-				$top = intval($_POST['image_top']);
-			if(isset($_POST['image_left']))
-				$left = intval($_POST['image_left']);
-			if(isset($_POST['image_zoom']))
-				$zoom = floatval($_POST['image_zoom']);
-			$prefs->setScreen($screen,$file,$top,$left,$zoom);
-			$prefs->save();
+	$screenIns = intval($_POST['sources_assign']);
+	$source = $_POST['image_file'];
+	$source = basename($source);
+	$source = SOURCES_DIR.$source;
+	if(file_exists($source)) {
+		$ext = pathinfo($source,PATHINFO_EXTENSION);
+		$screen_cible = sprintf(IMAGE_FORMAT,md5_file($source),$ext);
+		copy($source,SCREENS_DIR.$screen_cible);
+		$file = basename($screen_cible);
+		$top = 0;
+		$left = 0;
+		$zoom = 0;
+		if(isset($_POST['image_top']))
+			$top = intval($_POST['image_top']);
+		if(isset($_POST['image_left']))
+			$left = intval($_POST['image_left']);
+		if(isset($_POST['image_zoom']))
+			$zoom = floatval($_POST['image_zoom']);
+		#
+		if($screenIns>0) {
+			$prefs->insertScreen($screenIns-1,$file,$top,$left,$zoom);
+		} else {
+			$prefs->addScreen($file,$top,$left,$zoom);
 		}
+		$prefs->save();
 	}
 	exit_redirect();
 }
@@ -55,12 +57,8 @@ if(isset($_POST['sources_assign'])) {
 if(isset($_POST['screen_moveto'])) {
 	$screen = intval($_POST["screen_num"]);
 	$autre = intval($_POST['screen_moveto']);
-	if($autre>0 && $autre<=$Nscreens) {
-		$theScreen = $prefs->screens[$screen];
-		$prefs->screens[$screen] = $prefs->screens[$autre];
-		$prefs->screens[$autre] = $theScreen;
-		$prefs->save();
-	}
+	$prefs->switch_screens($screen,$autre);
+	$prefs->save();
 	exit_redirect();
 }
 
@@ -121,8 +119,8 @@ function disp_screens($thisurl) {
 	global $Nscreens,$prefs,$url_miniature_stream;
 	?>
 	<div id="screens">
-	<?php 
-	for($index=1; $index<=$Nscreens; $index++) {
+	<?php
+	for($index=0; $index<$Nscreens; $index++) {
 		$imageurl = $prefs->screenFile($index);
 		$imgPos = $prefs->screenPos($index);
 		$isOn = $prefs->screenOn($index);
@@ -150,7 +148,15 @@ function disp_screens($thisurl) {
 		?>
 		<div class='screen screen<?=$index?> module_screen_block'>
 			<form action="<?=$thisurl?>" name="screens" method="POST">
-			<h3><a href="<?=$lien?>" target="_BLANK">Écran <?=$index?></a></h3>
+			<div class="headbtns">
+				<? if($index>0): ?>
+				<button class="moveprev_head" name="screen_moveto" value="<?= $index-1?>">➤<?= $index ?></button>
+				<? endif; ?>
+				<? if($index<$Nscreens-1): ?>
+				<button class="movenext_head" name="screen_moveto" value="<?= $index+1?>">➤<?= $index+2 ?></button>
+				<? endif; ?>
+			</div>
+			<h3><a href="<?=$lien?>" target="_BLANK">Image <?=$index+1?></a></h3>
 			<?php
 			if($isOn) {
 				?><button class="btn_switch btn_switch_on" name="screen_switch" value="0" title="Activé, cliquer pour désactiver l'affichage des scores">ON</button><?
@@ -184,16 +190,16 @@ function disp_screens($thisurl) {
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>
-				<? if($index>1): ?>
-				<button class="pos_btn moveprev" name="screen_moveto" value="<?= $index-1?>">➤<?= $index-1 ?></button>
+				<? if($index>0): ?>
+				<button class="pos_btn moveprev" name="screen_moveto" value="<?= $index-1?>">➤<?= $index ?></button>
 				<? endif; ?>
-				<? if($index<$Nscreens): ?>
-				<button class="pos_btn movenext" name="screen_moveto" value="<?= $index+1?>">➤<?= $index+1 ?></button>
+				<? if($index<$Nscreens-1): ?>
+				<button class="pos_btn movenext" name="screen_moveto" value="<?= $index+1?>">➤<?= $index+2 ?></button>
 				<? endif; ?>
 			</div>
 			<div class="btns">
 				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Valider</button>
-				<button class="effacer <?=$btns_classes?>" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button>
+				<button class="effacer" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button>
 				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>">Twitter l'image</button>
 			</div>
 			</form>
@@ -313,13 +319,15 @@ function disp_sources($thisurl) {
 			</div>
 			<div class="btns">
 				<button class="effacer" name="sources_effacer" value="<?=$name?>" title="Retirer l'image du serveur (irréversible)">Effacer</button>
+				<button class="" name="sources_assign" value="">Ajouter</button>
 				<select class="assign" name="sources_assign" title="Choisir un écran où afficher l'image">
-					<option value="0">Afficher sur le stream</option>
+					<option value="0">Insérer:</option>
 					<?php
-					for($screen=1; $screen<=$Nscreens; $screen++) {
-						?><option value="<?=$screen?>">Écran <?=$screen?></option><?
+					for($screen=0; $screen<$Nscreens; $screen++) {
+						?><option value="<?=$screen+1?>">Avant <?=$screen+1?></option><?
 					}
 					?>
+					<option value="0">À la fin</option>
 				</select>
 			</div>
 			<?php if(isset($prefs->stars[$name]) && $prefs->stars[$name]): ?>

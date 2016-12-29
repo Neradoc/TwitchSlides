@@ -30,10 +30,11 @@ if(!defined("DEBUG")) {
 define("IMAGE_FORMAT","screen_%s.%s");
 define("SOURCES_GLOB",SOURCES_DIR."image_*");
 
+$Nscreens = 8;
 $prefs = new PrefsManager($Nscreens);
+$Nscreens = $prefs->screenCount();
 
 $url_miniature_stream = $prefs->get("url_miniature_stream",$url_miniature_stream);
-$Nscreens = $prefs->get("Nscreens",$Nscreens);
 $twitterMessages = $prefs->twitterMessages;
 
 function thisurl($params = []) {
