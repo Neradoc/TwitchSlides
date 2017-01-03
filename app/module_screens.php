@@ -24,8 +24,12 @@ if(isset($_POST['sources_star'])) {
 	exit_redirect();
 }
 
-if(isset($_POST['sources_assign'])) {
-	$screenIns = intval($_POST['sources_assign']);
+if(isset($_POST['sources_assign1']) || isset($_POST['sources_assign2'])) {
+	if($_POST['sources_assign1'] != "") {
+		$screenIns = $_POST['sources_assign1'];
+	} else {
+		$screenIns = $_POST['sources_assign2'];
+	}
 	$source = $_POST['image_file'];
 	$source = basename($source);
 	$source = SOURCES_DIR.$source;
@@ -44,8 +48,12 @@ if(isset($_POST['sources_assign'])) {
 		if(isset($_POST['image_zoom']))
 			$zoom = floatval($_POST['image_zoom']);
 		#
-		if($screenIns>0) {
-			$prefs->insertScreen($screenIns-1,$file,$top,$left,$zoom);
+		if($screenIns[0] == "+") {
+			$screenIns = intval(substr($screenIns,1));
+			$prefs->insertScreen($screenIns,$file,$top,$left,$zoom);
+		} elseif($screenIns[0] == "=") {
+			$screenIns = intval(substr($screenIns,1));
+			$prefs->setScreen($screenIns,$file,$top,$left,$zoom,-1);
 		} else {
 			$prefs->addScreen($file,$top,$left,$zoom);
 		}
@@ -319,15 +327,24 @@ function disp_sources($thisurl) {
 			</div>
 			<div class="btns">
 				<button class="effacer" name="sources_effacer" value="<?=$name?>" title="Retirer l'image du serveur (irréversible)">Effacer</button>
-				<button class="" name="sources_assign" value="">Ajouter</button>
-				<select class="assign" name="sources_assign" title="Choisir un écran où afficher l'image">
-					<option value="0">Insérer:</option>
+				<!-- <button class="" name="sources_assign" value="">Ajouter</button> -->
+				<select class="assign" name="sources_assign1" title="Ajouter l'image aux images affichées">
+					<option value="">Ajouter</option>
+					<option value="0">Premier plan</option>
 					<?php
-					for($screen=0; $screen<$Nscreens; $screen++) {
-						?><option value="<?=$screen+1?>">Avant <?=$screen+1?></option><?
+					for($screen=$Nscreens-1; $screen>0; $screen--) {
+						?><option value="+<?=$screen?>">Devant Image <?=$screen?></option><?
 					}
 					?>
-					<option value="0">À la fin</option>
+					<option value="+0">Arrière plan</option>
+				</select>
+				<select class="assign" name="sources_assign2" title="Remplacer une image (et conserver le timer)">
+					<option value="">Remplacer</option>
+					<?php
+					for($screen=0; $screen<$Nscreens; $screen++) {
+						?><option value="=<?=$screen?>">Image <?=$screen+1?></option><?
+					}
+					?>
 				</select>
 			</div>
 			<?php if(isset($prefs->stars[$name]) && $prefs->stars[$name]): ?>

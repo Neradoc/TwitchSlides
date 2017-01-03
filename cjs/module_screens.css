@@ -269,6 +269,9 @@
 	border: none;
 	background: transparent;
 }
+.source .assign {
+	width: 8em;
+}
 .source .assign option:first-child {
 	color: #888;
 }

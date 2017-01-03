@@ -103,13 +103,13 @@ class PrefsManager {
 		array_splice($this->screens,$screenIns,0,[$screen]);
 	}
 	function setScreen($screenNum,$file,$top,$left,$zoom,$stamp=0) {
-		if($stamp == 0) {
-			$stamp = time();
-		}
 		$oldfile = "";
 		if(isset($this->screens[$screenNum])) {
 			$screen = $this->screens[$screenNum];
 			$oldfile = $screen['file'];
+			if($stamp == -1) {
+				$stamp = $screen['stamp'];
+			}
 		} else {
 			$screenNum = count($this->screens);
 			$screen = array(
@@ -119,6 +119,9 @@ class PrefsManager {
 				"zoom" => 0,
 				"stamp" => 0,
 			);
+		}
+		if($stamp <= 0) {
+			$stamp = time();
 		}
 		if($file != null) $screen['file'] = $file;
 		if($top != null) $screen['top'] = $top;
