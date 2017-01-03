@@ -1,6 +1,12 @@
 <?php
 include("head.php");
 
+if(isset($_POST['scoreboard_reset'])) {
+	$prefs->scores = [];
+	$prefs->save();
+	exit_redirect();
+}
+
 if(isset($_POST['messages_twitter']) && is_array($_POST['messages_twitter'])) {
 	$messages = $_POST['messages_twitter'];
 	$messages = array_filter($messages);
@@ -99,6 +105,17 @@ if(!empty($_POST)) {
 		background: #800;
 		color: white;
 	}
+	.config_scoreboard_reset {
+		border: 2px solid red;
+		border-radius: 8px;
+		background: #800;
+		color: white;
+		padding: 8px 20px;
+	}
+	.config_scoreboard_reset:hover {
+		background: red;
+	}
+	
 	.message_twitter button:hover { background: red; }
 	.message_twitter button:active { background: #400; color: white; }
 	.message_twitter0 { display:none; }
@@ -116,8 +133,7 @@ if(!empty($_POST)) {
 	.config_nouveau_message_twitter:hover { background: #DDF; }
 	.config_nouveau_message_twitter:active { background: #000; color:white; }
 	
-	button:hover { background: #CCC; }
-	button:active { background: #444; color: white; }
+	button { cursor: pointer; }
 	
 	input.url_miniature_stream {
 		width: 624px;
@@ -176,19 +192,30 @@ if(!empty($_POST)) {
 <body>
 <div id="menu"><a href="gestion">Gestion</a><a class="ici" href="config">Config</a></div>
 <div id="contenu">
+<h2>Actions</h2>
+<form action="<?=$thisurl?>" name="config" method="POST">
+
+<p>Effacer tous les scores (attention: irréversible) <button class="config_scoreboard_reset" name="scoreboard_reset" value="1">EFFACER LES SCORES</button></p>
+
+</form>
+
+<hr/>
+
 <form action="<?=$thisurl?>" name="config" method="POST">
 <h2>Configuration du bidule</h2>
 <p>Liste des messages twitter par défaut</p>
-<div class="liste_messages_twitter">
-<div class="message_twitter message_twitter0"><textarea name="messages_twitter[]"></textarea><button class="config_retirer_message_twitter" name="config_retirer_message_twitter" value="">Retirer</button></div>
-<?php
-$prefMess = array_filter($twitterMessages);
-foreach($prefMess as $message) {
-	?><div class="message_twitter"><textarea name="messages_twitter[]"><?=strip_tags($message)?></textarea><button class="config_retirer_message_twitter" name="config_retirer_message_twitter" value="">Retirer</button></div><?
-}
-?>
+<div>
+	<div class="liste_messages_twitter">
+		<div class="message_twitter message_twitter0"><textarea name="messages_twitter[]"></textarea><button class="config_retirer_message_twitter" name="config_retirer_message_twitter" value="">Retirer</button></div>
+		<?php
+		$prefMess = array_filter($twitterMessages);
+		foreach($prefMess as $message) {
+			?><div class="message_twitter"><textarea name="messages_twitter[]"><?=strip_tags($message)?></textarea><button class="config_retirer_message_twitter" name="config_retirer_message_twitter" value="">Retirer</button></div><?
+		}
+		?>
+	</div>
+	<div class="ajout_message"><button class="config_nouveau_message_twitter" name="nouveau" value="1">Nouveau</button></div>
 </div>
-<div class="ajout_message"><button class="config_nouveau_message_twitter" name="nouveau" value="1">Nouveau</button></div>
 
 <p>
 <?php

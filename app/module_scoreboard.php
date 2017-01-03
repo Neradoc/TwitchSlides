@@ -3,6 +3,12 @@ function formate_card($post) {
 	return preg_replace('/[^-_a-zA-Z0-9 \'' .'àáâãäçèéêëìíîï' .'ñòóôõöùúûüýÿ' .'ÀÁÂÃÄÇÈÉÊËÌÍÎÏ' .'ÑÒÓÔÕÖÙÚÛÜÝ]/ui','', $post);
 }
 
+if(isset($_POST['scoreboard_reset'])) {
+	$prefs->scores = [];
+	$prefs->save();
+	exit_redirect();
+}
+
 if(isset($_POST['scoreboard_effacer'])) {
 	$card = formate_card($_POST['scoreboard_nom']);
 	if($card && isset($prefs->scores[$card])) {
