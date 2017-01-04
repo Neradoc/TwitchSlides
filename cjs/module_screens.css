@@ -145,6 +145,13 @@
 	background: #888;
 }
 
+/* screen actif */
+.screen.active {
+	border-width: 5px;
+	padding: 5px 5px 0px;
+	/* box-shadow: 6px 6px 5px #777; */
+}
+
 /* position changée mais pas validée */
 .screen.modified {
 	background-color: #FFFFB0;
@@ -159,12 +166,26 @@
 	bottom: 8px;
 	right: 8px;
 	font-size: 80%;
+	border-radius: 8px;
+	padding: 0px 2px;
 }
 .screen .screen_timer .screen_timer_text {
 	border: none;
 	width: 4em;
 	text-align: right;
 	vertical-align: top;
+	margin-top: 2px;
+	background: transparent;
+}
+.screen .screen_timer .screen_timer_btn {
+	border: none;
+	padding: 0px;
+	width: 16px;
+	height: 16px;
+	background: transparent;
+}
+.screen.active .screen_timer {
+	background: yellow;
 }
 
 /* images */
@@ -187,6 +208,57 @@
 }
 .seresize {
 	cursor: se-resize !important;
+}
+
+.moveprev_head,
+.movenext_head {
+	position: absolute;
+	padding: 0px;
+	border: none;
+	border-radius: 8px;
+	background: white;
+	cursor: pointer;
+	margin-right: 1px;
+}
+.moveprev_head .hover,
+.movenext_head .hover {
+	display: none;
+}
+.moveprev_head:hover .offer,
+.movenext_head:hover .offer {
+	display: none;
+}
+.moveprev_head:hover .hover,
+.movenext_head:hover .hover {
+	display: inline;
+}
+.moveprev_head img,
+.movenext_head img {
+	width: 28px;
+}
+.moveprev_head { left: 100px; }
+.movenext_head { right: 100px; }
+
+/* boutons */
+#screens .btns button {
+	height: 1.8em;
+}
+
+/* twitter */
+.twitter { position: relative; }
+.twitter .img_twitter,
+.twitter .img_twitter_off {
+	float: left;
+	width: 20px;
+	height: 20px;
+}
+.twitter .img_twitter,
+.twitter.disabled .img_twitter_off {
+	display: inline;
+}
+.twitter .img_twitter_off,
+.twitter.disabled .img_twitter {
+	display: none;
 }
 
 /* modules de sources */
@@ -239,6 +311,9 @@
 	margin: 0px;
 	border: none;
 	background: transparent;
+}
+.source .assign {
+	width: 8em;
 }
 .source .assign option:first-child {
 	color: #888;

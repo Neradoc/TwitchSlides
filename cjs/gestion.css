@@ -13,12 +13,9 @@ p { padding: 2px; margin:0px; }
 /*
 	agencement des modules
 */
-.screen,
-.source,
-#strawpoll,
-#scoreboard,
-#livevisu,
-#slide_block {
+<?php $box_sizing = 20; ?>
+.module_box {
+	box-sizing: border-box;
 	position: relative;
 	float:left;
 	padding: 8px;
@@ -26,28 +23,28 @@ p { padding: 2px; margin:0px; }
 	border-width: 2px;
 	border-style: solid;
 	border-radius: 8px;
-	width: <?=$screen_width?>px;
+	width: <?=$screen_width + $box_sizing?>px;
 }
 #slide_block,
 #livevisu {
 	border-color: #80FF80;
-	height: <?=$screen_height + 65?>px;
+	height: <?=$screen_height + 65 + $box_sizing?>px;
 }
 .screen {
 	border-color:#080;
-	height: <?=$screen_height + 65?>px;
+	height: <?=$screen_height + 65 + $box_sizing?>px;
 }
 .source {
 	border-color:#008;
-	height: <?=$screen_height + 37?>px;
+	height: <?=$screen_height + 37 + $box_sizing?>px;
 }
 #strawpoll {
 	border-color:#804000;
-	height: <?=$screen_height + 65?>px;
+	height: <?=$screen_height + 65 + $box_sizing?>px;
 }
 #scoreboard {
 	border-color: #008080;
-	height: <?=$screen_height + 65?>px;
+	height: <?=$screen_height + 65 + $box_sizing?>px;
 }
 #upload {
 	position: relative;

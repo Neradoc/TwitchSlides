@@ -3,28 +3,10 @@ include("head.php");
 
 $debug = isset($_REQUEST['debug']);
 
-// screens
-$screensNumbers = [];
-if(isset($_REQUEST['screens']) && $_REQUEST['screens'] != "") {
-	$screensNumbers =
-		array_filter(
-			array_map(
-				function($x) { return intval($x); },
-				preg_split('/,/', $_REQUEST['screens'], -1, PREG_SPLIT_NO_EMPTY)
-			),
-		function($n) use ($Nscreens) {
-			return $n>0 && $n<=intval($Nscreens);
-		}
-	);
-} else {
-	for($i=1; $i<=$Nscreens; $i++) {
-		$screensNumbers[] = $i;
-	}
-}
 // ajax
 if(isset($_REQUEST['get'])) {
 	$data = array("screens" => array());
-	foreach($screensNumbers as $screen) {
+	for($screen = 0; $screen < $prefs->screenCount(); $screen++) {
 		$file = $prefs->screenFile($screen);
 		$pos = $prefs->screenPos($screen);
 		$on = $prefs->screenOn($screen);
@@ -123,7 +105,6 @@ if(isset($_REQUEST['get'])) {
 				type:'POST',
 				data: {
 					get:1,
-					screens: "<?=join($screensNumbers,',')?>",
 				},
 				dataType: "json",
 				error: function(a,b,c) {
@@ -134,7 +115,7 @@ if(isset($_REQUEST['get'])) {
 					if(data == false) {
 						$(".image").hide();
 						return;
-					} 
+					}
 					if(data['reload']) {
 						location.reload();
 					}
@@ -175,6 +156,10 @@ if(isset($_REQUEST['get'])) {
 					for(var num in data['screens']) {
 						var screen = data['screens'][num];
 						var image = $(".image"+screen['num']);
+						if(image.length == 0) {
+							$(".all_images").append('<img class="image image'+screen['num']+'" src="cjs/img/vide.png" style="z-index:'+(screen['num']*10+10)+';" />\n');
+							image = $(".image"+screen['num']);
+						}
 						if(!(num in current_image) || screen['image'] != current_image[num]) {
 							current_image[num] = screen['image'];
 							image.attr("src",current_image[num]);
@@ -232,10 +217,12 @@ if(isset($_REQUEST['get'])) {
 	<?php if($debug): ?>
 	<img src="<?=$url_miniature_stream?>" style="display:absolute; left:0px; top:0px; width:100%; height:100%; z-index:0;"/>
 	<?php endif; ?>
-	<?php for($i=0; $i<max($Nscreens,8); $i++) {
-		print('<img class="image image'.($i+1).'" src="cjs/img/vide.png" style="z-index:'.($i*10+10).';" />'."\n");
+	<div class="all_images">
+	<?php for($i=0; $i<$max_images; $i++) {
+		print('<img class="image image'.($i).'" src="cjs/img/vide.png" style="z-index:'.($i*10+10).';" />'."\n");
 	}
 	?>
+	</div>
 	<div id="scores" style="z-index:<?=intval($prefs->get("scoreboard_index",0))*10+5?>;">Les scores ne sont pas encore chargés</div>
 </div>
 </body>

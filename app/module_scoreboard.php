@@ -3,6 +3,12 @@ function formate_card($post) {
 	return preg_replace('/[^-_a-zA-Z0-9 \'' .'àáâãäçèéêëìíîï' .'ñòóôõöùúûüýÿ' .'ÀÁÂÃÄÇÈÉÊËÌÍÎÏ' .'ÑÒÓÔÕÖÙÚÛÜÝ]/ui','', $post);
 }
 
+if(isset($_POST['scoreboard_reset'])) {
+	$prefs->scores = [];
+	$prefs->save();
+	exit_redirect();
+}
+
 if(isset($_POST['scoreboard_effacer'])) {
 	$card = formate_card($_POST['scoreboard_nom']);
 	if($card && isset($prefs->scores[$card])) {
@@ -27,6 +33,20 @@ if(isset($_POST['scoreboard_switch'])) {
 if(isset($_POST["scoreboard_updown"])) {
 	$value = intval($_POST["scoreboard_changer"]);
 	$delta = intval($_POST["scoreboard_updown"]) * intval($_POST["scoreboard_modif"]);
+	if($delta != 0) {
+		$card = formate_card($_POST['scoreboard_nom']);
+		if($card && isset($prefs->scores[$card])) {
+			$prefs->scores[$card]['score'] = $value+$delta;
+			$prefs->scores[$card]['stamp'] = time();
+			$prefs->save();
+		}
+	}
+	exit_redirect();
+}
+
+if(isset($_POST['scoreboard_add'])) {
+	$value = intval($_POST["scoreboard_changer"]);
+	$delta = intval($_POST["scoreboard_add"]);
 	if($delta != 0) {
 		$card = formate_card($_POST['scoreboard_nom']);
 		if($card && isset($prefs->scores[$card])) {
@@ -69,7 +89,7 @@ function disp_scoreboard($thisurl) {
 	global $prefs,$Nscreens;
 	$scores = $prefs->sortedScores();
 	?>
-	<div id="scoreboard">
+	<div id="scoreboard" class="module_box">
 	<h3>Scores</h3>
 	<form action="<?=$thisurl?>" name="scoreboard_indexing" method="POST">
 		<?php $zindex = intval($prefs->get('scoreboard_index',0)); ?>
@@ -106,6 +126,9 @@ function disp_scoreboard($thisurl) {
 			<button class="rond down_score" name="scoreboard_updown" value="-1" title="Réduire le score du nombre indiqué"><img src="cjs/img/bouton_moins.png"/></button>
 			<input class="modif_score" type="text" name="scoreboard_modif" value="1" title="Valeur pour modifier le score"/>
 			<button class="rond up_score" name="scoreboard_updown" value="1" title="Augmenter le score du nombre indiqué"><img src="cjs/img/bouton_plus.png"/></button>
+			<?php if($prefs->active_screen()!==null): ?>
+			<button class="rond active_score score_value" name="scoreboard_add" value="0"><img src="cjs/img/icone-scoring.png"/></button>
+			<?php endif; ?>
 			<input class="score" type="text" name="scoreboard_changer" value="<?=$card['score']?>" title="Valeur de score, appuyer sur entrée pour modifier"/>
 			<!-- <button class="rond valider_score" name="scoreboard_valider" value=""><img src="cjs/img/bouton_check.png"/></button> -->
 			<span class="nom"><?=$card['nom']?></span>

@@ -27,7 +27,7 @@ if(isset($_POST['strawpoll_switch'])) {
 function disp_strawpoll($thisurl) {
 	global $poll_page,$poll_embed,$poll_on;
 	?>
-	<div id="strawpoll">
+	<div id="strawpoll" class="module_box">
 		<h3><a href="<?=dirname($thisurl)?>/strawpoll" target="_BLANK">Strawpoll</a></h3>
 		<form action="<?=$thisurl?>" name="strawpoll_onoff" method="POST">
 		<?php

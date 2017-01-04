@@ -15,3 +15,26 @@ prefs = (function() {
 		}
 	}
 })();
+
+function format_heure(timestamp,timer) {
+	var myDate = new Date(timestamp*1000);
+	var heures = myDate.getHours();
+	var minutes = myDate.getMinutes();
+	if(minutes < 10) minutes = "0"+minutes;
+	var secondes = myDate.getSeconds();
+	if(secondes < 10) secondes = "0"+secondes;
+	return heures + "h" + minutes + " (" + timer + " min)";
+}
+
+function calculer_score(time) {
+	var calc_score = $("#calc_score").data("calcul");
+	try {
+		if(typeof(calc_score) == "undefined" || calc_score.trim() == "") {
+			return time;
+		}
+		var score = parseInt(eval(calc_score),10);
+		return score;
+	} catch(err) {
+		return time;
+	}
+}
