@@ -145,6 +145,13 @@
 	background: #888;
 }
 
+/* screen actif */
+.screen.active {
+	border-width: 5px;
+	padding: 5px 5px 0px;
+	/* box-shadow: 6px 6px 5px #777; */
+}
+
 /* position changée mais pas validée */
 .screen.modified {
 	background-color: #FFFFB0;
@@ -159,12 +166,26 @@
 	bottom: 8px;
 	right: 8px;
 	font-size: 80%;
+	border-radius: 8px;
+	padding: 0px 2px;
 }
 .screen .screen_timer .screen_timer_text {
 	border: none;
 	width: 4em;
 	text-align: right;
 	vertical-align: top;
+	margin-top: 2px;
+	background: transparent;
+}
+.screen .screen_timer .screen_timer_btn {
+	border: none;
+	padding: 0px;
+	width: 16px;
+	height: 16px;
+	background: transparent;
+}
+.screen.active .screen_timer {
+	background: yellow;
 }
 
 /* images */

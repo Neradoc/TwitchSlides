@@ -54,7 +54,7 @@ function disp_slide($thisurl) {
 	global $Nscreens,$url_miniature_stream,$prefs;
 	?>
 	<script type="text/javascript" src="cjs/module_slide_gestion.js"></script>
-	<div id="slide_block">
+	<div id="slide_block" class="module_box">
 	<h3>Prévisu</h3>
 	<div class="slide_previsu screensize">
 		<img class="slide_background" src="<?=$url_miniature_stream?>"/>

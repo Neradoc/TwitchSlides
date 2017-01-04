@@ -107,7 +107,7 @@ class PrefsManager {
 		if(isset($this->screens[$screenNum])) {
 			$screen = $this->screens[$screenNum];
 			$oldfile = $screen['file'];
-			if($stamp == -1) {
+			if($stamp === null) {
 				$stamp = $screen['stamp'];
 			}
 		} else {
@@ -118,9 +118,10 @@ class PrefsManager {
 				"left" => 0,
 				"zoom" => 0,
 				"stamp" => 0,
+				"active" => false,
 			);
 		}
-		if($stamp <= 0) {
+		if($stamp == 0) {
 			$stamp = time();
 		}
 		if($file != null) $screen['file'] = $file;
@@ -138,6 +139,54 @@ class PrefsManager {
 			}
 			if(file_exists(SCREENS_DIR.$oldfile)) {
 				unlink(SCREENS_DIR.$oldfile);
+			}
+		}
+	}
+	function active_screen($screen = null) {
+		if($screen === null) {
+			foreach($this->screens as $key => $screen) {
+				if(isset($screen['active']) && $screen['active']) {
+					return $key;
+				}
+			}
+			return null;
+		}
+		foreach(array_keys($this->screens) as $key) {
+			if($key == $screen) {
+				if(!isset($this->screens[$screen]['active'])) {
+					$this->screens[$screen]['active'] = true;
+				} else {
+					$this->screens[$screen]['active']
+					= !$this->screens[$screen]['active'];
+					continue;
+				}
+			}
+			$this->screens[$key]['active'] = false;
+		}
+		return $screen;
+	}
+	function switch_screens($screen1,$screen2) {
+		if(isset($this->screens[$screen1]) && isset($this->screens[$screen2])) {
+			$theScreen = $this->screens[$screen1];
+			$this->screens[$screen1] = $this->screens[$screen2];
+			$this->screens[$screen2] = $theScreen;
+		}
+	}
+	function effacer_screen($screen) {
+		if(isset($this->screens[$screen])) {
+			$file = $this->screenFile($screen);
+			array_splice($this->screens,$screen,1);
+			$this->save();
+			// n'effacer que si l'image n'est pas dans un autre screen
+			if($file != "") {
+				foreach($this->screens as $screen) {
+					if($screen['file'] == $file) {
+						return;
+					}
+				}
+				if(file_exists(SCREENS_DIR.$file)) {
+					unlink(SCREENS_DIR.$file);
+				}
 			}
 		}
 	}
@@ -194,31 +243,6 @@ class PrefsManager {
 			}
 		}
 		return 0;
-	}
-	function switch_screens($screen1,$screen2) {
-		if(isset($this->screens[$screen1]) && isset($this->screens[$screen2])) {
-			$theScreen = $this->screens[$screen1];
-			$this->screens[$screen1] = $this->screens[$screen2];
-			$this->screens[$screen2] = $theScreen;
-		}
-	}
-	function effacer_screen($screen) {
-		if(isset($this->screens[$screen])) {
-			$file = $this->screenFile($screen);
-			array_splice($this->screens,$screen,1);
-			$this->save();
-			// n'effacer que si l'image n'est pas dans un autre screen
-			if($file != "") {
-				foreach($this->screens as $screen) {
-					if($screen['file'] == $file) {
-						return;
-					}
-				}
-				if(file_exists(SCREENS_DIR.$file)) {
-					unlink(SCREENS_DIR.$file);
-				}
-			}
-		}
 	}
 	function sortedScores() {
 		$scores = $this->scores;

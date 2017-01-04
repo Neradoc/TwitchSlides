@@ -53,7 +53,7 @@ if(isset($_POST['sources_assign1']) || isset($_POST['sources_assign2'])) {
 			$prefs->insertScreen($screenIns,$file,$top,$left,$zoom);
 		} elseif($screenIns[0] == "=") {
 			$screenIns = intval(substr($screenIns,1));
-			$prefs->setScreen($screenIns,$file,$top,$left,$zoom,-1);
+			$prefs->setScreen($screenIns,$file,$top,$left,$zoom,null);
 		} else {
 			$prefs->addScreen($file,$top,$left,$zoom);
 		}
@@ -68,6 +68,13 @@ if(isset($_POST['screen_moveto'])) {
 	$prefs->switch_screens($screen,$autre);
 	$prefs->save();
 	exit_redirect();
+}
+
+if(isset($_POST['screen_timer_activate'])) {
+	$screen = intval($_POST['screen_num']);
+	$prefs->active_screen($screen);
+	$prefs->save();
+	exit_redirect();	
 }
 
 if(isset($_POST['screen_changer'])) {
@@ -88,7 +95,7 @@ if(isset($_POST['screen_changer'])) {
 		if(isset($_POST['screen_timer'])) {
 			$stamp = intval($_POST['screen_timer'])*60 + time();
 		} else {
-			$stamp = -1;
+			$stamp = null;
 		}
 		$prefs->setScreen($screen,$file,$top,$left,$zoom,$stamp);
 		$prefs->save();
@@ -125,11 +132,36 @@ if(isset($_POST['screen_switch'])) {
 	exit_redirect();
 }
 
+function boutons_on_image() {
+?>
+				<input type="hidden" name="image_top" value="0"/>
+				<input type="hidden" name="image_left" value="0"/>
+				<input class="zoom" type="hidden" name="image_zoom" value="0"/>
+				<button class="pos_btn topleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn topright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn bottomleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn bottomright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerleft"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerright"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centertop"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centerbottom"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn centercenter"><img src="cjs/img/crosshair.png"/></button>
+				<button class="pos_btn moveleft">︎<img src="cjs/img/fleche_left.png"/></button>
+				<button class="pos_btn moveright"><img src="cjs/img/fleche_right.png"/></button>
+				<button class="pos_btn movetop"><img src="cjs/img/fleche_top.png"/></button>
+				<button class="pos_btn movebottom"><img src="cjs/img/fleche_bottom.png"/></button>
+				<button class="pos_btn zoomin">+</button>
+				<button class="pos_btn zoomout">-</button>
+				<button class="pos_btn zoomzero">=</button>
+<?php
+}
+
 function disp_screens($thisurl) {
 	global $Nscreens,$prefs,$url_miniature_stream;
 	?>
 	<div id="screens">
 	<?php
+	$active = $prefs->active_screen();
 	for($index=0; $index<$Nscreens; $index++) {
 		$imageurl = $prefs->screenFile($index);
 		$imgPos = $prefs->screenPos($index);
@@ -156,7 +188,7 @@ function disp_screens($thisurl) {
 			$h = 0;
 		}
 		?>
-		<div class='screen screen<?=$index?> module_screen_block'>
+		<div class='screen module_box screen<?=$index?> module_screen_block <?=$active===$index?"active":""?>'>
 			<form action="<?=$thisurl?>" name="screens" method="POST">
 			<div class="headbtns">
 				<? if($index>0): ?>
@@ -181,25 +213,7 @@ function disp_screens($thisurl) {
 				<img class="image" data-width="<?=$w?>" data-height="<?=$h?>" data-top="<?=$imgPos[1]?>" data-left="<?=$imgPos[0]?>" data-zoom="<?=$imgPos[2]?>" src="<?=$imageurl?>"/>
 				<input type="hidden" class="timestamp" name="" value="<?=$timestamp?>"/>
 				<input type="hidden" name="screen_num" value="<?=$index?>"/>
-				<input type="hidden" name="image_top" value="0"/>
-				<input type="hidden" name="image_left" value="0"/>
-				<input class="zoom" type="hidden" name="image_zoom" value="0"/>
-				<button class="pos_btn topleft"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn topright"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn bottomleft"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn bottomright"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centerleft"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centerright"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centertop"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centerbottom"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centercenter"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn moveleft">︎<img src="cjs/img/fleche_left.png"/></button>
-				<button class="pos_btn moveright"><img src="cjs/img/fleche_right.png"/></button>
-				<button class="pos_btn movetop"><img src="cjs/img/fleche_top.png"/></button>
-				<button class="pos_btn movebottom"><img src="cjs/img/fleche_bottom.png"/></button>
-				<button class="pos_btn zoomin">+</button>
-				<button class="pos_btn zoomout">-</button>
-				<button class="pos_btn zoomzero">=</button>
+				<?php boutons_on_image(); ?>
 			</div>
 			<div class="btns">
 				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Valider</button>
@@ -210,13 +224,14 @@ function disp_screens($thisurl) {
 			<form action="<?=$thisurl?>" name="screen_timer" method="POST">
 			<input type="hidden" name="screen_num" value="<?=$index?>"/>
 			<div class="screen_timer" title="Minutes depuis que l'image a été mise sur l'écran"><input type="texte" name="screen_timer" value="" class="screen_timer_text"/>
-			<?php
+			<input type="submit" style="display:none;" name="dummy" value=""/>
+			<button class="screen_timer_btn" name="screen_timer_activate" value="<?=$index?>"><?php
 			if(isset($GLOBALS['calc_score']) && trim($GLOBALS['calc_score']) != "") {
 				print('<img src="cjs/img/icone-scoring.png"/>');
 			} else {
 				print('<img src="cjs/img/icone-horloge.png"/>');
 			}
-			?>
+			?></button>
 			</div>
 			</form>
 		</div><?
@@ -301,7 +316,7 @@ function disp_sources($thisurl) {
 		} else {
 			continue;
 		}
-		?><div class='source module_screen_block'>
+		?><div class='source module_box module_screen_block'>
 			<form action="<?=$thisurl?>" name="sources" method="POST">
 			<div class="pimage screensize">
 				<?php if($url_miniature_stream): ?>
@@ -309,25 +324,7 @@ function disp_sources($thisurl) {
 				<?php endif; ?>
 				<img class="image" data-width="<?=$w?>" data-height="<?=$h?>" src="<?=$imageurl?>"/>
 				<input type="hidden" name="image_file" value="<?=$name?>"/>
-				<input type="hidden" name="image_top" value="0"/>
-				<input type="hidden" name="image_left" value="0"/>
-				<input class="zoom" type="hidden" name="image_zoom" value="0"/>
-				<button class="pos_btn topleft"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn topright"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn bottomleft"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn bottomright"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centerleft"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centerright"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centertop"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centerbottom"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn centercenter"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn moveleft">︎<img src="cjs/img/fleche_left.png"/></button>
-				<button class="pos_btn moveright"><img src="cjs/img/fleche_right.png"/></button>
-				<button class="pos_btn movetop"><img src="cjs/img/fleche_top.png"/></button>
-				<button class="pos_btn movebottom"><img src="cjs/img/fleche_bottom.png"/></button>
-				<button class="pos_btn zoomin">+</button>
-				<button class="pos_btn zoomout">-</button>
-				<button class="pos_btn zoomzero">=</button>
+				<?php boutons_on_image(); ?>
 			</div>
 			<div class="btns">
 				<button class="effacer" name="sources_effacer" value="<?=$name?>" title="Retirer l'image du serveur (irréversible)">Effacer</button>

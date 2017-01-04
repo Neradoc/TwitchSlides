@@ -449,6 +449,9 @@ function module_screens_init() {
 				$(this).find(".screen_timer").attr("title","Minutes depuis "+heure);
 				$(this).find(".screen_timer_text").val(score);
 			}
+			if($(this).closest(".active").length>0) {
+				$(".score_value").val(score);
+			}
 		});
 	}
 	setTimeout(update_timer,100);
