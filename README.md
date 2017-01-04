@@ -10,27 +10,31 @@ Sur un site situé à l'adresse http://site.web/
 
 ### Le panneau de gestion
 * En haut nous retrouvons les modules gérant ce qui est affiché sur le stream.
-	* Le module "Écran" permet de positionner l'image à l'écran, l'enlever et twitter.
+	* Les modules "Image" permettent de positionner une image à l'écran, l'enlever et twitter.
 	* Le module "Strawpoll" permet d'affichage et masquage un strawpoll (les résultats).
 	* Le module "Scores" permet de compter des scores qui seront affichés défilant en bas de l'écran sur le stream.
 * Le module "Ajouter une image" permet de mettre une image sur le site via le sélecteur de fichiers ou en mettant son adresse web directe.
-* Les modules d'images sources listent toutes les images disponibles et permettent de choisir la taille et la position d'une image avant de l'envoyer vers l'écran.
+* Les modules d'images "Sources" listent toutes les images disponibles et permettent de choisir la taille et la position d'une image avant de l'envoyer vers l'écran.
 
 #### Plus en détails
 * Le bouton ON/OFF permet de masquer un module dans le stream sans perdre ses réglages.
-* Module écran et modules d'images sources:
+* Module d'images et modules de sources:
 	* Déplacer l'image en la glissant à la souris. La touche shift maintient l'image dans l'écran.
 	* Redimensionner l'image en maintenant la touche alt en glissant à la souris.
 	* Positionner l'image avec les boutons "@" apparaissant quand on survole l'image.
 	* Changer l'échelle de l'image avec les boutons "+", "-" et "=".
 	* Déplacer l'image pas à pas avec les boutons flèches.
-	* Échanger les images de 2 écrans avec les boutons ">1" où "1" est le numéro de l'écran avant ou après.
+* Module d'images:
+	* Les images sont dans l'ordre du fond vers l'avant (la dernière est devant).
+	* Les boutons flèches déplacent les images vers l'avant ou l'arrière.
 	* Le bouton "Changer" valide les changements de position et dimension.
 	* Le bouton "Effacer" retire l'image de l'écran.
 	* Le bouton "Twitter" appelle la fenêtre twitter.
-* Module d'images sources:
+	* L'indicateur de timer affiche le temps ou le score et permet de le modifier.
+* Module de sources:
 	* Le bouton "Effacer" supprime l'image du serveur.
-	* Le menu "Afficher sur le stream" envoie l'image source vers l'écran choisit.
+	* Le menu "Ajouter" ajoute l'image en l'insérant à la position demandée.
+	* Le menu "Remplacer" remplace une image en conservant le timer.
 	* Le bouton ![Étoile](cjs/img/star-mini.png) Étoile sous l'image permet de la marquer favorite.
 	* Si il y a plus de 12 images, la liste des pages apparait au dessus des images.
 	* Le bouton (![Étoile](cjs/img/star-mini.png)) Étoile dans la liste des pages accède aux favoris.
@@ -44,18 +48,26 @@ Sur un site situé à l'adresse http://site.web/
 	* Les boutons "+" et "-" changent le nombre de points de la valeur indiquée au milieu (pour ne pas avoir à faire des additions de tête).
 	* Le champ contenant le score est modifiable pour donner directement un score. Valider avec entrée.
 	* La croix rouge retire le joueur.
+	* Un bouton "EFFACER LES SCORES" dans la page de config permet de supprimer tous les scores.
 	
 
 ### Aller plus loin
-Le **nombre d'écrans configurables** peut être augmenté (il est à 1 par défaut) ajoutant autant de modules "écran" à la page de gestion. Chaque écran gère une image différente, qui seront toutes affichées en même temps dans le slide, les écrans de numéro plus élevé devant les autres.
-
-Il est possible de n'afficher que certaines image à la fois en ajoutant le paramètre "screens" à l'adresse du slide, par exemple: http://site.web/slide?screens=1 ou http://site.web/slide?screens=2,5 pour les images (des écrans) 2 et 5.
+La page de config (accessible depuis un onglet dans la page de gestion) permet de changer certains paramètres pour personnaliser l'interface de gestion.
 
 La configuration de **l'image de fond des écrans** permet de déclarer l'adresse (relative ou absolue) de l'image de fond affichée dans le module écran (pas sur le stream), permettant d'aider au positionnement des images.
 
 Il est possible d'afficher l'image de fond sur le "slide" en ajoutant la variable debug à l'adresse, pour prévisualiser l'ensemble des images ensemble (à ne pas faire sur le stream par contre, ça cacherait tout).
 
 N'oubliez pas qu'il est généralement possible (dans OBS par exemple) de limiter l'affichage d'une image à une région limitée de l'écran. Évidemment l'image miniature de fond ne correspondra plus. Vous pouvez également garder la taille de la zone en plein écran mais couper les bords ("crop") gardant ainsi la correspondance tout en controlant la zone affichée. Avec OBS alt-click permet de croper à la souris.
+
+## Liste des scores
+Les scores sont positionnés par rapport aux images (devant/derrière) selon le paramètre du menu correspondant dans le module de scores. Quand des images sont ajoutées ou retirées, le logiciel tente de recalculer la position des scores en conséquence.
+
+Sous chaque image, un champ indique le score de l'image. Si la configuration "calc_score" n'est pas présente, c'est le nombre de minutes depuis que l'image a été ajoutée. Si "calc_score" est défini et ne provoque pas d'erreur, c'est le score calculé qui est affiché, avec une icone de pièce.
+
+Le calcul du score est une expression mathématique (en javascript) qui doit retourner un nombre entier. La variable "time" est disponible et contient le nombre de minutes depuis que l'image a été ajoutée sur le stream (qu'elle soit ON ou OFF). Exemple: *calc_score = "1 + time / 2"*.
+
+On peut modifier le timer en rentrant un nombre de minutes et valider avec la touche entrée. Attention il n'y a pas de calcul inverse, c'est toujours le nombre de minutes et non le score qu'on entre dans ce champ. Si un score est affiché, le nombre de minutes est visible dans la bulle d'informations affichée en mettant la souris sur le timer.
 
 ## Twitter l'image
 ### Avec IFTTT.com
@@ -70,7 +82,7 @@ Variables à définir dans le fichier *"data/config.ini"*. Le format exact est i
 
 * **htmlTitleGestion**: titre de la page gestion (au sens de la balise title).
 * **url_miniature_stream**: url de la miniature du stream, celle affichée par twitch dans la page "Suivis".
-* **Nscreens**: nombre d'écrans configurables (chacun peut contenir une image).
+* **calc_score**: formule de calcul du score, en fonction de "time" (nombre de minutes).
 * Twitter par If-This-Then-That
 	* **twitterIftMakerKey**: l'identifiant de votre chaine Maker dans IFTTT.
 	* **twitterIftChannel**: le nom de l'event utilisé dans votre recette dans IFTTT.
@@ -115,3 +127,4 @@ Le fichier prefs.json est géré par l'application, il ne faut pas le modifier �
 * **effacer_screen($screen)**: vide un écran et efface le fichier image associé si il n'est pas dans un autre écran.
 * **sortedScores()**: renvoie le tableau de scores, trié par score, puis dernière modification, puis nom.
 * **poll_embed()**: renvoie l'url d'embed du strawpoll (construite à partir du numéro)
+* **to be continued**
