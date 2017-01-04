@@ -87,6 +87,8 @@ if(isset($_POST['screen_changer'])) {
 			$zoom = floatval($_POST['image_zoom']);
 		if(isset($_POST['screen_timer'])) {
 			$stamp = intval($_POST['screen_timer'])*60 + time();
+		} else {
+			$stamp = -1;
 		}
 		$prefs->setScreen($screen,$file,$top,$left,$zoom,$stamp);
 		$prefs->save();
