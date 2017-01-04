@@ -147,9 +147,7 @@
 
 /* screen actif */
 .screen.active {
-	border-width: 5px;
-	padding: 5px 5px 0px;
-	/* box-shadow: 6px 6px 5px #777; */
+	box-shadow: 0px 0px 0px 4px green;
 }
 
 /* position changée mais pas validée */
@@ -178,11 +176,11 @@
 	background: transparent;
 }
 .screen .screen_timer .screen_timer_btn {
-	border: none;
-	padding: 0px;
-	width: 16px;
-	height: 16px;
-	background: transparent;
+	border-radius: 8px;
+}
+.screen .screen_timer_btn:hover {
+	border-color: gold!important;
+	background: orange;
 }
 .screen.active .screen_timer {
 	background: yellow;

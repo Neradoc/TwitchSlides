@@ -446,11 +446,15 @@ function module_screens_init() {
 			var heure = format_heure(time0,time);
 			var focus = $(this).find(".screen_timer_text").is(":focus");
 			if(!focus) {
-				$(this).find(".screen_timer").attr("title","Minutes depuis "+heure);
-				$(this).find(".screen_timer_text").val(score);
+				if($(this).find(".screen_timer_text").val() != score) {
+					$(this).find(".screen_timer").attr("title","Minutes depuis "+heure);
+					$(this).find(".screen_timer_text").val(score);
+				}
 			}
 			if($(this).closest(".active").length>0) {
-				$(".score_value").val(score);
+				if($(".score_value").val() != score) {
+					$(".score_value").val(score);
+				}
 			}
 		});
 	}

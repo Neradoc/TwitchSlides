@@ -225,7 +225,7 @@ function disp_screens($thisurl) {
 			<input type="hidden" name="screen_num" value="<?=$index?>"/>
 			<div class="screen_timer" title="Minutes depuis que l'image a été mise sur l'écran"><input type="texte" name="screen_timer" value="" class="screen_timer_text"/>
 			<input type="submit" style="display:none;" name="dummy" value=""/>
-			<button class="screen_timer_btn" name="screen_timer_activate" value="<?=$index?>"><?php
+			<button class="screen_timer_btn btn_image" name="screen_timer_activate" value="<?=$index?>"><?php
 			if(isset($GLOBALS['calc_score']) && trim($GLOBALS['calc_score']) != "") {
 				print('<img src="cjs/img/icone-scoring.png"/>');
 			} else {

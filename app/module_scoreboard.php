@@ -123,16 +123,16 @@ function disp_scoreboard($thisurl) {
 		<form action="<?=$thisurl?>" name="scorecard" method="POST" autocomplete="off">
 			<input type="submit" style="display:none" name="scoreboard_ok" value="ok"/>
 			<input type="hidden" name="scoreboard_nom" value="<?=$card['nom']?>"/>
-			<button class="rond down_score" name="scoreboard_updown" value="-1" title="Réduire le score du nombre indiqué"><img src="cjs/img/bouton_moins.png"/></button>
+			<button class="btn_image down_score" name="scoreboard_updown" value="-1" title="Réduire le score du nombre indiqué"><img src="cjs/img/bouton_moins.png"/></button>
 			<input class="modif_score" type="text" name="scoreboard_modif" value="1" title="Valeur pour modifier le score"/>
-			<button class="rond up_score" name="scoreboard_updown" value="1" title="Augmenter le score du nombre indiqué"><img src="cjs/img/bouton_plus.png"/></button>
+			<button class="btn_image up_score" name="scoreboard_updown" value="1" title="Augmenter le score du nombre indiqué"><img src="cjs/img/bouton_plus.png"/></button>
 			<?php if($prefs->active_screen()!==null): ?>
-			<button class="rond active_score score_value" name="scoreboard_add" value="0"><img src="cjs/img/icone-scoring.png"/></button>
+			<button class="btn_image active_score score_value" name="scoreboard_add" value="0"><img src="cjs/img/icone-scoring.png"/></button>
 			<?php endif; ?>
 			<input class="score" type="text" name="scoreboard_changer" value="<?=$card['score']?>" title="Valeur de score, appuyer sur entrée pour modifier"/>
-			<!-- <button class="rond valider_score" name="scoreboard_valider" value=""><img src="cjs/img/bouton_check.png"/></button> -->
+			<!-- <button class="btn_image valider_score" name="scoreboard_valider" value=""><img src="cjs/img/bouton_check.png"/></button> -->
 			<span class="nom"><?=$card['nom']?></span>
-			<button class="rond effacer_score" name="scoreboard_effacer" value="<?=$card['nom']?>"><img src="cjs/img/bouton_croix.png" title="Retirer le score"/></button>
+			<button class="btn_image effacer_score" name="scoreboard_effacer" value="<?=$card['nom']?>"><img src="cjs/img/bouton_croix.png" title="Retirer le score"/></button>
 		</form>
 		</div>
 		<?
@@ -141,7 +141,7 @@ function disp_scoreboard($thisurl) {
 	</div>
 	<form action="<?=$thisurl?>" name="scoreboard" method="POST">
 	<div class="scoreboard_new">
-		Ajouter&nbsp;<input class="scoreboard_new_score" name="scoreboard_new_score" value="" title="Nouvelle valeur de points" placeholder="Score (1)"/><input class="scoreboard_new_nom" name="scoreboard_new_nom" value="" title="Entrer un nouveau nom et valider avec entrée" placeholder="Nom du nouveau"/><button class="rond scoreboard_new_btn" name="scoreboard_new_btn" value="ok"><img src="cjs/img/bouton_check.png"/></button>
+		Ajouter&nbsp;<input class="scoreboard_new_score" name="scoreboard_new_score" value="" title="Nouvelle valeur de points" placeholder="Score (1)"/><input class="scoreboard_new_nom" name="scoreboard_new_nom" value="" title="Entrer un nouveau nom et valider avec entrée" placeholder="Nom du nouveau"/><button class="btn_image scoreboard_new_btn" name="scoreboard_new_btn" value="ok"><img src="cjs/img/bouton_check.png"/></button>
 	</div>
 	</form>
 	</div>
