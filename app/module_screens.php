@@ -200,12 +200,6 @@ function disp_screens($thisurl) {
 				<button class="pos_btn zoomin">+</button>
 				<button class="pos_btn zoomout">-</button>
 				<button class="pos_btn zoomzero">=</button>
-				<? if($index>0): ?>
-				<button class="pos_btn moveprev" name="screen_moveto" value="<?= $index-1?>">➤<?= $index ?></button>
-				<? endif; ?>
-				<? if($index<$Nscreens-1): ?>
-				<button class="pos_btn movenext" name="screen_moveto" value="<?= $index+1?>">➤<?= $index+2 ?></button>
-				<? endif; ?>
 			</div>
 			<div class="btns">
 				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Valider</button>
