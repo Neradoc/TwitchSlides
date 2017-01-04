@@ -443,11 +443,12 @@ function module_screens_init() {
 				time = Math.floor((curTime - time0) / 60);
 				//+ ":" + Math.floor((curTime - time0) % 60);
 			}
+			var score = calculer_score(time);
 			var heure = format_heure(time0);
 			var focus = $(this).find(".screen_timer_text").is(":focus");
 			if(!focus) {
 				$(this).find(".screen_timer").attr("title","Minutes depuis "+heure);
-				$(this).find(".screen_timer_text").val(time);
+				$(this).find(".screen_timer_text").val(score);
 			}
 		});
 	}

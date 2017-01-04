@@ -25,3 +25,16 @@ function format_heure(time) {
 	if(secondes < 10) secondes = "0"+secondes;
 	return heures + "h" + minutes;
 }
+
+function calculer_score(time) {
+	var calc_score = $("#calc_score").data("calcul");
+	try {
+		if(typeof(calc_score) == "undefined" || calc_score.trim() == "") {
+			return time;
+		}
+		var score = parseInt(eval(calc_score),10);
+		return score;
+	} catch(err) {
+		return time;
+	}
+}

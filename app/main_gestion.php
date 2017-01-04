@@ -41,6 +41,7 @@ if(!empty($_POST) || !empty($_FILES)) {
 </head>
 <body>
 <input id="time_origin" type="hidden" name="time_origin" value="<?=time()?>"/>
+<input id="calc_score" type="hidden" name="calc_score" value="0" data-calcul="<?=$calc_score?>"/>
 <!--
 	menu
 -->
