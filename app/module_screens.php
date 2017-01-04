@@ -204,7 +204,7 @@ function disp_screens($thisurl) {
 			<div class="btns">
 				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Valider</button>
 				<button class="effacer" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button>
-				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>">Twitter l'image</button>
+				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>"><img class="img_twitter_off" src="cjs/img/twitter-off.png" /><img class="img_twitter" src="cjs/img/twitter.png" /> Twitter</button>
 			</div>
 			</form>
 			<form action="<?=$thisurl?>" name="screen_timer" method="POST">

@@ -218,6 +218,28 @@
 .moveprev_head { left: 100px; }
 .movenext_head { right: 100px; }
 
+/* boutons */
+#screens .btns button {
+	height: 1.8em;
+}
+
+/* twitter */
+.twitter { position: relative; }
+.twitter .img_twitter,
+.twitter .img_twitter_off {
+	float: left;
+	width: 20px;
+	height: 20px;
+}
+.twitter .img_twitter,
+.twitter.disabled .img_twitter_off {
+	display: inline;
+}
+.twitter .img_twitter_off,
+.twitter.disabled .img_twitter {
+	display: none;
+}
+
 /* modules de sources */
 
 #sources .pagination_sources {

@@ -105,12 +105,16 @@ if(!empty($_POST)) {
 		background: #800;
 		color: white;
 	}
+	.config_scoreboard_reset_line {
+		overflow: auto;
+	}
 	.config_scoreboard_reset {
+		float: right;
 		border: 2px solid red;
 		border-radius: 8px;
 		background: #800;
 		color: white;
-		padding: 8px 20px;
+		padding: 4px 20px;
 	}
 	.config_scoreboard_reset:hover {
 		background: red;
@@ -195,7 +199,7 @@ if(!empty($_POST)) {
 <h2>Actions</h2>
 <form action="<?=$thisurl?>" name="config" method="POST">
 
-<p>Effacer tous les scores (attention: irréversible) <button class="config_scoreboard_reset" name="scoreboard_reset" value="1">EFFACER LES SCORES</button></p>
+<p class="config_scoreboard_reset_line">Effacer tous les scores (attention: irréversible) <button class="config_scoreboard_reset" name="scoreboard_reset" value="1">EFFACER LES SCORES</button></p>
 
 </form>
 
