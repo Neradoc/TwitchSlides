@@ -38,3 +38,12 @@ function calculer_score(time) {
 		return time;
 	}
 }
+
+var tooltipOptions = {
+	animationDuration: 0,
+	delay: [500,0],
+	distance: 0,
+}
+$(function() {
+	$("button, input, select").tooltipster(tooltipOptions);
+});

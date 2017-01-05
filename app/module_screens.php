@@ -187,7 +187,11 @@ function disp_screens($thisurl) {
 			$w = 0;
 			$h = 0;
 		}
-		$title_timer_btn = "Activer/Désactiver le mode jeu de cette image";
+		if($active === $index) {
+			$title_timer_btn = "Désactiver le mode jeu";
+		} else {
+			$title_timer_btn = "Activer le mode jeu";
+		}
 		if(isset($GLOBALS['calc_score']) && trim($GLOBALS['calc_score']) != "") {
 			$html_image_timer_btn = '<img src="cjs/img/icone-scoring.png"/>';
 		} else {
@@ -209,9 +213,9 @@ function disp_screens($thisurl) {
 			<button class="temp_pop effacer_croix_valide" name="screen_effacer" value="<?=$index?>">Enlever l'image de l'écran</button>
 			<?php
 			if($isOn) {
-				?><button class="btn_switch btn_switch_on" name="screen_switch" value="0" title="Activé, cliquer pour désactiver l'affichage des scores">ON</button><?
+				?><button class="btn_switch btn_switch_on" name="screen_switch" value="0" title="Cliquer pour masquer l'image">ON</button><?
 			} else {
-				?><button class="btn_switch btn_switch_off" name="screen_switch" value="1" title="Désactivé, cliquer pour activer l'affichage des scores">OFF</button><?
+				?><button class="btn_switch btn_switch_off" name="screen_switch" value="1" title="Cliquer pour afficher l'image">OFF</button><?
 			}
 			?>
 			<div class="pimage screensize">
@@ -231,7 +235,7 @@ function disp_screens($thisurl) {
 			</form>
 			<form action="<?=$thisurl?>" name="screen_timer" method="POST">
 			<input type="hidden" name="screen_num" value="<?=$index?>"/>
-			<div class="screen_timer" title="Minutes depuis que l'image a été mise sur l'écran"><input type="texte" name="screen_timer" value="" class="screen_timer_text"/>
+			<div class="screen_timer"><input type="texte" name="screen_timer" value="" class="screen_timer_text" title="Minutes depuis que l'image a été mise sur l'écran"/>
 			<input type="submit" style="display:none;" name="dummy" value=""/>
 			<button class="screen_timer_btn btn_image" name="screen_timer_activate" value="<?=$index?>" title="<?=$title_timer_btn?>"><?=$html_image_timer_btn?></button>
 			</div>

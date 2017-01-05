@@ -466,13 +466,19 @@ function module_screens_init() {
 			var score = calculer_score(time);
 			var heure = format_heure(time0,time);
 			var focus = $(this).find(".screen_timer_text").is(":focus");
+			var texteField = $(this).find(".screen_timer_text");
 			if(!focus) {
-				var title = "Minutes depuis "+heure;
-				if($(this).find(".screen_timer").attr("title") != title) {
-					$(this).find(".screen_timer").attr("title",title);
+				var title = "Image ajoutée à "+heure;
+				if(texteField.data("title") != title) {
+					texteField.data("title",title);
+					try {
+						texteField.tooltipster("content",title);
+					} catch(err) {
+						texteField.attr("title",title);
+					}
 				}
-				if($(this).find(".screen_timer_text").val() != score) {
-					$(this).find(".screen_timer_text").val(score);
+				if(texteField.val() != score) {
+					texteField.val(score);
 				}
 			}
 			if($(this).closest(".active").length>0) {

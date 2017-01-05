@@ -47,7 +47,7 @@ function disp_strawpoll($thisurl) {
 		<br/>
 		<iframe class="strawpoll_frame" src="<?=$poll_embed?>">Loading poll...</iframe>
 		<div class="btns">
-			<button class="effacer" name="strawpoll_effacer" value="">Effacer</button>
+			<button class="effacer" name="strawpoll_effacer" value="" title="Effacer le sondage">Effacer</button>
 		</div>
 		</form>
 	</div>

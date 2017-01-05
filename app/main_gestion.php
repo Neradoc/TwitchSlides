@@ -29,6 +29,8 @@ if(!empty($_POST) || !empty($_FILES)) {
 	<link rel='stylesheet' href='cjs/gestion.css.php' type='text/css' />
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" src="cjs/jquery.elastic.js"></script>
+	<link rel="stylesheet" type="text/css" href="cjs/tooltipster/dist/css/tooltipster.bundle.min.css" />
+	<script type="text/javascript" src="cjs/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
 	<script type="text/javascript" src="cjs/gestion.js"></script>
 	<script type="text/javascript" src="cjs/module_menu.js"></script>
 	<script type="text/javascript" src="cjs/module_screens.js"></script>
