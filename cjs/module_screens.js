@@ -62,14 +62,16 @@ function apply_screen_changes(screen) {
 //
 function module_screens_init() {
 	$(".screen .effacer_croix").off("click").click(function() {
+		var parent = $(this).closest(".screen");
 		var title = $(this).attr("title");
 		var pop = $(this).closest("form").find(".effacer_croix_valide");
+		console.log($(this));
+		console.log(parent);
 		pop.css({
 			position: "absolute",
 			borderColor: "red",
-			top: (16+$(this).height())+"px",
-			left: "0px",
-			maxWidth: "200px",
+			top: ($(this).offset().top - parent.offset().top + $(this).height() - 2)+"px",
+			left: ($(this).offset().left - parent.offset().left - 2)+"px",
 			zIndex: "1000",
 		});
  		var closePop = null;

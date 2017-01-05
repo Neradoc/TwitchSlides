@@ -156,21 +156,41 @@
 	position: absolute;
 	top: 8px;
 	left: 8px;
+	border: none;
+	width: 24px;
+	height: 24px;
+	padding: 0px;
+	vertical-align: bottom;
+	background: transparent;
+	border-radius: 6px;
+	box-sizing: content-box;
+	cursor: pointer;
 }
+.screen .effacer_croix img {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
 .temp_pop {
 	display: none;
 	position: absolute;
 	box-sizing: border-box;
 	padding: 4px 8px;
 	background: white;
-	border: 2px solid red;
+	border: 2px solid #888;
 	border-radius: 8px;
 	font-size: inherit;
-}
-.temp_pop:hover {
-	background: #444;
-	color: white;
 	cursor: pointer;
+}
+.effacer_croix_valide.temp_pop {
+	border-color: red;
+	text-align: left;
+	width: 140px;
+}
+.effacer_croix_valide.temp_pop:hover {
+	background: #800;
+	color: white;
 }
 
 /* position changée mais pas validée */
