@@ -217,6 +217,7 @@
 	padding: 0px 2px;
 }
 .screen .screen_timer .screen_timer_text {
+	display: none;
 	border: none;
 	width: 4em;
 	text-align: right;
@@ -233,6 +234,9 @@
 }
 .screen.active .screen_timer {
 	background: yellow;
+}
+.screen.active .screen_timer .screen_timer_text {
+	display: inline;
 }
 
 /* images */
