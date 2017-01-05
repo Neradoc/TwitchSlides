@@ -127,7 +127,7 @@ function disp_scoreboard($thisurl) {
 			<input class="modif_score" type="text" name="scoreboard_modif" value="1" title="Valeur pour modifier le score"/>
 			<button class="btn_image up_score" name="scoreboard_updown" value="1" title="Augmenter le score du nombre indiqué"><img src="cjs/img/bouton_plus.png"/></button>
 			<?php if($prefs->active_screen()!==null): ?>
-			<button class="btn_image active_score score_value" name="scoreboard_add" value="0"><img src="cjs/img/icone-scoring.png"/></button>
+			<button class="btn_image active_score score_value" name="scoreboard_add" value="0"><img src="cjs/img/icone-scoring.png" title="Donner les points du jeu en cours"/></button>
 			<?php endif; ?>
 			<input class="score" type="text" name="scoreboard_changer" value="<?=$card['score']?>" title="Valeur de score, appuyer sur entrée pour modifier"/>
 			<!-- <button class="btn_image valider_score" name="scoreboard_valider" value=""><img src="cjs/img/bouton_check.png"/></button> -->

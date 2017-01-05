@@ -88,11 +88,8 @@ h3 {
 	color:white!important;
 }
 .btns .changer {
-	border-color: green;
-}
-.btns button.changer:hover {
-	background:#080!important;
-	color:white!important;
+	color: #BBB;
+	border-color: #BBB;
 }
 .btns .twitter {
 	border-color: #008;

@@ -147,7 +147,30 @@
 
 /* screen actif */
 .screen.active {
-	box-shadow: 0px 0px 0px 4px green;
+	box-shadow: 0px 0px 0px 3px gold,
+		inset 0px 0px 4px 2px gold;
+}
+
+/* boutons off */
+.screen .effacer_croix {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+}
+.temp_pop {
+	display: none;
+	position: absolute;
+	box-sizing: border-box;
+	padding: 4px 8px;
+	background: white;
+	border: 2px solid red;
+	border-radius: 8px;
+	font-size: inherit;
+}
+.temp_pop:hover {
+	background: #444;
+	color: white;
+	cursor: pointer;
 }
 
 /* position changée mais pas validée */
@@ -155,7 +178,13 @@
 	background-color: #FFFFB0;
 }
 .screen.modified .changer {
+	border-color: green;
 	background: #BFB;
+	color: black;
+}
+.screen.modified .btns button.changer:hover {
+	background:#080!important;
+	color:white!important;
 }
 
 /* screen_timer */

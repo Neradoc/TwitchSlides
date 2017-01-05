@@ -187,6 +187,12 @@ function disp_screens($thisurl) {
 			$w = 0;
 			$h = 0;
 		}
+		$title_timer_btn = "Activer/Désactiver le mode jeu de cette image";
+		if(isset($GLOBALS['calc_score']) && trim($GLOBALS['calc_score']) != "") {
+			$html_image_timer_btn = '<img src="cjs/img/icone-scoring.png"/>';
+		} else {
+			$html_image_timer_btn = '<img src="cjs/img/icone-horloge.png"/>';
+		}
 		?>
 		<div class='screen module_box screen<?=$index?> module_screen_block <?=$active===$index?"active":""?>'>
 			<form action="<?=$thisurl?>" name="screens" method="POST">
@@ -198,7 +204,9 @@ function disp_screens($thisurl) {
 				<button class="movenext_head" name="screen_moveto" value="<?= $index+1?>"><img class="offer" src="cjs/img/fleche_right.png"/><img class="hover" src="cjs/img/fleche_right_hover.png"/></button>
 				<? endif; ?>
 			</div>
-			<h3><a href="<?=$lien?>" target="_BLANK">Image <?=$index+1?></a></h3>
+			<h3><a href="<?=$lien?>" target="_BLANK">Image <?=$index+1 ?></a></h3>
+			<button class="btn_image effacer_croix" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran"><img src="cjs/img/bouton_croix_bis.png"/></button>
+			<button class="temp_pop effacer_croix_valide" name="screen_effacer" value="<?=$index?>">Enlever l'image de l'écran</button>
 			<?php
 			if($isOn) {
 				?><button class="btn_switch btn_switch_on" name="screen_switch" value="0" title="Activé, cliquer pour désactiver l'affichage des scores">ON</button><?
@@ -217,21 +225,15 @@ function disp_screens($thisurl) {
 			</div>
 			<div class="btns">
 				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Valider</button>
-				<button class="effacer" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button>
-				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?$twitter_title?>"><img class="img_twitter_off" src="cjs/img/twitter-off.png" /><img class="img_twitter" src="cjs/img/twitter.png" /> Twitter</button>
+				<!-- <button class="effacer" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button> -->
+				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?=$twitter_title?>"><img class="img_twitter_off" src="cjs/img/twitter-off.png" /><img class="img_twitter" src="cjs/img/twitter.png" /> Twitter</button>
 			</div>
 			</form>
 			<form action="<?=$thisurl?>" name="screen_timer" method="POST">
 			<input type="hidden" name="screen_num" value="<?=$index?>"/>
 			<div class="screen_timer" title="Minutes depuis que l'image a été mise sur l'écran"><input type="texte" name="screen_timer" value="" class="screen_timer_text"/>
 			<input type="submit" style="display:none;" name="dummy" value=""/>
-			<button class="screen_timer_btn btn_image" name="screen_timer_activate" value="<?=$index?>"><?php
-			if(isset($GLOBALS['calc_score']) && trim($GLOBALS['calc_score']) != "") {
-				print('<img src="cjs/img/icone-scoring.png"/>');
-			} else {
-				print('<img src="cjs/img/icone-horloge.png"/>');
-			}
-			?></button>
+			<button class="screen_timer_btn btn_image" name="screen_timer_activate" value="<?=$index?>" title="<?=$title_timer_btn?>"><?=$html_image_timer_btn?></button>
 			</div>
 			</form>
 		</div><?

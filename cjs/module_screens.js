@@ -61,11 +61,31 @@ function apply_screen_changes(screen) {
 }
 //
 function module_screens_init() {
-	$(".changer").off("click").click(function() {
+	$(".screen .effacer_croix").off("click").click(function() {
+		var title = $(this).attr("title");
+		var pop = $(this).closest("form").find(".effacer_croix_valide");
+		pop.css({
+			position: "absolute",
+			borderColor: "red",
+			top: (16+$(this).height())+"px",
+			left: "0px",
+			maxWidth: "200px",
+			zIndex: "1000",
+		});
+ 		var closePop = null;
+ 		closePop = function() {
+ 			$("body").off("mouseup",closePop)
+ 			$('.temp_pop').hide();
+ 		};
+ 		$("body").on("mouseup",closePop);
+		pop.show();
+		return false;
+	});
+	$(".screen .changer").off("click").click(function() {
 		var screen = $(this).closest(".screen");
 		apply_screen_changes(screen);
 	});
-	$(".assign").off("change").change(function() {
+	$(".source .assign").off("change").change(function() {
 		var source = $(this).closest(".source");
 		apply_screen_changes(source);
 		$(this).closest("form").submit();
@@ -413,8 +433,7 @@ function module_screens_init() {
 		}
 		return false;
 	});
-	$("body").off("mouseup")
-		.on("mouseup",exitMove);
+	$("body").off("mouseup",exitMove).on("mouseup",exitMove);
 	// fin setup events
 	$(".module_screen_block").each(function() {
 		var screen = $(this);
@@ -446,8 +465,11 @@ function module_screens_init() {
 			var heure = format_heure(time0,time);
 			var focus = $(this).find(".screen_timer_text").is(":focus");
 			if(!focus) {
+				var title = "Minutes depuis "+heure;
+				if($(this).find(".screen_timer").attr("title") != title) {
+					$(this).find(".screen_timer").attr("title",title);
+				}
 				if($(this).find(".screen_timer_text").val() != score) {
-					$(this).find(".screen_timer").attr("title","Minutes depuis "+heure);
 					$(this).find(".screen_timer_text").val(score);
 				}
 			}
