@@ -228,14 +228,14 @@ function disp_screens($thisurl) {
 				<?php boutons_on_image(); ?>
 			</div>
 			<div class="btns">
-				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Valider</button>
-				<!-- <button class="effacer" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button> -->
 				<button class="twitter <?=$btns_classes2?>" name="twitter_screen" value="<?=$index?>" title="<?=$twitter_title?>"><img class="img_twitter_off" src="cjs/img/twitter-off.png" /><img class="img_twitter" src="cjs/img/twitter.png" /> Twitter</button>
+				<button class="changer <?=$btns_classes?>" name="screen_changer" value="<?=$index?>" title="Valider les changements dans l'image">Valider position</button>
+				<!-- <button class="effacer" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran">Effacer</button> -->
 			</div>
 			</form>
 			<form action="<?=$thisurl?>" name="screen_timer" method="POST">
 			<input type="hidden" name="screen_num" value="<?=$index?>"/>
-			<div class="screen_timer"><input type="texte" name="screen_timer" value="" class="screen_timer_text" title="Minutes depuis que l'image a été mise sur l'écran"/>
+			<div class="screen_timer"><label class="screen_timer_label">Jeu: <input type="texte" name="screen_timer" value="" class="screen_timer_text" title="Minutes depuis que l'image a été mise sur l'écran"/></label>
 			<input type="submit" style="display:none;" name="dummy" value=""/>
 			<button class="screen_timer_btn btn_image" name="screen_timer_activate" value="<?=$index?>" title="<?=$title_timer_btn?>"><?=$html_image_timer_btn?></button>
 			</div>
@@ -313,7 +313,6 @@ function disp_sources($thisurl) {
 	}
 	foreach($lesSources as $info) {
 		$imageurl = $info['file'];
-		$iu = $imageurl;
 		$name = basename($imageurl);
 		if($imageurl != "" && file_exists($imageurl)) {
 			$sizes = getimagesize($imageurl);

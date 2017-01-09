@@ -197,7 +197,11 @@
 .screen.modified {
 	background-color: #FFFFB0;
 }
+.screen .changer {
+	display: none;
+}
 .screen.modified .changer {
+	display: inline;
 	border-color: green;
 	background: #BFB;
 	color: black;
@@ -216,8 +220,10 @@
 	border-radius: 8px;
 	padding: 0px 2px;
 }
-.screen .screen_timer .screen_timer_text {
+.screen .screen_timer .screen_timer_label {
 	display: none;
+}
+.screen .screen_timer .screen_timer_text {
 	border: none;
 	width: 4em;
 	text-align: right;
@@ -235,7 +241,7 @@
 .screen.active .screen_timer {
 	background: yellow;
 }
-.screen.active .screen_timer .screen_timer_text {
+.screen.active .screen_timer .screen_timer_label {
 	display: inline;
 }
 
