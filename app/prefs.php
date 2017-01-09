@@ -124,11 +124,11 @@ class PrefsManager {
 		if($stamp == 0) {
 			$stamp = time();
 		}
-		if($file != null) $screen['file'] = $file;
-		if($top != null) $screen['top'] = $top;
-		if($left != null) $screen['left'] = $left;
-		if($zoom != null) $screen['zoom'] = $zoom;
-		if($stamp != null) $screen['stamp'] = $stamp;
+		if($file !== null) $screen['file'] = $file;
+		if($top !== null) $screen['top'] = $top;
+		if($left !== null) $screen['left'] = $left;
+		if($zoom !== null) $screen['zoom'] = $zoom;
+		if($stamp !== null) $screen['stamp'] = $stamp;
 		$this->screens[$screenNum] = $screen;
 		# supprimer le fichier remplacé
 		if($oldfile != "") {
