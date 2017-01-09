@@ -13,3 +13,4 @@ include("module_upload.css");
 include("module_strawpoll.css");
 include("module_scoreboard.css");
 include("module_twitter.css");
+include("module_slide.css");
