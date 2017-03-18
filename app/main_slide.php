@@ -65,6 +65,7 @@ if(isset($_REQUEST['get'])) {
 		position:relative;
 	}
 	#screen .image {
+		display: none;
 		position:absolute;
 		bottom:0px;
 		left:0px;
@@ -155,14 +156,17 @@ if(isset($_REQUEST['get'])) {
 					$(".image:visible").hide();
 					for(var num in data['screens']) {
 						var screen = data['screens'][num];
+						// si l'image est neuve ou a changé, on l'efface
+						if(!(num in current_image) || screen['image'] != current_image[num]) {
+							current_image[num] = screen['image'];
+							$(".image"+screen['num']).remove();
+						}
+						// si l'image n'existe pas ou plus dans la page, on la met
 						var image = $(".image"+screen['num']);
 						if(image.length == 0) {
 							$(".all_images").append('<img class="image image'+screen['num']+'" src="cjs/img/vide.png" style="z-index:'+(screen['num']*10+10)+';" />\n');
 							image = $(".image"+screen['num']);
-						}
-						if(!(num in current_image) || screen['image'] != current_image[num]) {
-							current_image[num] = screen['image'];
-							image.attr("src",current_image[num]);
+							image.attr("src",screen['image']);
 						}
 						//
 						if( screen['image'] == ""
