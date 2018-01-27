@@ -146,7 +146,7 @@ function boutons_on_image() {
 				<button class="pos_btn centertop"><img src="cjs/img/crosshair.png"/></button>
 				<button class="pos_btn centerbottom"><img src="cjs/img/crosshair.png"/></button>
 				<button class="pos_btn centercenter"><img src="cjs/img/crosshair.png"/></button>
-				<button class="pos_btn moveleft">︎<img src="cjs/img/fleche_left.png"/></button>
+				<button class="pos_btn moveleft"><img src="cjs/img/fleche_left.png"/></button>
 				<button class="pos_btn moveright"><img src="cjs/img/fleche_right.png"/></button>
 				<button class="pos_btn movetop"><img src="cjs/img/fleche_top.png"/></button>
 				<button class="pos_btn movebottom"><img src="cjs/img/fleche_bottom.png"/></button>
