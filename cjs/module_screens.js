@@ -10,6 +10,25 @@ var movingStart = [0,0];
 var scalingImage = false;
 var scalingStart = [0,0];
 var scalingDirection = "";
+//
+function stop_event(evt) {
+	console.log("prevent");
+	evt.stopPropagation();
+	evt.preventDefault();
+}
+//
+function noselect() {
+	if (window.getSelection) {
+		if (window.getSelection().empty) {  // Chrome
+			window.getSelection().empty();
+		} else if (window.getSelection().removeAllRanges) {  // Firefox
+			window.getSelection().removeAllRanges();
+		}
+	} else if (document.selection) {  // IE?
+		document.selection.empty();
+	}//
+}
+//
 function base_size(img) {
 	var iw = img.data("width");
 	var ih = img.data("height");
@@ -341,6 +360,7 @@ function module_screens_init() {
 			var deltaY = curPos[1]-movingStart[1];
 			moveImage(movingImage,deltaX,deltaY,evt.shiftKey);
 			movingStart = curPos;
+			noselect();
 			return false;
 		}
 		if(scalingImage != false) {
@@ -349,6 +369,7 @@ function module_screens_init() {
 			var deltaY = curPos[1]-scalingStart[1];
 			scaleImage(scalingImage,deltaX,deltaY);
 			scalingStart = curPos;
+			noselect();
 			return false;
 		}
 	}
@@ -481,6 +502,7 @@ function module_screens_init() {
 					texteField.val(score);
 				}
 			}
+			// champs lecture seule (boutons du scoreboard)
 			if($(this).closest(".active").length>0) {
 				if($(".score_value").val() != score) {
 					$(".score_value").val(score);

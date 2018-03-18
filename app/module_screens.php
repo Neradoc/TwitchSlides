@@ -222,7 +222,7 @@ function disp_screens($thisurl) {
 				<?php if($url_miniature_stream): ?>
 				<img class="back_screen" src="<?=$url_miniature_stream?>" />
 				<?php endif; ?>
-				<img class="image" data-width="<?=$w?>" data-height="<?=$h?>" data-top="<?=$imgPos[1]?>" data-left="<?=$imgPos[0]?>" data-zoom="<?=$imgPos[2]?>" src="<?=$imageurl?>"/>
+				<img draggable="false" class="image" data-width="<?=$w?>" data-height="<?=$h?>" data-top="<?=$imgPos[1]?>" data-left="<?=$imgPos[0]?>" data-zoom="<?=$imgPos[2]?>" src="<?=$imageurl?>"/>
 				<input type="hidden" class="timestamp" name="" value="<?=$timestamp?>"/>
 				<input type="hidden" name="screen_num" value="<?=$index?>"/>
 				<?php boutons_on_image(); ?>
@@ -327,7 +327,7 @@ function disp_sources($thisurl) {
 				<?php if($url_miniature_stream): ?>
 				<img class="back_screen" src="<?=$url_miniature_stream?>" />
 				<?php endif; ?>
-				<img class="image" data-width="<?=$w?>" data-height="<?=$h?>" src="<?=$imageurl?>"/>
+				<img  draggable="false" class="image" data-width="<?=$w?>" data-height="<?=$h?>" src="<?=$imageurl?>"/>
 				<input type="hidden" name="image_file" value="<?=$name?>"/>
 				<?php boutons_on_image(); ?>
 			</div>
