@@ -19,7 +19,7 @@ function source_file($file) {
 		$ext = "";
 	}
 	if($ext) {
-		return SOURCES_DIR."image_".uniqid().".".$ext;
+		return SOURCES_DIR."image_".md5_file($file).".".$ext;
 	} else {
 		return false;
 	}
