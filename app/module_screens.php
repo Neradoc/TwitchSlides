@@ -283,8 +283,7 @@ function disp_sources($thisurl) {
 			$numPages = floor(($numSources-1)/SOURCES_PARPAGE);
 			$sources_page = max(0,min($numPages,$sources_page));
 			$lesSources = array_slice($sources,$sources_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
-			if($sources_page==0) $class="useless"; else $class = "";
-			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>" title="Images favorites"><img class="pagination_star" src="cjs/img/star.png"/></a><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>max(0,$sources_page-1)])?>">&lt;&mdash;</a><?
+			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>" title="Images favorites"><img class="pagination_star" src="cjs/img/star.png"/></a><?
 			$start = 0;
 			$end = $numPages;
 			if($numPages > SOURCES_VISIBLEPAGES) {
@@ -297,17 +296,17 @@ function disp_sources($thisurl) {
 			if($end == $numPages-1) $end = $numPages;
 			$sourcesList = range($start,$end);
 			if($start>0) {
-				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0]) ?>">...</a><?
+				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0]) ?>">1</a><?
+				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>max(1,$sources_page-5)])?>">...</a><?
 			}
 			foreach($sourcesList as $pageN) {
 				if($sources_page==$pageN) $class="current"; else $class = "";
 				?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>$pageN])?>"><?=$pageN+1 ?></a><?
 			}
 			if($end<$numPages) {
-				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>$numPages]) ?>">...</a><?
+				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>min($numPages-1,$sources_page+5)]) ?>">...</a><?
+				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>$numPages]) ?>"><?=$numPages+1?></a><?
 			}
-			if($sources_page>=$pageN) $class="useless"; else $class = "";
-			?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>min($numPages,$sources_page+1)]) ?>">&mdash;&gt;</a><?
 		}
 		?></div><?
 	}
