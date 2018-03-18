@@ -1,31 +1,6 @@
 <?php
 include("head.php");
 
-if(isset($_POST['scoreboard_reset'])) {
-	$prefs->scores = [];
-	$prefs->save();
-	exit_redirect();
-}
-
-if(isset($_POST['messages_twitter']) && is_array($_POST['messages_twitter'])) {
-	$messages = $_POST['messages_twitter'];
-	$messages = array_filter($messages);
-	$prefs->twitterMessages = $messages;
-}
-
-if(isset($_POST['url_miniature_stream'])) {
-	if($_POST['url_miniature_stream'] == "" || $_POST['url_miniature_stream'] == $url_miniature_stream) {
-		$prefs->del("url_miniature_stream");
-	} else {
-		$prefs->set("url_miniature_stream",$_POST['url_miniature_stream']);
-	}
-}
-
-if(!empty($_POST)) {
-	$prefs->save();
-	exit_redirect();
-}
-
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -163,74 +138,86 @@ if(!empty($_POST)) {
 	}
 	.valider:hover { background: #8D8; }
 	.valider:active { background: #000; color:white; }
-	
-	@media only screen and (max-device-width: 480px) {
-		#contenu { width: 400px; }
-		.message_twitter textarea { width: 320px; }
-		.message_twitter button { width: 50px; }
-		.config_nouveau_message_twitter { width: 390px; }
-		input.url_miniature_stream { width: 375px; }
-		.url_miniature_img { width: 375px; }
-	}
-	
+
+	.parity_doublons0 { background: #DDDDFF; }
+	.parity_doublons1 { background: #DDFFDD; }
 	</style>
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" src="cjs/jquery.elastic.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
 	$(function() {
 		$("textarea").elastic();
-		$(document).on("click",".config_retirer_message_twitter",function() {
-			$(this).closest(".message_twitter").remove();
-			return false;
-		});
-		$(".config_nouveau_message_twitter").on("click",function() {
-			$(".message_twitter0")
-				.clone()
-				.removeClass("message_twitter0")
-				.appendTo(".liste_messages_twitter");
-			return false;
-		});
 	});
 	</script>
 </head>
 <body>
-<div id="menu"><a href="gestion">Gestion</a><a class="ici" href="config">Config</a><a href="sources">Sources</a></div>
+<div id="menu"><a href="gestion">Gestion</a><a href="config">Config</a><a class="ici" href="sources">Sources</a></div>
 <div id="contenu">
-<h2>Actions</h2>
-<form action="<?=$thisurl?>" name="config" method="POST">
-
-<p class="config_scoreboard_reset_line">Effacer tous les scores (attention: irréversible) <button class="config_scoreboard_reset" name="scoreboard_reset" value="1">EFFACER LES SCORES</button></p>
-
-</form>
-
-<hr/>
-
-<form action="<?=$thisurl?>" name="config" method="POST">
-<h2>Configuration du bidule</h2>
-<p>Liste des messages twitter par défaut</p>
-<div>
-	<div class="liste_messages_twitter">
-		<div class="message_twitter message_twitter0"><textarea name="messages_twitter[]"></textarea><button class="config_retirer_message_twitter" name="config_retirer_message_twitter" value="">Retirer</button></div>
-		<?php
-		$prefMess = array_filter($twitterMessages);
-		foreach($prefMess as $message) {
-			?><div class="message_twitter"><textarea name="messages_twitter[]"><?=strip_tags($message)?></textarea><button class="config_retirer_message_twitter" name="config_retirer_message_twitter" value="">Retirer</button></div><?
+<h2>Nettoyer les sources</h2>
+<?php
+global $prefs;
+$sizeStars = 0;
+$sizeReste = 0;
+foreach(glob(SOURCES_GLOB) as $source) {
+	if(file_exists($source)) {
+		$file = basename($source);
+		$isstar = isset($prefs->stars[$file]) && $prefs->stars[$file];
+		$size = filesize($source);
+		$md5 = md5_file($source);
+		$sources[] = array(
+			'file' => $source,
+			'date' => filemtime($source),
+			'size' => $size,
+			'md5' => $md5,
+		);
+		if($isstar) {
+			$sizeStars += $size;
+		} else {
+			$sizeReste += $size;
 		}
-		?>
-	</div>
-	<div class="ajout_message"><button class="config_nouveau_message_twitter" name="nouveau" value="1">Nouveau</button></div>
+	}
+}
+$sizeStars = $sizeStars / 1024 / 1024;
+$sizeReste = $sizeReste / 1024 / 1024;
+
+usort($sources,function($a,$b) {
+	return strcmp($a['md5'],$b['md5']);
+});
+$lesSources = $sources;
+$numSources = count($sources);
+?>
+<div>
+	<p>Total nombre d'images: <?=$numSources?></p>
+	<p>Il y a pour: <?=sprintf("%.2f",$sizeStars)?> Mo d'images favorites.</p>
+	<p>Il y a pour: <?=sprintf("%.2f",$sizeReste)?> Mo d'images non favorites.</p>
+</div>
+<div><h3>Doublons</h3>
+<pre>
+<?
+$parity_doublons = 0;
+for($i=0; $i<count($sources);  $i++) {
+	$doublons = [];
+	for($j=1; $i+$j<count($sources); $j++) {
+		if($sources[$i]['md5'] == $sources[$i+$j]['md5']) {
+			$doublons[] = basename($sources[$i+$j]['file']);
+		} else {
+			break;
+		}
+	}
+	if(count($doublons)>0) {
+		$parity_doublons += 1;
+		array_unshift($doublons,basename($sources[$i]['file']));
+		print("<span class='parity_doublons".($parity_doublons%2)."'>"
+			.join($doublons,"\n")."</span>\n");
+		$i += count($doublons);
+		continue;
+	}
+	// print($sources[$i]['file']."\n");
+}
+?>
+</pre>
 </div>
 
-<p>
-<?php
-$url = $url_miniature_stream;
-?>
-	Image de fond des écrans<br/>
-	<input class="url_miniature_stream" type="url" name="url_miniature_stream" value="<?=$url?>"/><br/>
-	<img class="url_miniature_img" src="<?=$url?>"/>
-</p>
-<div><input class="valider" type="submit" /></div>
-</form>
 </div>
 </body>
 </html>

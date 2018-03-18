@@ -3,8 +3,8 @@ require("prefs.php");
 // créer les dossiers
 define("SCREENS_DIR" ,"images/");
 define("SCREENS_URL","images/");
-define("SOURCES_DIR","sources/");
-define("SOURCES_URL","sources/");
+define("SOURCES_DIR","images_sources/");
+define("SOURCES_URL","images_sources/");
 
 @mkdir(SCREENS_DIR);
 @mkdir(SOURCES_DIR);
@@ -29,6 +29,12 @@ if(!defined("DEBUG")) {
 }
 define("IMAGE_FORMAT","screen_%s.%s");
 define("SOURCES_GLOB",SOURCES_DIR."image_*");
+
+if($debug) {
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+}
 
 $prefs = new PrefsManager($max_images);
 $Nscreens = $prefs->screenCount();
