@@ -380,6 +380,7 @@
 	padding: 0px;
 	margin: 0px;
 	border: none;
+	cursor: pointer;
 	background: transparent;
 }
 .source .sources_star img {

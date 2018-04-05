@@ -45,5 +45,5 @@ var tooltipOptions = {
 	distance: 0,
 }
 $(function() {
-	$("button, input, select").tooltipster(tooltipOptions);
+	$(".tooltiper, button, input, select").tooltipster(tooltipOptions);
 });

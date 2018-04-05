@@ -380,7 +380,7 @@ function disp_sources($thisurl) {
 				}
 			}
 			?>
-			<span class="sources_star" title="<?=$cat_title?>"><img src="<?=$cat_file?>"/></span>
+			<span class="sources_star tooltiper" title="<?=$cat_title?>"><img src="<?=$cat_file?>"/></span>
 			<div class="sources_star_pannel">
 			<?php foreach($categories as $ctag => $cimg): ?>
 				<button class="cat_btn" name="sources_star" value="<?=$ctag?>" title="<?=$ctag?>"><img src="<?=$cimg?>"/></button>
