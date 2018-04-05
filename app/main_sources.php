@@ -141,6 +141,11 @@ include("head.php");
 
 	.parity_doublons0 { background: #DDDDFF; }
 	.parity_doublons1 { background: #DDFFDD; }
+	
+	.cat_image {
+		max-width: 32px;
+		max-height: 32px;
+	}
 	</style>
 	<script type="text/javascript" src="cjs/jquery2.js"></script>
 	<script type="text/javascript" src="cjs/jquery.elastic.js"></script>
@@ -156,12 +161,12 @@ include("head.php");
 <h2>Nettoyer les sources</h2>
 <?php
 global $prefs;
+$starsList = [];
 $sizeStars = 0;
 $sizeReste = 0;
 foreach(glob(SOURCES_GLOB) as $source) {
 	if(file_exists($source)) {
 		$file = basename($source);
-		$isstar = isset($prefs->stars[$file]) && $prefs->stars[$file];
 		$size = filesize($source);
 		$md5 = md5_file($source);
 		$sources[] = array(
@@ -170,7 +175,13 @@ foreach(glob(SOURCES_GLOB) as $source) {
 			'size' => $size,
 			'md5' => $md5,
 		);
-		if($isstar) {
+		if(isset($prefs->stars[$file])) {
+			if($prefs->stars[$file] === true) $prefs->stars[$file] = "star";
+			if(!isset($starsList[$prefs->stars[$file]])) {
+				$starsList[$prefs->stars[$file]] = ['size' => 0, 'num' => 0];
+			}
+			$starsList[$prefs->stars[$file]]['size'] += $size / 1024 / 1024;
+			$starsList[$prefs->stars[$file]]['num'] += 1;
 			$sizeStars += $size;
 		} else {
 			$sizeReste += $size;
@@ -189,7 +200,18 @@ $numSources = count($sources);
 <div>
 	<p>Total nombre d'images: <?=$numSources?></p>
 	<p>Il y a pour: <?=sprintf("%.2f",$sizeStars)?> Mo d'images favorites.</p>
-	<p>Il y a pour: <?=sprintf("%.2f",$sizeReste)?> Mo d'images non favorites.</p>
+<?
+$catImgs = $prefs->categories();
+foreach($starsList as $cat => $info) {
+	if(isset($catImgs[$cat])) {
+		$image = $catImgs[$cat];
+	} else {
+		$image = "";
+	}
+	?><p><img class="cat_image" src="<?=$image?>"/> Taille totale: <?=sprintf("%.2f",$info['size'])?> Mo pour <b><?=$info['num']?></b> images "<?=$cat?>".</p><?
+}
+?>
+	<p><img class="cat_image" src="cjs/cats/nogrp.png"/> Il y a pour: <?=sprintf("%.2f",$sizeReste)?> Mo d'images non favorites.</p>
 </div>
 <div><h3>Doublons</h3>
 <pre>
