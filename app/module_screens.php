@@ -288,7 +288,9 @@ function disp_sources($thisurl) {
 			});
 			foreach($categoriesSize as $categorie => $csize) {
 				$image = $categories[$categorie];
-				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>$categorie])?>" title="<?=$categorie?>"><img class="pagination_star" src="<?=$image?>"/><span class="categorie_size"><?=$csize?></span></a><?
+				if($categorie === $sources_page) $class = "current";
+				else $class = "";
+				?><a class="bouton_pagination <?=$class?>" href="<?=thisurl(['sources_page'=>$categorie])?>" title="<?=$categorie?>"><img class="pagination_star" src="<?=$image?>"/><span class="categorie_size"><?=$csize?></span></a><?
 			}		
 			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>" title="Toutes les images"><img class="pagination_star" src="cjs/img/nogrp.png"/><span class="categorie_size"><?=$numSources?></span></a><?
 		} else {

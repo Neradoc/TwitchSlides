@@ -158,6 +158,7 @@ include("head.php");
 <body>
 <div id="menu"><a href="gestion">Gestion</a><a href="config">Config</a><a class="ici" href="sources">Sources</a></div>
 <div id="contenu">
+<p><a href="sources_seules">Afficher une page avec les sources seules</a></p>
 <h2>Nettoyer les sources</h2>
 <?php
 global $prefs;
