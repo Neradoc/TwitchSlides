@@ -43,7 +43,11 @@ if(!empty($_POST)) {
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=400">
-	<title></title>
+	<title>Configuration: <?= $htmlTitleGestion ?></title>
+	<script type="text/javascript" src="cjs/jquery2.js"></script>
+	<script type="text/javascript" src="cjs/jquery.elastic.js"></script>
+	<link rel="stylesheet" type="text/css" href="cjs/tooltipster/dist/css/tooltipster.bundle.min.css" />
+	<script type="text/javascript" src="cjs/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
 	<style type="text/css" title="text/css">
 	body {
 		padding:0px;
@@ -189,7 +193,9 @@ if(!empty($_POST)) {
 		max-width: 32px;
 		max-height: 32px;
 	}
+	.categorie_lineX .inputTitle,
 	.categorie_line input {
+		display: inline-block;
 		font-size: 100%;
 		width: 200px;
 	}
@@ -200,8 +206,20 @@ if(!empty($_POST)) {
 		color: white;
 	}
 	.categorie_line0 { display: none; }
+	.categorie_lineX input {
+		border-color: transparent;
+	}
+	.categorie_lineX .nombre_image_par_categorie {
+		width: 4em;
+	}
 	.ajout_categorie {
 		margin: 8px 0px;
+	}
+	.nombre_image_par_categorie {
+		display: inline-block;
+		min-width: 2em;
+		text-align: right;
+		margin-right: 4px;
 	}
 	
 	@media only screen and (max-device-width: 480px) {
@@ -214,8 +232,6 @@ if(!empty($_POST)) {
 	}
 	
 	</style>
-	<script type="text/javascript" src="cjs/jquery2.js"></script>
-	<script type="text/javascript" src="cjs/jquery.elastic.js"></script>
 	<script type="text/javascript" language="javascript" charset="utf-8">
 	$(function() {
 		$("textarea").elastic();
@@ -242,12 +258,20 @@ if(!empty($_POST)) {
 				.appendTo(".liste_categories");
 			return false;
 		});
+		//
  		$(document).on("change",".categorie_image_url",function() {
  			var url = $(this).val();
  			console.log(url);
  			$(this).siblings(".categorie_image_bloc")
  				.find("img").attr("src",url);
  		});
+ 		//
+		var tooltipOptions = {
+			animationDuration: 0,
+			delay: [500,0],
+			distance: 0,
+		}
+		$(".tooltiper").tooltipster(tooltipOptions);
 	});
 	</script>
 </head>
@@ -275,7 +299,7 @@ $url = $url_miniature_stream;
 	<img class="url_miniature_img" src="<?=$url?>"/>
 </p>
 
-<p>Liste des messages twitter par défaut</p>
+<h3>Liste des messages twitter par défaut</h3>
 <div>
 	<div class="liste_messages_twitter">
 		<div class="message_twitter message_twitter0"><textarea name="messages_twitter[]"></textarea><button class="config_retirer_message_twitter" name="config_retirer_message_twitter" value="">Retirer</button></div>
@@ -289,9 +313,16 @@ $url = $url_miniature_stream;
 	<div class="ajout_message"><button class="config_nouveau_message_twitter" name="nouveau" value="1">Nouveau</button></div>
 </div>
 
-<p>Liste des catégories des images sources</p>
+<h3>Liste des catégories des images sources <img class="tooltiper" src="cjs/img/bouton_question.png" onclick="$('.cat_info').toggle();" title="Informations"></h3>
+<p class="cat_info" style="display:none;">L'image est soit un lien relatif au dossier des écrans, soit un lien absolu (c'est à dire commençant par http). Le nom de la catégorie peut être une phrase. Il n'est pas possible de changer le nom d'une catégorie une fois créée (pour le moment). Les modifications ne sont validées qu'avec le bouton tout en bas.</p>
 <div>
 	<div class="liste_categories">
+		<div class="categorie_line categorie_lineX">
+			<span class="categorie_image_bloc"><img class="categorie_image" src="cjs/img/vide.png"/></span>
+			<span class="nombre_image_par_categorie"></span>
+			<span class="inputTitle">Nom de la catégorie</span>
+			<span class="inputTitle">Lien de l'image</span>
+		</div>
 		<div class="categorie_line categorie_line0">
 			<span class="categorie_image_bloc"><img class="categorie_image" src="cjs/cats/nogrp.png"/></span>
 			<span class="nombre_image_par_categorie">0</span>
@@ -311,9 +342,11 @@ $url = $url_miniature_stream;
 			?><div class="categorie_line">
 				<span class="categorie_image_bloc"><img class="categorie_image" src="<?=$image?>"/></span>
 				<span class="nombre_image_par_categorie"><?=$size?></span>
+				<input type="hidden" name="old_categorie_name[]" value="<?=
+				strip_tags($categorie)?>"/>
 				<input type="text" name="categorie_name[]" value="<?=
 				strip_tags($categorie)?>" readonly="readonly"/>
-				<input type="text" class="categorie_image_url" name="categorie_image[]" value="<?=strip_tags($image)?>" readonly="readonly"/>
+				<input type="text" class="categorie_image_url" name="categorie_image[]" value="<?=strip_tags($image)?>"/>
 				<button class="config_retirer_categorie" name="config_retirer_categorie" value="">Retirer</button>
 			</div><?
 		}

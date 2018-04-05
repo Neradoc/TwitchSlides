@@ -10,6 +10,8 @@ if(isset($_POST["sources_effacer"])) {
 	if(file_exists($file)) {
 		unlink($file);
 	}
+	// sauver pour mettre à jour *stars*
+	$prefs->save();
 	exit_redirect();
 }
 
