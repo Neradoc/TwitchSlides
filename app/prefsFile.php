@@ -253,4 +253,62 @@ class PrefsManager {
 		});
 		return $scores;
 	}
+	function categories() {
+		if(isset($this->prefs['categories'])) {
+			$cat = [];
+			return $this->prefs['categories'];
+		}
+		// mettre "star" à la place de true
+		$stars = $this->stars;
+		foreach($stars as $image => $categorie) {
+			if($categorie === true) {
+				$this->stars[$image] = "star";
+			}
+		}
+		return array(
+			"star" => "cjs/cats/star.png",
+			"realmyop" => "cjs/cats/realmyop.png",
+			"lenamek" => "cjs/cats/myopNamek.png",
+			"piloucrapou" => "cjs/cats/myopPilou.png",
+			"ganache" => "cjs/cats/ganache.png",
+			"rebus" => "cjs/cats/rebus.png"
+		);
+	}
+	function categoriesSize() {
+		$cats = [];
+		foreach($this->stars as $image => $categorie) {
+			if($categorie === true) $categorie = "star";
+			if(!isset($cats[$categorie])) {
+				$cats[$categorie] = 0;
+			}
+			$cats[$categorie] += 1;
+		}
+		return $cats;
+	}
+	function delCategorie($categorie) {
+		// quand on enlève une catégorie, en retirer les images qui y sont
+		$categories = $this->categories();
+		if(isset($categories[$categorie])) {
+			unset($categories[$categorie]);
+			$this->prefs['categories'] = $categories;
+			foreach($this->stars as $file => $cat) {
+				if($cat === $categorie) {
+					unset($this->stars[$file]);
+				}
+			}
+		}
+	}
+	function setCategories($categories) {
+		// boucler sur toutes les actuelles catégories
+		$cats = $this->categories();
+		foreach($cats as $cat => $img) {
+			// si elles sont pas dans les nouvelles, faire delCategorie
+			// (enlève les images de la catégorie)
+			if(!isset($categories[$cat])) {
+				$this->delCategorie($cat);
+			}
+		}
+		// setter les catégories
+		$this->prefs['categories'] = $categories;
+	}
 }

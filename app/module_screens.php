@@ -13,12 +13,13 @@ if(isset($_POST["sources_effacer"])) {
 	exit_redirect();
 }
 
-if(isset($_POST['sources_star'])) {
-	$source = $_POST['sources_star'];
-	if(isset($prefs->stars[$source]) && $prefs->stars[$source]) {
+if(isset($_POST['sources_star']) && isset($_POST['image_file'])) {
+	$source = $_POST['image_file'];
+	$cat = $_POST['sources_star'];
+	if($cat == "") {
 		unset($prefs->stars[$source]);
 	} else {
-		$prefs->stars[$source] = true;
+		$prefs->stars[$source] = $cat;
 	}
 	$prefs->save();
 	exit_redirect();
@@ -249,6 +250,8 @@ function disp_screens($thisurl) {
 
 function disp_sources($thisurl) {
 	global $Nscreens,$prefs,$url_miniature_stream;
+	$categories = $prefs->categories();
+	$categoriesSize = $prefs->categoriesSize();
 	?>
 	<div id="sources">
 	<?php
@@ -272,18 +275,28 @@ function disp_sources($thisurl) {
 		if(isset($_REQUEST['sources_page'])) {
 			$sources_page = $_REQUEST['sources_page'];
 		}
-		if($sources_page === "stars") {
-			$lesSources = array_filter($sources,function($source) {
+		if(isset($categoriesSize[$sources_page])) {
+			$lesSources = array_filter($sources,function($source) use($sources_page) {
 				global $prefs;
 				$file = basename($source['file']);
-				return isset($prefs->stars[$file]) && $prefs->stars[$file];
+				if(!isset($prefs->stars[$file])) return false;
+				if($prefs->stars[$file] === $sources_page) return true;
+				if($prefs->stars[$file] === true && $sources_page === "star") return true;
+				return false;
 			});
-			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>" title="Toutes les images"><img class="pagination_star" src="cjs/img/nogrp.png"/></a><?
+			foreach($categoriesSize as $categorie => $csize) {
+				$image = $categories[$categorie];
+				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>$categorie])?>" title="<?=$categorie?>"><img class="pagination_star" src="<?=$image?>"/><span class="categorie_size"><?=$csize?></span></a><?
+			}		
+			?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>0])?>" title="Toutes les images"><img class="pagination_star" src="cjs/img/nogrp.png"/><span class="categorie_size"><?=$numSources?></span></a><?
 		} else {
 			$numPages = floor(($numSources-1)/SOURCES_PARPAGE);
 			$sources_page = max(0,min($numPages,$sources_page));
 			$lesSources = array_slice($sources,$sources_page*SOURCES_PARPAGE,SOURCES_PARPAGE);
-			?><a class="bouton_pagination pagination_star" href="<?=thisurl(['sources_page'=>"stars"])?>" title="Images favorites"><img class="pagination_star" src="cjs/img/star.png"/></a><?
+			foreach($categoriesSize as $categorie => $csize) {
+				$image = $categories[$categorie];
+				?><a class="bouton_pagination" href="<?=thisurl(['sources_page'=>$categorie])?>" title="<?=$categorie?>"><img class="pagination_star" src="<?=$image?>"/><span class="categorie_size"><?=$csize?></span></a><?
+			}		
 			$start = 0;
 			$end = $numPages;
 			if($numPages > SOURCES_VISIBLEPAGES) {
@@ -352,11 +365,24 @@ function disp_sources($thisurl) {
 					?>
 				</select>
 			</div>
-			<?php if(isset($prefs->stars[$name]) && $prefs->stars[$name]): ?>
-			<button class="sources_star" name="sources_star" value="<?=$name?>" title="Retirer cette image des favorites"><img src="cjs/img/star.png"/></button>
-			<?php else: ?>
-			<button class="sources_star" name="sources_star" value="<?=$name?>" title="Marquer cette image comme favorite"><img src="cjs/img/nogrp.png"/></button>
-			<?php endif; ?>
+			<?php
+			$cat_file = "cjs/cats/nogrp.png";
+			$cat_title = "Assigner une cat&eacute;gorie à cette image";
+			if(isset($prefs->stars[$name])) {
+				if(isset($categories[$prefs->stars[$name]])) {
+					$cat_file = $categories[$prefs->stars[$name]];
+				} else {
+					$cat_file = "cjs/cats/star.png";
+				}
+			}
+			?>
+			<span class="sources_star" title="<?=$cat_title?>"><img src="<?=$cat_file?>"/></span>
+			<div class="sources_star_pannel">
+			<?php foreach($categories as $ctag => $cimg): ?>
+				<button class="cat_btn" name="sources_star" value="<?=$ctag?>" title="<?=$ctag?>"><img src="<?=$cimg?>"/></button>
+			<?php endforeach; ?>
+			<button class="cat_btn" name="sources_star" value="" title="Retirer cette image de toute cat&eacute;gorie"><img src="cjs/cats/nogrp.png"/></button>
+			</div>
 			</form>
 		</div><?
 	}

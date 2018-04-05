@@ -512,6 +512,28 @@ function module_screens_init() {
 	}
 	setTimeout(update_timer,100);
 	setInterval(update_timer,1000);
+	/*
+	Gestion des boutons de catégories des ressources
+	*/
+	$(".source .sources_star").click(function() {
+		var menu = $(this).siblings(".sources_star_pannel");
+		/*
+		var pos = $(this).offset();
+		menu.css({
+			left:Math.floor(pos.left)+"px",
+			top:Math.floor(pos.top)+25+"px"
+		});
+		*/
+		menu.data("target",this);
+		menu.show();
+		//
+		var docclic = function(){
+			$(this).unbind("mouseup",docclic);
+			menu.hide();
+		};
+		$(document).bind("mouseup",docclic);
+	});
+	$(".bouton_pagination").tooltipster(tooltipOptions);
 }
 $(function() {
 	module_screens_init();

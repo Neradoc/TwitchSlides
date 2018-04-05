@@ -21,6 +21,18 @@ if(isset($_POST['url_miniature_stream'])) {
 	}
 }
 
+if(isset($_POST['categorie_name'])) {
+	$names = $_POST['categorie_name'];
+	$images = $_POST['categorie_image'];
+	$categories = [];
+	for($i=0; $i<count($names); $i++) {
+		if(trim($names[$i]) != "") {
+			$categories[$names[$i]] = $images[$i];
+		}
+	}
+	$prefs->setCategories($categories);
+}
+
 if(!empty($_POST)) {
 	$prefs->save();
 	exit_redirect();
@@ -125,6 +137,8 @@ if(!empty($_POST)) {
 	.message_twitter0 { display:none; }
 	
 	.ajout_message { overflow: auto; }
+	
+	.config_nouvelle_categorie,
 	.config_nouveau_message_twitter {
 		width: 572px;
 		font-size: 100%;
@@ -134,7 +148,9 @@ if(!empty($_POST)) {
 		border-radius: 8px;
 	}
 
+	.config_nouvelle_categorie:hover,
 	.config_nouveau_message_twitter:hover { background: #DDF; }
+	.config_nouvelle_categorie:active,
 	.config_nouveau_message_twitter:active { background: #000; color:white; }
 	
 	button { cursor: pointer; }
@@ -164,6 +180,30 @@ if(!empty($_POST)) {
 	.valider:hover { background: #8D8; }
 	.valider:active { background: #000; color:white; }
 	
+	
+	.categorie_line .categorie_image_bloc {
+		display: inline-block;
+		width: 32px;
+	}
+	.categorie_line .categorie_image {
+		max-width: 32px;
+		max-height: 32px;
+	}
+	.categorie_line input {
+		font-size: 100%;
+		width: 200px;
+	}
+	.categorie_line .config_retirer_categorie {
+		border: 2px solid red;
+		border-radius: 8px;
+		background: #800;
+		color: white;
+	}
+	.categorie_line0 { display: none; }
+	.ajout_categorie {
+		margin: 8px 0px;
+	}
+	
 	@media only screen and (max-device-width: 480px) {
 		#contenu { width: 400px; }
 		.message_twitter textarea { width: 320px; }
@@ -190,6 +230,24 @@ if(!empty($_POST)) {
 				.appendTo(".liste_messages_twitter");
 			return false;
 		});
+		//
+		$(document).on("click",".config_retirer_categorie",function() {
+			$(this).closest(".categorie_line").remove();
+			return false;
+		});
+		$(".config_nouvelle_categorie").on("click",function() {
+			$(".categorie_line0")
+				.clone()
+				.removeClass("categorie_line0")
+				.appendTo(".liste_categories");
+			return false;
+		});
+ 		$(document).on("change",".categorie_image_url",function() {
+ 			var url = $(this).val();
+ 			console.log(url);
+ 			$(this).siblings(".categorie_image_bloc")
+ 				.find("img").attr("src",url);
+ 		});
 	});
 	</script>
 </head>
@@ -207,6 +265,16 @@ if(!empty($_POST)) {
 
 <form action="<?=$thisurl?>" name="config" method="POST">
 <h2>Configuration du bidule</h2>
+
+<p>
+<?php
+$url = $url_miniature_stream;
+?>
+	Image de fond des écrans<br/>
+	<input class="url_miniature_stream" type="url" name="url_miniature_stream" value="<?=$url?>"/><br/>
+	<img class="url_miniature_img" src="<?=$url?>"/>
+</p>
+
 <p>Liste des messages twitter par défaut</p>
 <div>
 	<div class="liste_messages_twitter">
@@ -221,15 +289,40 @@ if(!empty($_POST)) {
 	<div class="ajout_message"><button class="config_nouveau_message_twitter" name="nouveau" value="1">Nouveau</button></div>
 </div>
 
-<p>
-<?php
-$url = $url_miniature_stream;
-?>
-	Image de fond des écrans<br/>
-	<input class="url_miniature_stream" type="url" name="url_miniature_stream" value="<?=$url?>"/><br/>
-	<img class="url_miniature_img" src="<?=$url?>"/>
-</p>
-<div><input class="valider" type="submit" /></div>
+<p>Liste des catégories des images sources</p>
+<div>
+	<div class="liste_categories">
+		<div class="categorie_line categorie_line0">
+			<span class="categorie_image_bloc"><img class="categorie_image" src="cjs/cats/nogrp.png"/></span>
+			<span class="nombre_image_par_categorie">0</span>
+			<input name="categorie_name[]" value=""/>
+			<input class="categorie_image_url" name="categorie_image[]" value="cjs/cats/nogrp.png"/>
+			<button class="config_retirer_categorie" name="config_retirer_categorie" value="">Retirer</button>
+		</div>
+		<?php
+		$categories = $prefs->categories();
+		$categoriesSize = $prefs->categoriesSize();
+		foreach($categories as $categorie => $image) {
+			if(isset($categoriesSize[$categorie])) {
+				$size = $categoriesSize[$categorie];
+			} else {
+				$size = 0;
+			}
+			?><div class="categorie_line">
+				<span class="categorie_image_bloc"><img class="categorie_image" src="<?=$image?>"/></span>
+				<span class="nombre_image_par_categorie"><?=$size?></span>
+				<input type="text" name="categorie_name[]" value="<?=
+				strip_tags($categorie)?>" readonly="readonly"/>
+				<input type="text" class="categorie_image_url" name="categorie_image[]" value="<?=strip_tags($image)?>" readonly="readonly"/>
+				<button class="config_retirer_categorie" name="config_retirer_categorie" value="">Retirer</button>
+			</div><?
+		}
+		?>
+	</div>
+	<div class="ajout_categorie"><button class="config_nouvelle_categorie" name="config_nouvelle_categorie" value="1">Nouveau</button></div>
+</div>
+
+<div><input class="valider" type="submit" value="Valider tout ça" /></div>
 </form>
 </div>
 </body>

@@ -1,5 +1,5 @@
 <?php
-require("prefs.php");
+require("prefsFile.php");
 // créer les dossiers
 define("SCREENS_DIR" ,"images/");
 define("SCREENS_URL","images/");

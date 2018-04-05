@@ -329,6 +329,7 @@
 	text-align: center;
 }
 #sources .bouton_pagination {
+	position: relative;
 	display: inline-block;
 	padding: 4px 0px;
 	border-style: solid;
@@ -355,6 +356,17 @@
 	color: white;
 	background: #88F;
 }
+#sources .bouton_pagination .categorie_size {
+	position: absolute;
+	right: 4px;
+	bottom: 2px;
+	text-decoration: none;
+	color: black;
+	font-size: 10px;
+	border-radius: 8px;
+	background: rgba(255,255,255,0.5);
+}
+
 #sources .pagination_star {
 	width: 16px;
 	height: 16px;
@@ -369,6 +381,40 @@
 	border: none;
 	background: transparent;
 }
+.source .sources_star img {
+	max-width: 32px;
+	max-height: 32px;
+}
+.source .sources_star_pannel {
+	display: none;
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	padding: 4px;
+	width: 156px;
+	border-radius: 10px;
+	border: 2px solid orange;
+	background: white;
+}
+.source .sources_star_pannel .cat_btn {
+	display: block;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+	width: 52px;
+	height: 52px;
+	border: 2px solid white;
+	background: #EEE;
+	cursor: pointer;
+}
+.source .sources_star_pannel .cat_btn:hover {
+	background: #AAA;
+}
+.source .sources_star_pannel .cat_btn img {
+	max-width: 48px;
+	max-height: 48px;
+}
+
 .source .assign {
 	width: 8em;
 }
