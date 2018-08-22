@@ -213,7 +213,7 @@ function disp_screens($thisurl) {
 			</div>
 			<h3><a href="<?=$lien?>" target="_BLANK">Image <?=$index+1 ?></a></h3>
 			<button class="effacer_croix" name="screen_effacer" value="<?=$index?>" title="Enlever l'image de l'écran"><img src="cjs/img/bouton_croix_bis.png"/></button>
-			<button class="temp_pop effacer_croix_valide" name="screen_effacer" value="<?=$index?>">Enlever l'image de l'écran</button>
+			<button class="temp_pop effacer_croix_valide" name="screen_effacer" value="<?=$index?>">Confirmer le retrait de l'image</button>
 			<?php
 			if($isOn) {
 				?><button class="btn_switch btn_switch_on" name="screen_switch" value="0" title="Cliquer pour masquer l'image">ON</button><?
