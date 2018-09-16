@@ -2,7 +2,9 @@
 var listeOnOffs = [
 	{"nom":"previsu", "block":"#slide_block"},
 	{"nom":"livevisu", "block":"#livevisu"},
-]
+	{"nom":"strawpolls", "block":"#strawpoll"},
+	{"nom":"scoreboard", "block":"#scoreboard"},
+];
 $(function() {
 	listeOnOffs.forEach(function(menu) {
 		var haveMenu = prefs.get("activer_"+menu['nom'],"0");
